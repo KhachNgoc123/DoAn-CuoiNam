@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react'
-import { createPatient, getPatients, updatePatient } from '../api/patientApi'
+import { useNavigate } from 'react-router-dom'
+import {
+  createPatient,
+  getPatients,
+  updatePatient,
+} from '../api/patientApi'
 import PatientForm from '../components/patients/PatientForm'
 import PatientsListView from '../components/patients/PatientsListView'
 
 export default function PatientsPage() {
+  const navigate = useNavigate()
+
   const [patients, setPatients] = useState([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -18,9 +25,10 @@ export default function PatientsPage() {
 
     try {
       const response = await getPatients()
-      setPatients(response.data)
+      setPatients(response.data || [])
     } catch (error) {
-      console.log(error)
+      console.error(error)
+      setPatients([])
     } finally {
       setLoading(false)
     }
@@ -30,16 +38,17 @@ export default function PatientsPage() {
     try {
       if (editingPatient) {
         await updatePatient(editingPatient.patient_id, payload)
-        alert('Cáº­p nháº­t bá»‡nh nhÃ¢n thÃ nh cÃ´ng')
+        alert('Cập nhật bệnh nhân thành công')
       } else {
         await createPatient(payload)
-        alert('ThÃªm bá»‡nh nhÃ¢n thÃ nh cÃ´ng')
+        alert('Thêm bệnh nhân thành công')
       }
+
       setShowForm(false)
       setEditingPatient(null)
-      loadPatients()
+      await loadPatients()
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
@@ -69,7 +78,9 @@ export default function PatientsPage() {
         setEditingPatient(patient)
         setShowForm(true)
       }}
-      onView={(patient) => console.log(patient)}
+      onView={(patient) => {
+        navigate(`/patients/${patient.patient_id}`)
+      }}
     />
   )
 }

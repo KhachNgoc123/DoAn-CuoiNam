@@ -48,11 +48,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('patients', [PatientController::class, 'store']);
     //sửa bệnh nhân
     Route::post('patients/{id}', [PatientController::class, 'update']);
-    
-
-    Route::get('patient-suggestions', [PatientController::class, 'suggestions']);
-    
-    Route::get('patients/{patient}', [PatientController::class, 'show']);
+    //hiện danh sách bệnh nền vs dị ứng 
+    Route::get('patient-suggestions', [PatientController::class, 'patientSuggestions']);
+    //xem chi tiết bệnh nhân
+    Route::get('patients/{id}', [PatientController::class, 'show']);
   
     Route::post('patients/{patient}/delete', [PatientController::class, 'destroy']);
 

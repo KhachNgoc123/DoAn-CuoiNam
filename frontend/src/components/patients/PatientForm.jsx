@@ -240,8 +240,6 @@ const genderOptions = [
     setProvinceOpen={setProvinceOpen}
     setWardOpen={setWardOpen}
     />
-        {/* //tới đây */}
-
         {/* //bệnh nền  */}
       <UnderlyingDiseaseField
     value={form.underlying_disease}
