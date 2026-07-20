@@ -1,0 +1,1626 @@
+.record-detail {
+  display: grid;
+  gap: 16px;
+}
+
+.medical-record-form .form-scroll-content {
+  display: grid;
+  gap: 14px;
+}
+
+.field-control-wrap.has-error input,
+.field-control-wrap.has-error textarea,
+.suggested-textarea.has-error textarea,
+.phone-input-wrap.has-error input {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.18);
+}
+
+.field-control-wrap textarea + .field-error-mark,
+.suggested-textarea .field-error-mark {
+  top: 14px;
+  transform: none;
+}
+
+.active-visit-dot-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #047857;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.active-visit-dot-label i {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #22c55e;
+  box-shadow: 0 0 0 4px rgb(34 197 94 / 16%);
+}
+
+.medical-record-entry-surface,
+.patient-entry-surface {
+  width: 100%;
+}
+
+.medical-record-entry-page .medical-record-form,
+.patient-entry-page .stack-form {
+  gap: 18px;
+}
+
+.medical-record-entry-page .form-scroll-content {
+  overflow: visible;
+}
+
+.medical-record-entry-page .form-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgb(255 255 255 / 96%);
+  box-shadow: 0 -8px 24px rgb(15 23 42 / 8%);
+  backdrop-filter: blur(10px);
+}
+
+.active-visit-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #99f6e4;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ecfeff 0%, #ffffff 100%);
+  box-shadow: var(--shadow);
+}
+
+.active-visit-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 8px;
+  background: #0f766e;
+  color: #fff;
+}
+
+.active-visit-card span {
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.active-visit-card strong {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.active-visit-card p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.active-visit-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.medical-record-filter-card {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 0;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.medical-record-filter-heading,
+.medical-record-filter-heading > div,
+.medical-record-filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.medical-record-filter-heading {
+  justify-content: space-between;
+}
+
+.medical-record-filter-heading > div {
+  color: #0f4c5c;
+}
+
+.medical-record-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.medical-record-filter-actions {
+  justify-content: flex-end;
+}
+
+.medical-record-filter-card + .table-card {
+  margin: 0 -18px -18px;
+  border: 0;
+  border-radius: 0 0 8px 8px;
+}
+
+.medical-record-filter-card + .table-card th:first-child,
+.medical-record-filter-card + .table-card td:first-child {
+  padding-left: 18px;
+}
+
+.medical-record-filter-card + .table-card th:last-child,
+.medical-record-filter-card + .table-card td:last-child {
+  padding-right: 18px;
+}
+
+.medical-record-filter-card + .table-card .pagination {
+  padding-right: 18px;
+  padding-left: 18px;
+}
+
+.record-patient-summary {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
+}
+
+.record-patient-summary-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #dbeafe;
+}
+
+.record-patient-summary-head span,
+.record-patient-summary-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.record-patient-summary-head h2 {
+  margin: 4px 0 0;
+  color: var(--ink);
+  font-size: 22px;
+}
+
+.record-patient-summary-head > strong {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border: 1px solid #93c5fd;
+  border-radius: 8px;
+  background: #dbeafe;
+  color: #1e40af;
+  font-size: 13px;
+}
+
+.record-patient-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.record-patient-summary-grid > div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.record-patient-summary-grid strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #0f172a;
+  font-size: 14px;
+}
+
+.basic-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.basic-metric-field {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.basic-metric-field span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.basic-metric-field small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.basic-metric-field input:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.suggested-textarea {
+  position: relative;
+  min-width: 0;
+}
+
+.medical-suggestion-list {
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 24;
+  display: grid;
+  max-height: 230px;
+  overflow-y: auto;
+  margin-top: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.medical-suggestion-list button {
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1px solid #eef2f7;
+  background: #fff;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.medical-suggestion-list button:hover,
+.medical-suggestion-list button:focus-visible,
+.medical-suggestion-list button.is-active {
+  background: #f0f9ff;
+  outline: 2px solid #38bdf8;
+  outline-offset: -2px;
+}
+
+.visit-context-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.visit-context-item {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--soft);
+}
+
+.visit-context-item > span,
+.visit-context-item small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.visit-context-item > span {
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.visit-context-item strong {
+  overflow-wrap: anywhere;
+  font-size: 17px;
+}
+
+.visit-date-input {
+  width: 100%;
+  min-height: 40px;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+}
+
+.record-clinical-summary {
+  display: grid;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.record-information-group {
+  padding: 20px 22px;
+}
+
+.record-critical-alerts {
+  display: grid;
+  gap: 14px;
+  margin: 20px 22px;
+  padding: 16px;
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  background: #fff7ed;
+}
+
+.record-critical-alerts .record-group-heading {
+  margin-bottom: 0;
+  color: #c2410c;
+}
+
+.record-critical-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.record-critical-grid .record-information-item {
+  padding: 12px;
+  border: 1px solid #fed7aa;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.record-critical-grid .record-information-item > span {
+  color: #9a3412;
+}
+
+.record-critical-grid .record-information-item.emphasis p {
+  color: #7c2d12;
+}
+
+.record-information-group + .record-information-group {
+  border-top: 1px solid var(--line);
+}
+
+.record-group-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 14px;
+  color: var(--teal-dark);
+}
+
+.record-group-heading h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 17px;
+  letter-spacing: 0;
+}
+
+.record-information-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 24px;
+}
+
+.record-information-item {
+  min-width: 0;
+  padding: 12px 0;
+}
+
+.record-information-item > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.record-information-item p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.record-information-item.emphasis p {
+  color: #0f4c5c;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.medical-record-section-card {
+  display: grid;
+  gap: 16px;
+  border: 1px solid #dedede;
+}
+
+.medical-record-detail-page {
+  max-width: 1180px;
+}
+
+.medical-record-print-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.medical-record-sheet-section {
+  border-radius: 8px;
+  background: #fff;
+}
+
+.medical-record-sheet-section .table-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.medical-record-sheet-section .table-wrap {
+  max-height: none;
+}
+
+.medical-record-sheet-section table {
+  table-layout: auto;
+}
+
+.medical-record-sheet-section th,
+.medical-record-sheet-section td {
+  padding: 11px 12px;
+  vertical-align: top;
+}
+
+.medical-record-sheet-section th:first-child,
+.medical-record-sheet-section td:first-child {
+  width: 64px;
+  text-align: center;
+}
+
+.medical-record-section-card .panel-heading {
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.medical-record-section-card .panel-heading p {
+  margin: 4px 0 0;
+}
+
+.record-detail-info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.record-detail-info-grid > div {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  min-height: 74px;
+  min-width: 0;
+  padding: 12px;
+  border-right: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+}
+
+.record-detail-info-grid > div.wide {
+  grid-column: span 2;
+}
+
+.record-detail-info-grid span {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.record-detail-info-grid strong {
+  min-width: 0;
+  color: #111827;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.medical-record-section-card.important-section {
+  border-color: #fed7aa;
+  background: #fffaf5;
+}
+
+.medical-record-section-card.important-section .section-kicker,
+.medical-record-section-card.important-section h2 {
+  color: #9a3412;
+}
+
+.medical-record-health-warning-list {
+  display: grid;
+  gap: 12px;
+}
+
+.medical-record-health-warning-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  background: #fff7f7;
+  color: #991b1b;
+}
+
+.medical-record-health-warning-item svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.medical-record-health-warning-item div {
+  display: grid;
+  gap: 4px;
+}
+
+.medical-record-health-warning-item strong {
+  color: #7f1d1d;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.medical-record-health-warning-item span {
+  color: #111827;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.medical-record-health-warning-item small {
+  color: #991b1b;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.record-health-summary {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.1fr);
+  gap: 16px;
+}
+
+.record-health-chart,
+.record-health-latest {
+  min-width: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.record-health-chart {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.record-health-chart svg {
+  width: 100%;
+  min-height: 154px;
+}
+
+.record-health-chart line {
+  stroke: #d1d5db;
+  stroke-width: 1.4;
+}
+
+.record-health-chart polyline {
+  fill: none;
+  stroke: #0f766e;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.record-health-chart span {
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.record-health-latest {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+.record-health-latest > div {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 13px;
+  border-right: 1px solid #ececec;
+  border-bottom: 1px solid #ececec;
+}
+
+.record-health-latest span {
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.record-health-latest strong {
+  color: #111827;
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1100px) {
+.record-detail-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+.record-health-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+.record-detail-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+.record-detail-info-grid > div.wide {
+    grid-column: auto;
+  }
+
+.medical-record-print-actions {
+    justify-content: flex-start;
+  }
+
+.record-health-latest {
+    grid-template-columns: 1fr;
+  }
+}
+
+.patient-record-list {
+  display: grid;
+  gap: 18px;
+}
+
+.patient-record-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 5%);
+}
+
+.patient-record-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--line);
+  background: var(--soft);
+}
+
+.patient-record-card-header span,
+.patient-record-card-header p,
+.patient-record-meta span,
+.patient-record-detail span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.patient-record-card-header h2 {
+  margin: 5px 0;
+  color: #0f4c5c;
+  font-size: 23px;
+  letter-spacing: 0;
+}
+
+.patient-record-card-header p,
+.patient-record-detail p,
+.patient-record-related p {
+  margin: 0;
+}
+
+.patient-record-card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.patient-record-meta {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-bottom: 1px solid var(--line);
+}
+
+.patient-record-meta > div {
+  display: grid;
+  gap: 6px;
+  padding: 14px 18px;
+}
+
+.patient-record-meta > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.patient-record-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+  padding: 10px 22px 18px;
+}
+
+.patient-record-detail {
+  min-width: 0;
+  padding: 13px 0;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.patient-record-detail span {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.patient-record-detail p {
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.patient-record-detail.emphasis p {
+  color: #0f4c5c;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.patient-record-related {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  padding: 18px 22px 22px;
+  border-top: 1px solid var(--line);
+}
+
+.patient-record-related h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+
+.patient-record-related p + p {
+  margin-top: 7px;
+}
+
+.record-lock-notice {
+  padding: 12px 14px;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-weight: 700;
+}
+
+.medical-record-sheet {
+  display: grid;
+  gap: 18px;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.medical-record-sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid var(--ink);
+}
+
+.medical-record-sheet-header > div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.medical-record-sheet-header strong {
+  font-size: 20px;
+}
+
+.record-title-block {
+  text-align: right;
+}
+
+.record-title-block h1 {
+  margin: 0 0 6px;
+  font-size: 28px;
+  letter-spacing: 0;
+}
+
+.record-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.record-meta-grid > div {
+  display: grid;
+  gap: 6px;
+  min-height: 76px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.record-section {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.record-section h2 {
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  color: #0f172a;
+  font-size: 18px;
+}
+
+.record-alert-section {
+  border-color: #fecaca;
+  background: #fffafa;
+}
+
+.record-info-grid {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.record-info-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.record-info-item {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.42fr) minmax(0, 1fr);
+  min-height: 46px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.record-info-item:nth-child(2n) {
+  border-right: 0;
+}
+
+.record-info-item dt,
+.record-info-item dd {
+  margin: 0;
+  padding: 10px 12px;
+}
+
+.record-info-item dt {
+  color: #475569;
+  background: #f8fafc;
+  font-weight: 800;
+}
+
+.record-info-item dd {
+  white-space: pre-wrap;
+}
+
+.record-info-highlight dt {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.record-info-highlight dd {
+  color: #7f1d1d;
+  background: #fff7f7;
+  font-weight: 700;
+}
+
+.record-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.record-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.record-table th,
+.record-table td {
+  word-break: break-word;
+}
+
+.record-table a {
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.record-empty-cell,
+.record-empty-text {
+  color: var(--muted);
+  text-align: center;
+}
+
+.record-signature {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+  min-height: 150px;
+  padding-top: 16px;
+  text-align: center;
+}
+
+.record-signature strong {
+  min-width: 220px;
+}
+
+.record-signature span {
+  min-width: 220px;
+  padding-top: 58px;
+  color: var(--muted);
+}
+
+.medical-record-dialog {
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  overflow: hidden;
+}
+
+.medical-record-dialog .medical-record-form {
+  grid-template-rows: minmax(0, 1fr) auto;
+  max-height: calc(100dvh - 32px);
+  gap: 0;
+  overflow: hidden;
+}
+
+.medical-record-dialog .form-scroll-content {
+  min-height: 0;
+  padding: 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.medical-record-dialog .form-actions {
+  flex: none;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  background: #fff;
+  box-shadow: 0 -6px 18px rgb(15 23 42 / 7%);
+}
+
+th,
+.table-card th,
+.daily-schedule-table th,
+.record-table th {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 0;
+}
+
+td,
+.table-card td,
+.daily-schedule-table td,
+.record-table td {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.toolbar,
+.list-management-toolbar .toolbar,
+.medical-record-filter-card,
+.health-filter-grid,
+.patient-advanced-filters,
+.reminder-toolbar-panel,
+.schedule-toolbar-panel {
+  border-radius: 20px;
+}
+
+.toolbar,
+.list-management-toolbar .toolbar,
+.medical-record-filter-card,
+.health-filter-grid,
+.patient-advanced-filters,
+.schedule-toolbar-panel {
+  gap: 12px;
+  border-radius: var(--r);
+}
+
+.mc-record-filter-card {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 235px 235px 235px 235px;
+  gap: 13px;
+  align-items: end;
+  padding: 26px;
+  border: 1px solid #dfe7f1;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 15px 35px rgba(34, 58, 96, 0.06);
+}
+
+.mc-record-filter-card label {
+  display: grid;
+  gap: 9px;
+}
+
+.mc-record-filter-card label > span {
+  color: #42516b;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.mc-record-filter-card select,
+.mc-record-filter-card input {
+  height: 54px;
+  border: 1px solid #d9e3ef;
+  border-radius: 14px;
+  padding: 0 16px;
+  font-size: 15px;
+}
+
+.mc-record-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(360px, 0.58fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.mc-record-card {
+  min-width: 0;
+  border: 1px solid #dfe7f1;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 15px 35px rgba(34, 58, 96, 0.06);
+  padding: 25px;
+}
+
+.mc-record-card h2 {
+  margin: 0 0 18px;
+  color: #061530;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.mc-record-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.mc-record-title-row h2 {
+  margin-bottom: 0;
+}
+
+.record-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.record-info-grid.compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.record-info-tile {
+  min-height: 84px;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  border-radius: 14px;
+  padding: 17px 16px;
+  background: #f5f7fb;
+}
+
+.record-info-tile.wide,
+.record-info-grid .wide {
+  grid-column: span 2;
+}
+
+.record-info-tile span {
+  color: #6c7a96;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.record-info-tile strong {
+  color: #061530;
+  font-size: 15px;
+  font-weight: 900;
+  white-space: pre-line;
+}
+
+.record-info-tile small {
+  color: #061530;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.mc-record-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.mc-record-warning {
+  margin-top: 16px;
+  border: 1px solid #ffc6cc;
+  border-radius: 14px;
+  padding: 16px;
+  color: #d6293b;
+  background: #fff0f2;
+  font-size: 15px;
+}
+
+.mc-record-related-card {
+  max-width: 360px;
+}
+
+@media (max-width: 1200px) {
+.mc-record-filter-card,
+  .mc-record-detail-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+.mc-record-related-card {
+    max-width: none;
+  }
+}
+
+@media (max-width: 760px) {
+.mc-record-filter-card,
+  .mc-record-detail-grid,
+  .record-info-grid,
+  .record-info-grid.compact,
+  .mc-health-mini-grid {
+    grid-template-columns: 1fr;
+  }
+
+.record-info-tile.wide,
+  .record-info-grid .wide {
+    grid-column: auto;
+  }
+}
+
+.toolbar,
+.page-actions,
+.toolbar-actions,
+.toolbar-filters,
+.form-grid,
+.stack-form,
+.medical-record-form .form-scroll-content,
+.detail-grid,
+.content-grid {
+  gap: 10px;
+}
+
+input,
+select,
+textarea,
+.control,
+.field input,
+.field select,
+.field textarea,
+.toolbar select,
+.toolbar input:not(.search-input input),
+.compact-date-filter input,
+.compact-date-filter select,
+.medication-schedules-page .list-management-filters input,
+.medication-schedules-page .list-management-filters select,
+.mc-filter-card select,
+.mc-filter-card input,
+.mc-record-filter-card select,
+.mc-record-filter-card input,
+.mc-patient-filter-card select,
+.mc-filter-input .patient-search-input,
+.patient-search-input {
+  min-height: 36px;
+  height: auto;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 13px;
+}
+
+.record-info-grid,
+.mc-health-mini-grid,
+.feedback-detail-grid,
+.schedule-update-edit-grid {
+  gap: 10px;
+}
+
+.record-info-tile,
+.mc-health-mini-grid div {
+  min-height: 68px;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.mc-record-detail-grid {
+  gap: 14px;
+}
+
+.mc-record-card h2 {
+  margin-bottom: 12px;
+  font-size: 17px;
+}
+
+input,
+select,
+textarea,
+.control,
+.search-input,
+.field input,
+.field select,
+.field textarea,
+.filter-field input,
+.filter-field select,
+.health-filter-grid input,
+.health-filter-grid select,
+.patient-advanced-filters input,
+.patient-advanced-filters select,
+.patient-search-input,
+.patient-search-input input,
+.mc-filter-card select,
+.mc-filter-card input,
+.mc-patient-filter-card select,
+.mc-patient-filter-card input,
+.mc-record-filter-card select,
+.mc-record-filter-card input,
+.mc-filter-input {
+  min-height: 32px;
+  height: auto;
+  border-radius: 7px;
+  padding: 6px 9px;
+  font-size: 12px;
+}
+
+.field,
+.filter-field,
+.mc-filter-card label,
+.mc-patient-filter-card label,
+.mc-record-filter-card label {
+  gap: 5px;
+  font-size: 12px;
+}
+
+.field label,
+.field span,
+.filter-field span,
+.mc-filter-card label span,
+.mc-patient-filter-card label > span,
+.mc-record-filter-card label > span,
+label {
+  font-size: 11px;
+}
+
+.mc-record-detail-grid {
+  grid-template-columns: minmax(280px, 0.52fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.mc-record-card h2 {
+  margin-bottom: 10px;
+  font-size: 15px;
+}
+
+.mc-visit-history-card {
+  grid-column: 1 / -1;
+}
+
+.mc-visit-history-list {
+  display: grid;
+  gap: 12px;
+}
+
+.mc-visit-history-item {
+  width: 100%;
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) 130px auto;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #e5edf6;
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: #f8fafc;
+  color: #061530;
+  text-align: left;
+  cursor: pointer;
+}
+
+.mc-visit-history-item:hover {
+  border-color: #cfe2f6;
+  background: #f3f8ff;
+}
+
+.mc-visit-history-item span {
+  color: #061530;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.mc-visit-history-item strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #061530;
+  font-size: 15px;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mc-visit-history-item small {
+  color: #637394;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+.mc-visit-history-item {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mc-patient-filter-card,
+.mc-record-filter-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: minmax(210px, 1fr) minmax(170px, 0.75fr) minmax(170px, 0.75fr) 150px 150px !important;
+  align-items: end !important;
+  gap: 12px !important;
+  padding: 22px 24px !important;
+  margin: 0 0 20px !important;
+  border-radius: 16px !important;
+  overflow: visible !important;
+}
+
+.mc-record-filter-card {
+  grid-template-columns: minmax(230px, 1fr) minmax(170px, 0.75fr) minmax(170px, 0.75fr) 150px 150px !important;
+}
+
+.mc-patient-filter-card label,
+.mc-record-filter-card label {
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+.mc-patient-filter-card input,
+.mc-patient-filter-card select,
+.mc-patient-filter-card .mc-filter-input,
+.mc-patient-filter-card .patient-search-input,
+.mc-record-filter-card input,
+.mc-record-filter-card select,
+.mc-record-filter-card .mc-filter-input,
+.mc-record-filter-card .patient-search-input {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.mc-patient-filter-card .mc-search-button,
+.mc-patient-filter-card .mc-reset-button,
+.mc-record-filter-card .mc-search-button,
+.mc-record-filter-card .mc-reset-button {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 0 12px !important;
+  white-space: nowrap !important;
+}
+
+.mc-records-page th:nth-child(1),
+.mc-records-page td:nth-child(1) {
+  width: 5% !important;
+}
+
+.mc-records-page th:nth-child(2),
+.mc-records-page td:nth-child(2) {
+  width: 12% !important;
+}
+
+.mc-records-page th:nth-child(3),
+.mc-records-page td:nth-child(3) {
+  width: 22% !important;
+}
+
+.mc-records-page th:nth-child(4),
+.mc-records-page td:nth-child(4) {
+  width: 13% !important;
+}
+
+.mc-records-page th:nth-child(5),
+.mc-records-page td:nth-child(5) {
+  width: 25% !important;
+}
+
+.mc-records-page th:nth-child(6),
+.mc-records-page td:nth-child(6) {
+  width: 14% !important;
+}
+
+.mc-records-page th:nth-child(7),
+.mc-records-page td:nth-child(7) {
+  width: 9% !important;
+  text-align: center !important;
+}
+
+@media (max-width: 1280px) {
+.mc-patient-filter-card,
+  .mc-record-filter-card {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+.mc-patient-filter-card .mc-search-button,
+  .mc-record-filter-card .mc-search-button {
+    grid-column: 1 / 2 !important;
+  }
+}
+
+@media (max-width: 900px) {
+.mc-patient-filter-card,
+  .mc-record-filter-card {
+    grid-template-columns: 1fr !important;
+    padding: 18px !important;
+  }
+}
+
+.mc-patient-filter-card,
+.mc-record-filter-card {
+  grid-template-columns: minmax(260px, 1.4fr) repeat(4, minmax(130px, 1fr)) !important;
+}
+
+.medical-record-list-panel {
+  overflow: hidden;
+  padding: 0 !important;
+}
+
+.medical-record-list-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.medical-record-list-table {
+  width: 100%;
+  min-width: 0;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.medical-record-list-table th {
+  height: 48px;
+  padding: 0 14px;
+  background: #f5f8fc;
+  color: #71809a;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.medical-record-list-table td {
+  height: 64px;
+  padding: 12px 14px;
+  border-top: 1px solid #e8eef5;
+  color: #07142a;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+  vertical-align: middle;
+}
+
+.medical-record-list-table tbody tr:hover {
+  background: #fbfdff;
+}
+
+.medical-record-list-table th:nth-child(1),
+.medical-record-list-table td:nth-child(1) {
+  width: 64px;
+}
+
+.medical-record-list-table th:nth-child(2),
+.medical-record-list-table td:nth-child(2) {
+  width: 120px;
+}
+
+.medical-record-list-table th:nth-child(3),
+.medical-record-list-table td:nth-child(3) {
+  width: 220px;
+}
+
+.medical-record-list-table th:nth-child(4),
+.medical-record-list-table td:nth-child(4) {
+  width: 130px;
+}
+
+.medical-record-list-table th:nth-child(5),
+.medical-record-list-table td:nth-child(5) {
+  width: 190px;
+}
+
+.medical-record-list-table th:nth-child(6),
+.medical-record-list-table td:nth-child(6) {
+  width: auto;
+}
+
+.medical-record-list-table th:nth-child(7),
+.medical-record-list-table td:nth-child(7) {
+  width: 150px;
+}
+
+.medical-record-list-table th:nth-child(8),
+.medical-record-list-table td:nth-child(8) {
+  width: 130px;
+  text-align: center;
+}
+
+.medical-record-list-table .cell-stack,
+.medical-record-list-table .cell-stack span,
+.medical-record-list-table td:nth-child(5),
+.medical-record-list-table td:nth-child(6) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.medical-record-list-table .cell-stack small {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.medical-record-list-table .mc-row-actions {
+  justify-content: center;
+}
+
+@media (max-width: 1200px) {
+.medical-record-list-table {
+    min-width: 980px;
+  }
+}
+
+/* Page-specific styles are colocated here when this view diverges from shared page styles. */

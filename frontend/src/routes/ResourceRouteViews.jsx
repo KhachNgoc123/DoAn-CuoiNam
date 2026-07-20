@@ -1,12 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { useLocation } from 'react-router-dom'
-import LoadingState from '../components/ui/LoadingState'
+import LoadingState from '../components/common/Loading/Loading'
 
-const PrescriptionsPage = lazy(() => import('../pages/PrescriptionsPage'))
-const PrescriptionFormPage = lazy(() => import('../pages/PrescriptionFormPage'))
-const MedicationSchedulesPage = lazy(() => import('../pages/MedicationSchedulesPage'))
-const MedicationScheduleFormPage = lazy(() => import('../pages/MedicationScheduleFormPage'))
-const MedicationScheduleDetailPage = lazy(() => import('../pages/MedicationScheduleDetailPage'))
+const PrescriptionsPage = lazy(() => import('../pages/prescriptions/PrescriptionsPage'))
+const PrescriptionFormPage = lazy(() => import('../pages/prescriptions/PrescriptionFormPage'))
+const MedicationSchedulesPage = lazy(() => import('../pages/schedules/MedicationSchedulesPage'))
+const MedicationScheduleFormPage = lazy(() => import('../pages/schedules/MedicationScheduleFormPage'))
+const MedicationScheduleDetailPage = lazy(() => import('../pages/schedules/MedicationScheduleDetailPage'))
 
 function lazyRoute(element) {
   return <Suspense fallback={<LoadingState />}>{element}</Suspense>

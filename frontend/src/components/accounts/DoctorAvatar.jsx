@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { UserRound } from 'lucide-react'
-import { API_BASE_URL } from '../../api/client'
+import { API_BASE_URL } from '../../services/api'
 
 function resolveAvatarUrl(avatar) {
   if (!avatar) return ''

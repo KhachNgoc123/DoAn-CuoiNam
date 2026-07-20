@@ -1,7 +1,7 @@
-﻿import { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
-import FormSection from '../ui/FormSection'
-import Field from '../ui/Field'
+import FormSection from '../common/FormSection/FormSection'
+import Field from '../common/Field/Field'
 import { formatDate, toApiDateValue } from '../../utils/formatters'
 
 const emptyDetail = {
@@ -90,11 +90,11 @@ function selectedMedicine(detail, medicines) {
 function medicineUnit(detail, medicines) {
   const unit = selectedMedicine(detail, medicines)?.unit || ''
   const normalized = normalizeText(unit)
-  if (normalized.includes('vien')) return 'viên'
+  if (normalized.includes('vien')) return 'vi?n'
   if (normalized.includes('chai') || normalized.includes('lo')) return 'chai'
-  if (normalized.includes('bit') || normalized.includes('bich') || normalized.includes('goi')) return unit || 'bịch'
-  if (normalized.includes('vi')) return 'vỉ'
-  return unit || 'viên'
+  if (normalized.includes('bit') || normalized.includes('bich') || normalized.includes('goi')) return unit || 'b?ch'
+  if (normalized.includes('vi')) return 'v?'
+  return unit || 'vi?n'
 }
 
 function todayInputValue() {
@@ -249,7 +249,7 @@ function SuggestionInput({
   value,
   options,
   placeholder,
-  emptyText = 'Không tìm thấy gợi ý',
+  emptyText = 'Kh?ng t?m th?y g?i ?',
   getLabel,
   getDescription,
   onChange,
@@ -388,7 +388,7 @@ export default function PrescriptionForm({
   const [form, setForm] = useState(() => ({
     note: '',
     edit_reason: '',
-    status: 'Đang sử dụng',
+    status: '?ang s? d?ng',
     ...initialValue,
     record_id: initialValue?.record_id || initialValue?.medical_record?.record_id || '',
     record_text: recordLabel(initialValue?.medical_record),
@@ -462,21 +462,21 @@ export default function PrescriptionForm({
     if (!dosage) return ''
     const unit = medicineUnit(detail, medicines)
     if (normalizeText(dosage).includes(normalizeText(unit)) || dosage.includes('/')) return dosage
-    return `${dosage} ${unit}/lần`.trim()
+    return `${dosage} ${unit}/l?n`.trim()
   }
 
   function detailStockError(detail) {
-  return detailQuantity(detail) ? '' : 'Chưa đủ dữ liệu để tính số lượng thuốc.'
+  return detailQuantity(detail) ? '' : 'Ch?a ?? d? li?u ?? t?nh s? l??ng thu?c.'
   }
 
   function validateDetail(detail) {
     const quantity = detailQuantity(detail)
     const stockError = detailStockError(detail)
     return {
-      medicine_id: detail.medicine_id ? '' : 'Vui lòng chọn thuốc.',
-      dosage: dosageAmount(detail.dosage) > 0 ? '' : 'Vui lòng nhập liều lượng lớn hơn 0.',
-      frequency_type_id: detail.frequency_type_id ? '' : 'Vui lòng chọn tần suất.',
-      quantity: quantity ? stockError : 'Chưa đủ dữ liệu để tính số lượng thuốc.',
+      medicine_id: detail.medicine_id ? '' : 'Vui l?ng ch?n thu?c.',
+      dosage: dosageAmount(detail.dosage) > 0 ? '' : 'Vui l?ng nh?p li?u l??ng l?n h?n 0.',
+      frequency_type_id: detail.frequency_type_id ? '' : 'Vui l?ng ch?n t?n su?t.',
+      quantity: quantity ? stockError : 'Ch?a ?? d? li?u ?? t?nh s? l??ng thu?c.',
     }
   }
 
@@ -556,18 +556,18 @@ export default function PrescriptionForm({
     const duration = Number(form.duration_days)
     const endDate = form.end_date ? toApiDateValue(form.end_date) : null
     const nextErrors = {
-      record_id: form.record_id ? '' : 'Vui lòng chọn bệnh nhân hoặc hồ sơ bệnh án.',
-      start_date: startDate ? '' : 'Ngày bắt đầu phải nhập đúng định dạng dd/mm/yyyy.',
+      record_id: form.record_id ? '' : 'Vui l?ng ch?n b?nh nh?n ho?c h? s? b?nh ?n.',
+      start_date: startDate ? '' : 'Ng?y b?t ??u ph?i nh?p ??ng ??nh d?ng dd/mm/yyyy.',
       duration_days:
-        Number.isFinite(duration) && duration > 0 ? '' : 'Vui lòng nhập số ngày dùng thuốc.',
-      end_date: endDate ? '' : 'Chưa tính được ngày kết thúc.',
+        Number.isFinite(duration) && duration > 0 ? '' : 'Vui l?ng nh?p s? ng?y d?ng thu?c.',
+      end_date: endDate ? '' : 'Ch?a t?nh ???c ng?y k?t th?c.',
       edit_reason:
         isEdit && !String(form.edit_reason || '').trim()
-          ? 'Vui lòng nhập lý do chỉnh thuốc.'
+          ? 'Vui l?ng nh?p l? do ch?nh thu?c.'
           : '',
     }
     if (startDate && endDate && endDate < startDate) {
-      nextErrors.end_date = 'Ngày kết thúc không được trước ngày bắt đầu.'
+      nextErrors.end_date = 'Ng?y k?t th?c kh?ng ???c tr??c ng?y b?t ??u.'
     }
     setFieldErrors(nextErrors)
     return {
@@ -612,7 +612,7 @@ export default function PrescriptionForm({
     if (conflicts.length) {
       setFieldErrors((current) => ({
         ...current,
-        allergy: `Bệnh nhân có tiền sử dị ứng với thuốc: ${conflicts.join(', ')}. Vui lòng kiểm tra lại trước khi kê toa.`,
+        allergy: `B?nh nh?n c? ti?n s? d? ?ng v?i thu?c: ${conflicts.join(', ')}. Vui l?ng ki?m tra l?i tr??c khi k? toa.`,
       }))
       return
     }
@@ -624,23 +624,23 @@ export default function PrescriptionForm({
       duration_days: Number(form.duration_days),
       note: form.note || null,
       edit_reason: isEdit ? String(form.edit_reason || '').trim() : null,
-      status: 'Đang sử dụng',
+      status: '?ang s? d?ng',
       details: committedDetails.map(normalizeDetail),
     })
   }
 
   return (
     <form className="stack-form compact-prescription-form" onSubmit={submit}>
-      <FormSection title="Thông tin toa thuốc">
-        <Field label="Hồ sơ bệnh án" required>
+      <FormSection title="Th?ng tin toa thu?c">
+        <Field label="H? s? b?nh ?n" required>
           {isNewPatientWorkflow ? (
             <input readOnly value={selectedRecordText(form, medicalRecords)} />
           ) : (
             <SuggestionInput
               value={selectedRecordText(form, medicalRecords)}
               options={medicalRecords}
-              placeholder="Nhập tên bệnh nhân"
-              emptyText="Không tìm thấy hồ sơ phù hợp"
+              placeholder="Nh?p t?n b?nh nh?n"
+              emptyText="Kh?ng t?m th?y h? s? ph? h?p"
               getLabel={recordLabel}
               getDescription={recordDescription}
               onChange={(value) => {
@@ -657,18 +657,18 @@ export default function PrescriptionForm({
         </Field>
         {(currentUnderlyingDiseaseText || currentAllergyText || allergyHits.length > 0) && (
           <div className="prescription-safety-alert">
-            <strong>Cảnh báo bệnh nền và dị ứng</strong>
-            {currentUnderlyingDiseaseText && <span>Bệnh nền: {currentUnderlyingDiseaseText}</span>}
-            {currentAllergyText && <span>Dị ứng: {currentAllergyText}</span>}
+            <strong>C?nh b?o b?nh n?n v? d? ?ng</strong>
+            {currentUnderlyingDiseaseText && <span>B?nh n?n: {currentUnderlyingDiseaseText}</span>}
+            {currentAllergyText && <span>D? ?ng: {currentAllergyText}</span>}
             {allergyHits.length > 0 && (
               <span className="danger-text">
-                Thuốc cần kiểm tra dị ứng: {allergyHits.join(', ')}
+                Thu?c c?n ki?m tra d? ?ng: {allergyHits.join(', ')}
               </span>
             )}
           </div>
         )}
         {fieldErrors.allergy && <div className="form-error">{fieldErrors.allergy}</div>}
-        <Field label="Ngày kê toa" required>
+        <Field label="Ng?y k? toa" required>
           <div className={fieldErrors.start_date ? 'field-control-wrap has-error' : 'field-control-wrap'}>
             <input
               inputMode="numeric"
@@ -684,7 +684,7 @@ export default function PrescriptionForm({
             )}
           </div>
         </Field>
-        <Field label="Số ngày dùng" required>
+        <Field label="S? ng?y d?ng" required>
           <div
             className={
               fieldErrors.duration_days || fieldErrors.end_date
@@ -697,7 +697,7 @@ export default function PrescriptionForm({
               min="1"
               step="1"
               value={form.duration_days || ''}
-              placeholder="Ví dụ: 7"
+              placeholder="V? d?: 7"
               aria-invalid={Boolean(fieldErrors.duration_days || fieldErrors.end_date)}
               onChange={(event) => changeDurationDays(event.target.value)}
             />
@@ -711,15 +711,15 @@ export default function PrescriptionForm({
             )}
           </div>
         </Field>
-        <Field label="Trạng thái">
-          <input readOnly value="Đang sử dụng" />
+        <Field label="Tr?ng th?i">
+          <input readOnly value="?ang s? d?ng" />
         </Field>
         {isEdit && (
-          <Field label="Lý do chỉnh thuốc" required>
+          <Field label="L? do ch?nh thu?c" required>
             <div className={fieldErrors.edit_reason ? 'field-control-wrap has-error' : 'field-control-wrap'}>
               <textarea
                 value={form.edit_reason || ''}
-                placeholder="Nhập lý do chỉnh toa thuốc"
+                placeholder="Nh?p l? do ch?nh toa thu?c"
                 aria-invalid={Boolean(fieldErrors.edit_reason)}
                 onChange={(event) => set('edit_reason', event.target.value)}
               />
@@ -736,7 +736,7 @@ export default function PrescriptionForm({
       {!medicineStepOpen ? (
         <div className="form-actions">
           <button type="button" className="secondary-button" onClick={onCancel}>
-            Hủy
+            H?y
           </button>
           <button type="button" className="primary-button" onClick={openMedicineStep}>
             OK
@@ -745,17 +745,17 @@ export default function PrescriptionForm({
       ) : (
         <section className="form-section">
           <div className="panel-heading">
-            <h2>Thuốc trong toa</h2>
+            <h2>Thu?c trong toa</h2>
           </div>
 
           <div className="prescription-item prescription-entry-item">
             <div className="form-grid">
-              <Field label="Thuốc" required>
+              <Field label="Thu?c" required>
                 <SuggestionInput
                   value={selectedMedicineText(draftDetail, medicines)}
                   options={medicines}
-                  placeholder="Nhập tên thuốc"
-                  emptyText="Chưa có thuốc phù hợp"
+                  placeholder="Nh?p t?n thu?c"
+                  emptyText="Ch?a c? thu?c ph? h?p"
                   getLabel={medicineLabel}
                   getDescription={medicineDescription}
                   onChange={(value) =>
@@ -772,7 +772,7 @@ export default function PrescriptionForm({
                   <div className="form-error">{fieldErrors.draftDetail.medicine_id}</div>
                 )}
               </Field>
-              <Field label="Liều lượng" required>
+              <Field label="Li?u lu?ng" required>
                 <div
                   className={
                     fieldErrors.draftDetail?.dosage
@@ -786,7 +786,7 @@ export default function PrescriptionForm({
                     min="0.1"
                     step="0.1"
                     value={draftDetail.dosage || ''}
-                    placeholder="Ví dụ: 1"
+                    placeholder="V? d?: 1"
                     aria-invalid={Boolean(fieldErrors.draftDetail?.dosage)}
                     onChange={(event) => updateDraftDetail('dosage', event.target.value)}
                   />
@@ -797,19 +797,19 @@ export default function PrescriptionForm({
                   )}
                 </div>
               </Field>
-              <Field label="Đơn vị">
+              <Field label="??n v?">
                 <input
                   readOnly
                   value={draftDetail.medicine_id ? medicineUnit(draftDetail, medicines) : ''}
-                  placeholder="Tự lấy từ thuốc"
+                  placeholder="T? l?y t? thu?c"
                 />
               </Field>
-              <Field label="Tần suất" required>
+              <Field label="T?n su?t" required>
                 <select
                   value={draftDetail.frequency_type_id || ''}
                   onChange={(event) => updateDraftDetail('frequency_type_id', event.target.value)}
                 >
-                  <option value="">Chọn tần suất</option>
+                  <option value="">Ch?n t?n su?t</option>
                   {frequencyTypes.map((frequency) => (
                     <option key={frequencyId(frequency)} value={frequencyId(frequency)}>
                       {frequencyLabel(frequency)}
@@ -820,20 +820,20 @@ export default function PrescriptionForm({
                   <div className="form-error">{fieldErrors.draftDetail.frequency_type_id}</div>
                 )}
               </Field>
-              <Field label="Tổng thuốc dùng">
+              <Field label="T?ng thu?c d?ng">
                 <input
                   readOnly
                   value={detailQuantityText(draftDetail)}
-                  placeholder="Tự tính sau khi nhập đủ ngày, lượng/lần và tần suất"
+                  placeholder="T? t?nh sau khi nh?p ?? ng?y, l??ng/l?n v? t?n su?t"
                 />
               </Field>
-              <Field label="Thời điểm uống">
+              <Field label="Th?i di?m u?ng">
                 <CheckboxOptionGroup
                   options={mealTimes}
                   value={draftDetail.meal_time_id || ''}
                   getValue={(mealTime) => mealTime.meal_time_id}
                   getLabel={mealLabel}
-                  emptyText="Chưa có thời điểm phù hợp"
+                  emptyText="Ch?a c? th?i ?i?m ph? h?p"
                   onChange={(value, mealTime) =>
                     updateDraftDetailFields({
                       meal_time_id: value,
@@ -842,7 +842,7 @@ export default function PrescriptionForm({
                   }
                 />
               </Field>
-              <Field label="Ghi chú">
+              <Field label="Ghi ch?">
                 <textarea
                   value={draftDetail.note || ''}
                   onChange={(event) => updateDraftDetail('note', event.target.value)}
@@ -856,7 +856,7 @@ export default function PrescriptionForm({
               <div className="form-error">{fieldErrors.draftDetail.quantity}</div>
             )}
             <button type="button" className="secondary-button" onClick={addDraftDetail}>
-              <Plus size={16} /> Tiếp - thêm thuốc khác
+              <Plus size={16} /> Ti?p - th?m thu?c kh?c
             </button>
           </div>
 
@@ -865,22 +865,22 @@ export default function PrescriptionForm({
               {form.details.map((detail, index) => (
                 <div className="prescription-added-item" key={detail.prescription_detail_id || index}>
                   <div>
-                    <strong>{selectedMedicineText(detail, medicines) || 'Thuốc đã chọn'}</strong>
+                    <strong>{selectedMedicineText(detail, medicines) || 'Thu?c ?? ch?n'}</strong>
                     <span>
                       {[
                         detailDosageText(detail),
                         selectedFrequencyText(detail, frequencyTypes),
                         selectedMealText(detail, mealTimes),
-                        detailQuantityText(detail) ? `Tổng dùng: ${detailQuantityText(detail)}` : '',
+                        detailQuantityText(detail) ? `T?ng d?ng: ${detailQuantityText(detail)}` : '',
                       ]
                         .filter(Boolean)
-                        .join(' - ') || 'Chưa có hướng dẫn'}
+                        .join(' - ') || 'Ch?a c? h??ng d?n'}
                     </span>
                   </div>
                   <button
                     type="button"
                     className="icon-button danger-text"
-                    title="Bỏ thuốc"
+                    title="B? thu?c"
                     onClick={() => removeDetail(index)}
                   >
                     <Trash2 size={16} />
@@ -894,10 +894,10 @@ export default function PrescriptionForm({
       {medicineStepOpen && (
         <div className="form-actions">
           <button type="button" className="secondary-button" onClick={onCancel}>
-            Hủy
+            H?y
           </button>
           <button className="primary-button" disabled={loading}>
-            {loading ? 'Đang lưu...' : 'Lưu toa thuốc'}
+            {loading ? '?ang l?u...' : 'L?u toa thu?c'}
           </button>
         </div>
       )}

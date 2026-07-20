@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import AvatarPicker from './AvatarPicker'
-import Field from '../ui/Field'
+import Field from '../common/Field/Field'
 import { toApiDateValue, toDateInputValue } from '../../utils/formatters'
 
 const specialties = ['Nội tổng quát', 'Tim mạch', 'Tiêu hóa', 'Nội tiết', 'Da liễu']

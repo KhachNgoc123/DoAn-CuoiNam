@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import Field from '../ui/Field'
-import FormSection from '../ui/FormSection'
+import Field from '../common/Field/Field'
+import FormSection from '../common/FormSection/FormSection'
 import SuggestedTextarea from './SuggestedTextarea'
 import {
   EMPTY_TEXT,

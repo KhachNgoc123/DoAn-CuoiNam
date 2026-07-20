@@ -1,0 +1,2 @@
+export { getDashboard } from './resourceService'
+

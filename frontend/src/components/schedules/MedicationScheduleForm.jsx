@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import Field from '../ui/Field'
+import Field from '../common/Field/Field'
 
 const defaultTimes = ['08:00']
 

@@ -1,13 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import Field from '../ui/Field'
-import FormSection from '../ui/FormSection'
-import { getProvinceDetail, getProvinces } from '../../api/provincesApi'
-import { getList } from '../../api/resources'
+import Field from '../common/Field/Field'
+import FormSection from '../common/FormSection/FormSection'
+import { getProvinceDetail, getProvinces } from '../../services/provinceService'
+import { getList } from '../../services/resourceService'
 import { toApiDateValue, toCompactDateInputValue } from '../../utils/formatters'
 import { isValidPhone, normalizePhoneInput } from '../../utils/phone'
 //địa chỉ
 import AddressField from './AddressField'
-import useAddress from '../../hooks/useAddress'
 
 import {
   normalizeFullName,
@@ -369,7 +368,7 @@ export default function PatientForm({ initialValue = {}, loading, onSubmit, onCa
     }
     //sua ở dâyd
      const result = validatePatient(form)
-    setFieldErrors(result.errors)
+    setFieldErrors({ ...nextErrors, ...result.errors })
     if (!result.isValid) return
 
   onSubmit({

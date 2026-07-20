@@ -1,4 +1,4 @@
-import Field from '../ui/Field'
+import Field from '../common/Field/Field'
 
 export default function AddressField({
     fieldErrors,

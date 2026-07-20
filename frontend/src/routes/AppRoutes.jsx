@@ -1,25 +1,25 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { lazy, Suspense, useEffect, useState } from 'react'
-import AdminLayout from '../components/layout/AdminLayout'
-import { getMe } from '../api/authApi'
-import { clearListCache, getDashboard, getList } from '../api/resources'
-import LoadingState from '../components/ui/LoadingState'
+import { getMe } from '../services/accountService'
+import { clearListCache, getDashboard, getList } from '../services/resourceService'
+import LoadingState from '../components/common/Loading/Loading'
+import ProtectedRoute from './ProtectedRoute'
 import {
   PrescriptionCollectionRoute,
   ScheduleCollectionRoute,
   ScheduleMemberRoute,
 } from './ResourceRouteViews'
 
-const LoginPage = lazy(() => import('../pages/LoginPage'))
-const DashboardPage = lazy(() => import('../pages/DashboardPage'))
-const PatientsPage = lazy(() => import('../pages/PatientsPage'))
-const PatientDetailPage = lazy(() => import('../pages/PatientDetailPage'))
-const MedicalRecordsPage = lazy(() => import('../pages/MedicalRecordsPage'))
-const MedicalRecordDetailPage = lazy(() => import('../pages/MedicalRecordDetailPage'))
-const HealthMetricsPage = lazy(() => import('../pages/HealthMetricsPage'))
-const PatientFeedbacksPage = lazy(() => import('../pages/PatientFeedbacksPage'))
-const AccountsPage = lazy(() => import('../pages/AccountsPage'))
-const MedicinesPage = lazy(() => import('../pages/MedicinesPage'))
+const LoginPage = lazy(() => import('../pages/auth/LoginPage'))
+const DashboardPage = lazy(() => import('../pages/dashboard/DashboardPage'))
+const PatientsPage = lazy(() => import('../pages/patients/PatientsPage'))
+const PatientDetailPage = lazy(() => import('../pages/patients/PatientDetailPage'))
+const MedicalRecordsPage = lazy(() => import('../pages/medical-records/MedicalRecordsPage'))
+const MedicalRecordDetailPage = lazy(() => import('../pages/medical-records/MedicalRecordDetailPage'))
+const HealthMetricsPage = lazy(() => import('../pages/health-tracking/HealthMetricsPage'))
+const PatientFeedbacksPage = lazy(() => import('../pages/feedbacks/PatientFeedbacksPage'))
+const AccountsPage = lazy(() => import('../pages/profile/AccountsPage'))
+const MedicinesPage = lazy(() => import('../pages/medicines/MedicinesPage'))
 
 function clearStoredSession() {
   localStorage.removeItem('doctor_health_token')
@@ -35,12 +35,6 @@ function getStoredUser() {
   } catch {
     return null
   }
-}
-
-function ProtectedRoute({ user, onUserChange, authChecking }) {
-  if (authChecking) return <LoadingState label="?ang ki?m tra ??ng nh?p..." />
-  if (!user) return <Navigate to="/login" replace />
-  return <AdminLayout user={user} onUserChange={onUserChange} />
 }
 
 function lazyRoute(element) {

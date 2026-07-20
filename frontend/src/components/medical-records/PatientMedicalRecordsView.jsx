@@ -1,8 +1,8 @@
 import { Eye } from 'lucide-react'
 import { formatDate, formatPatientCode } from '../../utils/formatters'
-import EmptyState from '../ui/EmptyState'
-import LoadingState from '../ui/LoadingState'
-import StatusBadge from '../ui/StatusBadge'
+import EmptyState from '../common/EmptyState/EmptyState'
+import LoadingState from '../common/Loading/Loading'
+import StatusBadge from '../common/StatusBadge/StatusBadge'
 
 function formatRecordCode(record) {
   return record?.record_code || `BA-${String(record?.record_id || '').padStart(3, '0')}`
