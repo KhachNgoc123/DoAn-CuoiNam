@@ -4,21 +4,15 @@ import {
   ArrowLeft,
   Clock3,
   Download,
-  Eye,
-  FileSpreadsheet,
   Pencil,
-  Plus,
   Printer,
-  RotateCcw,
-  Search,
 } from 'lucide-react'
 import useResourceList from '../api/useResourceList'
 import { getList, getOne } from '../api/resources'
 import StatusBadge from '../components/ui/StatusBadge'
-import Toast from '../components/ui/Toast'
 import EmptyState from '../components/ui/EmptyState'
 import LoadingState from '../components/ui/LoadingState'
-import PatientSearchBox from '../components/patients/PatientSearchBox'
+import PrescriptionsListView from '../components/prescriptions/PrescriptionsListView'
 import { getDoseCount, getDoseTimes, getPrescriptionStartDate } from '../utils/prescriptions'
 import { formatDate, formatGender, formatPatientCode, statusAfterEndDate } from '../utils/formatters'
 import { downloadStyledExcel } from '../utils/excelExport'
@@ -270,7 +264,9 @@ function PrescriptionDetailView({ prescriptionId, onBack }) {
 
   useEffect(() => {
     let mounted = true
-    setLoading(true)
+    window.queueMicrotask(() => {
+      if (mounted) setLoading(true)
+    })
     getOne('/prescriptions', prescriptionId)
       .then((data) => {
         if (mounted) setPrescription(data)
@@ -488,7 +484,7 @@ export default function PrescriptionsPage() {
   }, [location.pathname, location.state, navigate])
 
   useEffect(() => {
-    setViewingId(location.state?.viewPrescriptionId || null)
+    window.queueMicrotask(() => setViewingId(location.state?.viewPrescriptionId || null))
   }, [location.state?.viewPrescriptionId])
 
   useEffect(() => {
@@ -529,10 +525,6 @@ export default function PrescriptionsPage() {
     })
   }
 
-  function resetFilters() {
-    setParams({ search: '', status: '', from_date: '', to_date: '', page: 1 })
-  }
-
   function openDetail(prescription) {
     const id = prescription.prescription_id
     setViewingId(id)
@@ -547,170 +539,32 @@ export default function PrescriptionsPage() {
   if (viewingId) return <PrescriptionDetailView prescriptionId={viewingId} onBack={closeDetail} />
 
   return (
-    <main className="page prescriptions-page mc-prescriptions-page">
-      <section className="mc-list-hero">
-        <div>
-          <h1>Quản lý toa thuốc</h1>
-        </div>
-        <div className="rx-list-actions">
-          <button type="button" className="secondary-button prescription-export-button" onClick={exportExcel}>
-            <FileSpreadsheet size={17} /> Excel
-          </button>
-          <button
-            type="button"
-            className="primary-button prescription-create-button"
-            onClick={() => navigate('/prescriptions', { state: { mode: 'create' } })}
-          >
-            <Plus size={18} /> Kê toa thuốc
-          </button>
-        </div>
-      </section>
-
-      <section className="rx-filter-card">
-        <label>
-          <span>Từ khóa</span>
-          <div className="mc-filter-input">
-            <Search size={17} />
-            <PatientSearchBox
-              patients={patients}
-              value=""
-              queryValue={params.search || ''}
-              onSelect={(patient) => setParams({ search: patient ? patient.full_name : '', page: 1 })}
-              onQueryChange={(search) => setParams({ search, page: 1 })}
-              placeholder="Mã toa, bệnh nhân, số điện thoại"
-            />
-          </div>
-        </label>
-        <label>
-          <span>Trạng thái</span>
-          <select value={params.status || ''} onChange={(event) => setParams({ status: event.target.value, page: 1 })}>
-            <option value="">Tất cả</option>
-            <option value="active">Đang dùng</option>
-            <option value="completed">Hoàn thành</option>
-          </select>
-        </label>
-        <label>
-          <span>Từ ngày</span>
-          <input type="date" value={params.from_date || ''} onChange={(event) => setParams({ from_date: event.target.value, page: 1 })} />
-        </label>
-        <label>
-          <span>Đến ngày</span>
-          <input type="date" value={params.to_date || ''} onChange={(event) => setParams({ to_date: event.target.value, page: 1 })} />
-        </label>
-        <button type="button" className="mc-search-button" onClick={() => refetch()}>
-          <Search size={17} /> Tìm kiếm
-        </button>
-        
-      </section>
-
-      <section className="rx-stat-grid">
-        <article>
-          <span>Bệnh nhân</span>
-          <strong>{patientCount}</strong>
-        </article>
-        <article>
-          <span>Đơn thuốc</span>
-          <strong>{rows.length}</strong>
-        </article>
-        <article>
-          <span>Đang dùng</span>
-          <strong>{activeCount}</strong>
-        </article>
-        <article>
-          <span>Hoàn thành</span>
-          <strong>{completedCount}</strong>
-        </article>
-      </section>
-
-      <section className="mc-table-panel rx-table-panel">
-        <div className="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>STT</th>
-                <th>Mã toa</th>
-                <th>Bệnh nhân</th>
-                <th>Ngày kê toa</th>
-                <th>Bác sĩ</th>
-                <th>Chẩn đoán</th>
-                <th>Bắt đầu</th>
-                <th>Kết thúc</th>
-                <th>Số ngày</th>
-                <th>Trạng thái</th>
-                <th>Số thuốc</th>
-                <th>Thao tác</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan="12">Đang tải danh sách đơn thuốc...</td>
-                </tr>
-              ) : rows.length ? (
-                rows.map((prescription, index) => {
-                  const patient = prescriptionPatient(prescription)
-                  const doctor = prescriptionDoctor(prescription)
-
-                  return (
-                    <tr key={prescription.prescription_id}>
-                      <td>{index + 1}</td>
-                      <td>
-                        <strong>{prescriptionCode(prescription)}</strong>
-                      </td>
-                      <td>
-                        <strong>{patient.full_name || '-'}</strong>
-                        <small>{patient.phone || ''}</small>
-                      </td>
-                      <td>{formatDate(getPrescriptionStartDate(prescription)) || '-'}</td>
-                      <td>{doctorName(doctor)}</td>
-                      <td>{prescription.medical_record?.diagnosis || '-'}</td>
-                      <td>{formatDate(prescription.start_date) || '-'}</td>
-                      <td>{formatDate(prescription.end_date) || '-'}</td>
-                      <td>{treatmentDays(prescription)}</td>
-                      <td>
-                        <StatusBadge value={statusAfterEndDate(prescription)} />
-                      </td>
-                      <td>{prescription.details?.length || 0}</td>
-                      <td>
-                        <div className="mc-row-actions">
-                          <button
-                            type="button"
-                            className="icon-button small"
-                            title="Xem chi tiết"
-                            onClick={() => openDetail(prescription)}
-                          >
-                            <Eye size={16} />
-                          </button>
-                          {prescription.can_modify && (
-                            <button
-                              type="button"
-                              className="icon-button small"
-                              title="Sửa toa thuốc"
-                              onClick={() =>
-                                navigate('/prescriptions', {
-                                  state: { mode: 'edit', prescriptionId: prescription.prescription_id },
-                                })
-                              }
-                            >
-                              <Pencil size={16} />
-                            </button>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })
-              ) : (
-                <tr>
-                  <td colSpan="12">Chưa có đơn thuốc</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <Toast toast={toast} onClose={() => setToast(null)} />
-    </main>
+    <PrescriptionsListView
+      rows={rows}
+      params={params}
+      loading={loading}
+      toast={toast}
+      patients={patients}
+      patientCount={patientCount}
+      activeCount={activeCount}
+      completedCount={completedCount}
+      prescriptionPatient={prescriptionPatient}
+      prescriptionDoctor={prescriptionDoctor}
+      prescriptionCode={prescriptionCode}
+      doctorName={doctorName}
+      treatmentDays={treatmentDays}
+      statusAfterEndDate={statusAfterEndDate}
+      onExportExcel={exportExcel}
+      onCreate={() => navigate('/prescriptions', { state: { mode: 'create' } })}
+      onSetParams={setParams}
+      onRefetch={refetch}
+      onOpenDetail={openDetail}
+      onEdit={(prescription) =>
+        navigate('/prescriptions', {
+          state: { mode: 'edit', prescriptionId: prescription.prescription_id },
+        })
+      }
+      onCloseToast={() => setToast(null)}
+    />
   )
 }

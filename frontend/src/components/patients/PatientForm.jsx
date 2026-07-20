@@ -22,9 +22,6 @@ const {
 form,
 fieldErrors,
 
-provinces,
-wards,
-
 provinceQuery,
 wardQuery,
 
@@ -35,9 +32,6 @@ addressDetail,
 addressLoading,
 
 selectedProvince,
-selectedWard,
-
-patientSuggestions,
 
 underlyingDiseaseSuggestions,
 allergySuggestions,
@@ -101,9 +95,7 @@ allergyOpen,
 
 } = usePatientForm({
     initialValue,
-    loading,
     onSubmit,
-    onCancel
 })
 const genderOptions = [
     {

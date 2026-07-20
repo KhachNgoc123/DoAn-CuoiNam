@@ -64,7 +64,7 @@ class MedicalRecordController extends Controller
                 ]))
                 ->with($relations)
                 ->when(
-                    $request->patient_id,
+                    $request->patient_id || $request->scope === 'all',
                     fn ($q) => $q,
                     fn ($q) => $q->where('doctor_id', $request->user()->doctor_id),
                 )

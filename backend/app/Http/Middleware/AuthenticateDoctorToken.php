@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
+use App\Models\Doctor;
 use App\Services\DoctorToken;
 use Closure;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class AuthenticateDoctorToken
     {
         $doctorId = DoctorToken::doctorId($request->bearerToken() ?? '');
         $doctor = $doctorId
-            ? User::query()
+            ? Doctor::query()
                 ->select(['doctor_id', 'full_name', 'email', 'avatar', 'phone', 'specialty', 'status'])
                 ->find($doctorId)
             : null;

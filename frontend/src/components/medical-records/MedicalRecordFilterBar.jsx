@@ -39,31 +39,7 @@ export default function MedicalRecordFilterBar({
             </option>
           ))}
         </select>
-      </label>
-      <label>
-        <span>Ngày lập hồ sơ</span>
-        <input
-          type="date"
-          value={params.visit_date || ''}
-          onChange={(event) => onParamsChange({ visit_date: event.target.value, page: 1, per_page: 20 })}
-        />
-      </label>
-      <label>
-        <span>Bác sĩ</span>
-        <input
-          value={params.doctor || ''}
-          onChange={(event) => onParamsChange({ doctor: event.target.value, page: 1, per_page: 20 })}
-          placeholder="Tên bác sĩ"
-        />
-      </label>
-      <label>
-        <span>Chẩn đoán</span>
-        <input
-          value={params.diagnosis || ''}
-          onChange={(event) => onParamsChange({ diagnosis: event.target.value, page: 1, per_page: 20 })}
-          placeholder="Tên chẩn đoán"
-        />
-      </label>
+      </label>      
       <label>
         <span>Từ ngày</span>
         <input
@@ -84,7 +60,7 @@ export default function MedicalRecordFilterBar({
         <Search size={17} /> Tìm kiếm
       </button>
       <button type="button" className="secondary-button" onClick={onClear}>
-        <RotateCcw size={17} /> Làm mới
+        <RotateCcw size={15} /> Làm mới
       </button>
     </section>
   )

@@ -13,6 +13,7 @@ export async function createPatient(payload){
 //cập nhật bệnh nhân
 export async function updatePatient(id,data){
   const response = await apiClient.put(`/patient/${id}`,data)
+  return response.data
 }
 
 

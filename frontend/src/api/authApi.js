@@ -5,10 +5,8 @@ export async function login(credentials) {
   const data = response.data
 //ảnh hưởng từ bên backend chỗ tạo token
   if (data.token) {
-    localStorage.setItem(
-      'token',
-      data.token
-    )
+    localStorage.setItem('doctor_health_token', data.token)
+    localStorage.setItem('token', data.token)
   }
 
   if (data.doctor) {

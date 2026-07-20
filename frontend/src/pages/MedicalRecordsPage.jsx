@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import useResourceList from '../api/useResourceList'
+import { getMedicalRecords } from '../api/medicalRecordApi'
 import { createOne, getList, updateOne } from '../api/resources'
 import { getErrorMessage } from '../api/client'
 import MedicalRecordEntryView from '../components/medical-records/MedicalRecordEntryView'
@@ -47,10 +47,13 @@ export default function MedicalRecordsPage() {
   const routedPatientId = location.state?.patientId || ''
   const [workflow, setWorkflow] = useState(location.state?.workflow || '')
   const initialPatientId = searchParams.get('patient_id') || createPatientId || routedPatientId
-  const { items, params, setParams, loading, refetch } = useResourceList(
-    '/medical-records',
-    initialPatientId ? { patient_id: initialPatientId, per_page: 20 } : { per_page: 20 },
+  const [records, setRecords] = useState([])
+  const [params, setParamsState] = useState(
+    initialPatientId
+      ? { page: 1, per_page: 20, patient_id: initialPatientId, scope: 'all' }
+      : { page: 1, per_page: 20, scope: 'all' },
   )
+  const [loading, setLoading] = useState(true)
   const [patients, setPatients] = useState([])
   const [healthTypes, setHealthTypes] = useState([])
   const [recordSuggestions, setRecordSuggestions] = useState({})
@@ -76,6 +79,34 @@ export default function MedicalRecordsPage() {
   )
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState(() => location.state?.toast || null)
+
+  const loadMedicalRecords = useCallback(async (nextParams = params) => {
+    setLoading(true)
+    try {
+      const response = await getMedicalRecords(nextParams)
+      setRecords(response.data)
+    } catch (error) {
+      setRecords([])
+      setToast({ type: 'error', message: getErrorMessage(error) })
+    } finally {
+      setLoading(false)
+    }
+  }, [params])
+
+  function setParams(next) {
+    setParamsState((current) => {
+      const merged = { ...current, ...next }
+      return Object.keys(merged).every((key) => merged[key] === current[key]) ? current : merged
+    })
+  }
+
+  function refetch() {
+    loadMedicalRecords(params)
+  }
+
+  useEffect(() => {
+    loadMedicalRecords(params)
+  }, [loadMedicalRecords, params])
 
   useEffect(() => {
     const routeToast = location.state?.toast
@@ -120,7 +151,7 @@ export default function MedicalRecordsPage() {
       delete payload._basic_metrics
       const patientId = payload.patient_id || editingRecord?.patient_id
       if (!editingRecord?.id) {
-        const activeRecord = items.find(
+        const activeRecord = records.find(
           (item) =>
             String(item.patient_id || item.patient?.patient_id) === String(patientId) &&
             isMedicalRecordInTreatmentStatus(item.status),
@@ -190,7 +221,7 @@ export default function MedicalRecordsPage() {
   const selectedPatient = patients.find(
     (patient) => String(patient.patient_id) === String(editingRecord?.patient_id),
   )
-  const sortedRecords = useMemo(() => sortMedicalRecords(items), [items])
+  const sortedRecords = useMemo(() => sortMedicalRecords(records), [records])
 
   function clearFilters() {
     setParams({
@@ -202,6 +233,7 @@ export default function MedicalRecordsPage() {
       to_date: '',
       doctor: '',
       diagnosis: '',
+      scope: 'all',
       page: 1,
       per_page: 20,
     })

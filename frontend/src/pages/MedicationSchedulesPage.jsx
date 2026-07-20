@@ -1,13 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Eye, FileSpreadsheet, Pencil, Plus, Search, Send, CirclePause } from 'lucide-react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import useResourceList from '../api/useResourceList'
 import { createOne, getList, updateOne } from '../api/resources'
 import { getErrorMessage } from '../api/client'
-import ConfirmDialog from '../components/ui/ConfirmDialog'
-import Toast from '../components/ui/Toast'
-import StatusBadge from '../components/ui/StatusBadge'
-import EmptyState from '../components/ui/EmptyState'
+import MedicationSchedulesView from '../components/schedules/MedicationSchedulesView'
 import { downloadStyledExcel } from '../utils/excelExport'
 import { formatPatientCode, statusAfterEndDate } from '../utils/formatters'
 import { todayApiDate } from '../utils/medicationReminders'
@@ -51,12 +47,12 @@ function scheduleMedicine(schedule) {
     schedule?.medicine_name ||
     scheduleDetail(schedule).medicine?.medicine_name ||
     scheduleDetail(schedule).medicine_name ||
-    'Thuốc trong toa'
+    'Thuá»‘c trong toa'
   )
 }
 
 function scheduleDosage(schedule) {
-  return schedule?.dosage || scheduleDetail(schedule).dosage || '1 viên'
+  return schedule?.dosage || scheduleDetail(schedule).dosage || '1 viÃªn'
 }
 
 function scheduleMeal(schedule) {
@@ -64,7 +60,7 @@ function scheduleMeal(schedule) {
     schedule?.meal_time_name ||
     scheduleDetail(schedule).meal_time?.meal_time_name ||
     scheduleDetail(schedule).meal_time_name ||
-    'Sau ăn'
+    'Sau Äƒn'
   )
 }
 
@@ -84,35 +80,21 @@ function firstScheduleTime(schedule) {
 
 function sessionFromTime(time) {
   const hour = Number(String(time).slice(0, 2))
-  if (!Number.isFinite(hour)) return 'Sáng'
-  if (hour < 11) return 'Sáng'
-  if (hour < 14) return 'Trưa'
-  if (hour < 18) return 'Chiều'
-  return 'Tối'
+  if (!Number.isFinite(hour)) return 'SÃ¡ng'
+  if (hour < 11) return 'SÃ¡ng'
+  if (hour < 14) return 'TrÆ°a'
+  if (hour < 18) return 'Chiá»u'
+  return 'Tá»‘i'
 }
 
 function scheduleStatus(schedule) {
-  const activeStatuses = ['Đang hoạt động', 'Đang sử dụng', 'Đang dùng', 'Đang uống', 'active']
-  const completedStatuses = ['completed', 'Đã xong', 'Hoàn thành', 'Hoàn tất', 'Đã uống']
+  const activeStatuses = ['Äang hoáº¡t Ä‘á»™ng', 'Äang sá»­ dá»¥ng', 'Äang dÃ¹ng', 'Äang uá»‘ng', 'active']
+  const completedStatuses = ['completed', 'ÄÃ£ xong', 'HoÃ n thÃ nh', 'HoÃ n táº¥t', 'ÄÃ£ uá»‘ng']
   const status = statusAfterEndDate(schedule || {}, activeStatuses)
   const prescriptionStatus = statusAfterEndDate(schedulePrescription(schedule) || {}, activeStatuses)
-  if (completedStatuses.includes(status) || completedStatuses.includes(prescriptionStatus)) return 'Đã uống'
-  if (activeStatuses.includes(status)) return 'Đang hoạt động'
-  return status || 'Đang hoạt động'
-}
-
-function reminderDisplayStatus(schedule, date) {
-  const status = scheduleStatus(schedule)
-  if (status === 'Đã uống' || status === 'Bỏ lỡ') return status
-  return reminderAvailability(schedule, date).label === 'Quên nhắc' ? 'Bỏ lỡ' : 'Chờ uống'
-}
-
-function patientSearchText(schedule) {
-  const patient = schedulePatient(schedule)
-  return [patient.patient_id, patient.full_name, patient.phone, scheduleMedicine(schedule)]
-    .filter(Boolean)
-    .join(' ')
-    .toLowerCase()
+  if (completedStatuses.includes(status) || completedStatuses.includes(prescriptionStatus)) return 'ÄÃ£ uá»‘ng'
+  if (activeStatuses.includes(status)) return 'Äang hoáº¡t Ä‘á»™ng'
+  return status || 'Äang hoáº¡t Ä‘á»™ng'
 }
 
 function minutesSinceTime(date, time) {
@@ -124,13 +106,19 @@ function minutesSinceTime(date, time) {
 
 function reminderAvailability(schedule, date) {
   const firstTime = scheduleTimeEntries(schedule)[0]
-  if (!firstTime?.time) return { allowed: false, label: 'Chưa có giờ uống', time: null, timeId: null }
+  if (!firstTime?.time) return { allowed: false, label: 'ChÆ°a cÃ³ giá» uá»‘ng', time: null, timeId: null }
 
   const diff = minutesSinceTime(date, firstTime.time)
-  if (diff === null) return { allowed: false, label: 'Chưa xác định giờ', time: firstTime.time, timeId: firstTime.id }
-  if (diff < 15) return { allowed: false, label: 'Chờ uống', time: firstTime.time, timeId: firstTime.id }
-  if (diff > 60) return { allowed: false, label: 'Quên nhắc', time: firstTime.time, timeId: firstTime.id }
-  return { allowed: true, label: 'Gửi nhắc', time: firstTime.time, timeId: firstTime.id }
+  if (diff === null) return { allowed: false, label: 'ChÆ°a xÃ¡c Ä‘á»‹nh giá»', time: firstTime.time, timeId: firstTime.id }
+  if (diff < 15) return { allowed: false, label: 'Chá» uá»‘ng', time: firstTime.time, timeId: firstTime.id }
+  if (diff > 60) return { allowed: false, label: 'QuÃªn nháº¯c', time: firstTime.time, timeId: firstTime.id }
+  return { allowed: true, label: 'Gá»­i nháº¯c', time: firstTime.time, timeId: firstTime.id }
+}
+
+function reminderDisplayStatus(schedule, date) {
+  const status = scheduleStatus(schedule)
+  if (status === 'ÄÃ£ uá»‘ng' || status === 'Bá» lá»¡') return status
+  return reminderAvailability(schedule, date).label === 'QuÃªn nháº¯c' ? 'Bá» lá»¡' : 'Chá» uá»‘ng'
 }
 
 function reminderSendStatus(schedule, logs, date) {
@@ -140,8 +128,16 @@ function reminderSendStatus(schedule, logs, date) {
     const logDate = String(log?.reminder_date || log?.date || log?.created_at || '').slice(0, 10)
     return logScheduleId === id && (!logDate || logDate === date)
   })
-  if (hasSentLog) return 'Đã gửi'
-  return reminderAvailability(schedule, date).label === 'Quên nhắc' ? 'Gửi lỗi' : 'Chưa gửi'
+  if (hasSentLog) return 'ÄÃ£ gá»­i'
+  return reminderAvailability(schedule, date).label === 'QuÃªn nháº¯c' ? 'Gá»­i lá»—i' : 'ChÆ°a gá»­i'
+}
+
+function patientSearchText(schedule) {
+  const patient = schedulePatient(schedule)
+  return [patient.patient_id, patient.full_name, patient.phone, scheduleMedicine(schedule)]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase()
 }
 
 function formatExcelDate(value) {
@@ -157,7 +153,7 @@ export default function MedicationSchedulesPage() {
   const routedPatientId = location.state?.patientId || searchParams.get('patient_id') || ''
   const [statusFilter, setStatusFilter] = useState('')
   const [sessionFilter, setSessionFilter] = useState('')
-  const [medicineFilter, setMedicineFilter] = useState('')
+  const [medicineFilter] = useState('')
   const [canceling, setCanceling] = useState(null)
   const [toast, setToast] = useState(null)
   const [reminderLogs, setReminderLogs] = useState([])
@@ -225,9 +221,9 @@ export default function MedicationSchedulesPage() {
     [todayRows],
   )
 
-  const activeCount = rows.filter((schedule) => scheduleStatus(schedule) === 'Đang hoạt động').length
-  const missedCount = rows.filter((schedule) => reminderDisplayStatus(schedule, selectedDate) === 'Bỏ lỡ').length
-  const takenCount = rows.filter((schedule) => reminderDisplayStatus(schedule, selectedDate) === 'Đã uống').length
+  const activeCount = rows.filter((schedule) => scheduleStatus(schedule) === 'Äang hoáº¡t Ä‘á»™ng').length
+  const missedCount = rows.filter((schedule) => reminderDisplayStatus(schedule, selectedDate) === 'Bá» lá»¡').length
+  const takenCount = rows.filter((schedule) => reminderDisplayStatus(schedule, selectedDate) === 'ÄÃ£ uá»‘ng').length
 
   const loadReminderLogs = useCallback(async () => {
     try {
@@ -243,17 +239,17 @@ export default function MedicationSchedulesPage() {
   }, [selectedDate])
 
   useEffect(() => {
-    loadReminderLogs()
+    window.queueMicrotask(() => loadReminderLogs())
   }, [loadReminderLogs])
 
   function exportExcel() {
     downloadStyledExcel(`lich-uong-thuoc-${selectedDate}.xls`, {
-      title: 'Lịch uống và nhắc thuốc',
+      title: 'Lá»‹ch uá»‘ng vÃ  nháº¯c thuá»‘c',
       rows: [
-        ['Lịch uống và nhắc thuốc'],
-        ['Ngày uống', formatExcelDate(selectedDate)],
+        ['Lá»‹ch uá»‘ng vÃ  nháº¯c thuá»‘c'],
+        ['NgÃ y uá»‘ng', formatExcelDate(selectedDate)],
         [],
-        ['STT', 'Mã BN', 'Bệnh nhân', 'Thuốc', 'Giờ uống', 'Buổi', 'Liều lượng', 'Bữa ăn', 'Trạng thái'],
+        ['STT', 'MÃ£ BN', 'Bá»‡nh nhÃ¢n', 'Thuá»‘c', 'Giá» uá»‘ng', 'Buá»•i', 'Liá»u lÆ°á»£ng', 'Bá»¯a Äƒn', 'Tráº¡ng thÃ¡i'],
         ...todayRows.map((schedule, index) => {
           const patient = schedulePatient(schedule)
           const time = firstScheduleTime(schedule)
@@ -288,9 +284,9 @@ export default function MedicationSchedulesPage() {
         schedule_time_id: reminder.timeId,
         reminder_date: selectedDate,
         reminder_time: reminder.time,
-        note: 'Bác sĩ đã gửi nhắc người bệnh uống thuốc.',
+        note: 'BÃ¡c sÄ© Ä‘Ã£ gá»­i nháº¯c ngÆ°á»i bá»‡nh uá»‘ng thuá»‘c.',
       })
-      setToast({ type: 'success', message: 'Đã gửi nhắc uống thuốc cho người bệnh.' })
+      setToast({ type: 'success', message: 'ÄÃ£ gá»­i nháº¯c uá»‘ng thuá»‘c cho ngÆ°á»i bá»‡nh.' })
       await loadReminderLogs()
       refetch()
     } catch (requestError) {
@@ -303,8 +299,8 @@ export default function MedicationSchedulesPage() {
   async function confirmCancel() {
     if (!canceling) return
     try {
-      await updateOne('/medicine-schedules', scheduleId(canceling), { status: 'Tạm ngưng' })
-      setToast({ type: 'success', message: 'Đã tạm ngưng lịch uống thuốc.' })
+      await updateOne('/medicine-schedules', scheduleId(canceling), { status: 'Táº¡m ngÆ°ng' })
+      setToast({ type: 'success', message: 'ÄÃ£ táº¡m ngÆ°ng lá»‹ch uá»‘ng thuá»‘c.' })
       setCanceling(null)
       refetch()
     } catch (requestError) {
@@ -312,244 +308,59 @@ export default function MedicationSchedulesPage() {
     }
   }
 
-  function renderTodayScheduleTable() {
-    return (
-      <div className="table-wrap schedule-today-table-wrap">
-        <table className="schedule-today-table">
-          <thead>
-            <tr>
-              <th>STT</th>
-              <th>Mã lịch</th>
-              <th>Bệnh nhân</th>
-              <th>Thuốc</th>
-              <th>Giờ uống</th>
-              <th>Buổi</th>
-              <th>Trạng thái</th>
-              <th>Nhắc thuốc</th>
-              <th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            {todayTableRows.length ? (
-              todayTableRows.map((schedule, index) => {
-                const patient = schedulePatient(schedule)
-                const time = firstScheduleTime(schedule)
-                const id = scheduleId(schedule)
-                return (
-                  <tr key={`${id}-${time}-${index}`}>
-                    <td>{index + 1}</td>
-                    <td>{scheduleCode(schedule)}</td>
-                    <td>{patient.full_name || '-'}</td>
-                    <td>{scheduleMedicine(schedule)}</td>
-                    <td>{time}</td>
-                    <td>{sessionFromTime(time)}</td>
-                    <td><StatusBadge value={reminderDisplayStatus(schedule, selectedDate)} /></td>
-                    <td><StatusBadge value={reminderSendStatus(schedule, reminderLogs, selectedDate)} /></td>
-                    <td>
-                      <div className="table-actions schedule-table-actions">
-                        <button
-                          type="button"
-                          className="icon-button"
-                          title="Xem chi tiết"
-                          onClick={() => navigate(`/schedules/${id}`, { state: { patientId: patient.patient_id } })}
-                        >
-                          <Eye size={16} />
-                        </button>
-                        <button
-                          type="button"
-                          className="icon-button"
-                          title="Cập nhật lịch"
-                          onClick={() => navigate('/schedules', {
-                            state: {
-                              mode: 'createFromPrescription',
-                              prescriptionId: schedulePrescription(schedule).prescription_id,
-                              prescriptionDetailId: scheduleDetail(schedule).prescription_detail_id,
-                            },
-                          })}
-                        >
-                          <Pencil size={16} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )
-              })
-            ) : (
-              <tr>
-                <td className="schedule-table-empty" colSpan={9}>Hôm nay chưa có lịch uống thuốc</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    )
-  }
-
   return (
-    <main className="page mc-schedules-page">
-      <section className="mc-list-hero">
-        <div>
-          <h1>Lịch uống & nhắc thuốc</h1>
-          <p>Giám sát lịch dùng thuốc và mức độ tuân thủ</p>
-        </div>
-        <div className="rx-list-actions">
-          <button type="button" className="secondary-button prescription-export-button" onClick={exportExcel}>
-            <FileSpreadsheet size={17} /> Excel
-          </button>
-          <button type="button" className="primary-button" onClick={() => navigate('/prescriptions')}>
-            <Plus size={18} /> Tạo lịch
-          </button>
-        </div>
-      </section>
-
-      <section className="schedule-filter-card">
-        <label>
-          <span>Tìm bệnh nhân</span>
-          <input
-            value={params.search || ''}
-            onChange={(event) => setParams({ search: event.target.value, page: 1, per_page: 20 })}
-            placeholder="Mã hoặc họ tên"
-          />
-        </label>
-        <label>
-          <span>Trạng thái</span>
-          <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
-            <option value="">Tất cả</option>
-            <option value="Chờ uống">Chờ uống</option>
-            <option value="Đã uống">Đã uống</option>
-            <option value="Bỏ lỡ">Bỏ lỡ</option>
-          </select>
-        </label>
-        <label>
-          <span>Buổi</span>
-          <select value={sessionFilter} onChange={(event) => setSessionFilter(event.target.value)}>
-            <option value="">Tất cả</option>
-            <option value="Sáng">Sáng</option>
-            <option value="Trưa">Trưa</option>
-            <option value="Chiều">Chiều</option>
-            <option value="Tối">Tối</option>
-          </select>
-        </label>
-        <label>
-          <span>Từ ngày</span>
-          <input
-            type="date"
-            value={selectedDate}
-            onChange={(event) => setParams({ from_date: event.target.value, to_date: event.target.value, page: 1 })}
-          />
-        </label>
-        <label>
-          <span>Đến ngày</span>
-          <input
-            type="date"
-            value={params.to_date || selectedDate}
-            onChange={(event) => setParams({ to_date: event.target.value, page: 1 })}
-          />
-        </label>
-        <button type="button" className="mc-search-button" onClick={() => refetch()}>
-          <Search size={17} /> Áp dụng
-        </button>
-      </section>
-
-      <section className="schedule-stat-row">
-        <article><span>Tổng lịch</span><strong>{rows.length}</strong></article>
-        <article><span>Đang hoạt động</span><strong>{activeCount}</strong></article>
-        <article><span>Đã uống</span><strong>{takenCount}</strong></article>
-        <article><span>Bỏ lỡ</span><strong>{missedCount}</strong></article>
-      </section>
-
-      {error ? (
-        <EmptyState title="Không truy xuất được lịch uống thuốc" description={error} />
-      ) : (
-        <section className="schedule-today-panel">
-          <div className="schedule-today-head">
-            <div>
-              <h2>Hôm nay có lịch nhắc nào?</h2>
-              <p>Lịch tiếp theo và trạng thái gửi nhắc</p>
-            </div>
-          </div>
-
-          {loading ? (
-            <p className="schedule-empty-line">Đang tải lịch uống thuốc...</p>
-          ) : (
-            <>
-              {groupedTodayRows.length ? (
-                <div className="schedule-reminder-list">
-                  {groupedTodayRows.map((group) => {
-                    const patient = group.patient
-                    const primarySchedule = group.schedules[0]
-                    const time = firstScheduleTime(primarySchedule)
-                    const reminder = reminderAvailability(primarySchedule, selectedDate)
-                    const id = scheduleId(primarySchedule)
-                    const medicines = group.schedules.map((schedule) => {
-                      const times = scheduleTimeEntries(schedule).map((entry) => entry.time).join(', ')
-                      return `${scheduleMedicine(schedule)} (${scheduleDosage(schedule)} - ${times || firstScheduleTime(schedule)})`
-                    }).join(' • ')
-                    return (
-                      <article className="schedule-reminder-row" key={id}>
-                        <div className="schedule-time-pill">
-                          <strong>{time}</strong>
-                          <span>{sessionFromTime(time)}</span>
-                        </div>
-                        <div className="schedule-reminder-main">
-                          <strong>{formatPatientCode(patient)} • {patient.full_name || '-'}</strong>
-                          <p>
-                            {medicines} • {scheduleMeal(primarySchedule)} • <StatusBadge value={reminderDisplayStatus(primarySchedule, selectedDate)} />
-                          </p>
-                        </div>
-                        <div className="schedule-row-actions">
-                          <button type="button" className="secondary-button" onClick={() => navigate(`/schedules/${id}`, { state: { patientId: patient.patient_id } })}>
-                            Chi tiết
-                          </button>
-                          <button type="button" className="secondary-button" onClick={() => navigate('/schedules', {
-                            state: {
-                              mode: 'createFromPrescription',
-                              prescriptionId: schedulePrescription(primarySchedule).prescription_id,
-                              prescriptionDetailId: scheduleDetail(primarySchedule).prescription_detail_id,
-                            },
-                          })}>
-                            <Pencil size={16} /> Cập nhật
-                          </button>
-                          <button type="button" className="rx-warning-button" onClick={() => setCanceling(primarySchedule)}>
-                            <CirclePause size={16} /> Tạm ngưng
-                          </button>
-                          <button
-                            type="button"
-                            className="primary-button"
-                            disabled={!reminder.allowed || sendingReminder === id}
-                            onClick={() => sendReminder(primarySchedule)}
-                          >
-                            <Send size={16} /> {sendingReminder === id ? 'Đang gửi...' : 'Gửi nhắc'}
-                          </button>
-                        </div>
-                      </article>
-                    )
-                  })}
-                </div>
-              ) : null}
-            </>
-          )}
-        </section>
-      )}
-
-      {!error ? (
-        <section className="mc-table-panel rx-table-panel schedule-today-table-panel">
-          {loading ? (
-            <p className="schedule-empty-line">Đang tải danh sách lịch uống thuốc...</p>
-          ) : (
-            renderTodayScheduleTable()
-          )}
-        </section>
-      ) : null}
-
-      <ConfirmDialog
-        open={Boolean(canceling)}
-        title="Tạm ngưng lịch uống thuốc?"
-        description="Lịch sẽ chuyển sang trạng thái Tạm ngưng và vẫn còn lưu trong hệ thống."
-        onCancel={() => setCanceling(null)}
-        onConfirm={confirmCancel}
-      />
-      <Toast toast={toast} onClose={() => setToast(null)} />
-    </main>
+    <MedicationSchedulesView
+      params={params}
+      loading={loading}
+      error={error}
+      toast={toast}
+      selectedDate={selectedDate}
+      statusFilter={statusFilter}
+      sessionFilter={sessionFilter}
+      reminderLogs={reminderLogs}
+      sendingReminder={sendingReminder}
+      canceling={canceling}
+      rows={rows}
+      groupedTodayRows={groupedTodayRows}
+      todayTableRows={todayTableRows}
+      activeCount={activeCount}
+      missedCount={missedCount}
+      takenCount={takenCount}
+      scheduleId={scheduleId}
+      scheduleCode={scheduleCode}
+      schedulePatient={schedulePatient}
+      scheduleMedicine={scheduleMedicine}
+      scheduleDosage={scheduleDosage}
+      scheduleMeal={scheduleMeal}
+      scheduleDetail={scheduleDetail}
+      schedulePrescription={schedulePrescription}
+      scheduleTimeEntries={scheduleTimeEntries}
+      firstScheduleTime={firstScheduleTime}
+      sessionFromTime={sessionFromTime}
+      reminderAvailability={reminderAvailability}
+      reminderDisplayStatus={reminderDisplayStatus}
+      reminderSendStatus={reminderSendStatus}
+      onExportExcel={exportExcel}
+      onCreateSchedule={() => navigate('/prescriptions')}
+      onSetParams={setParams}
+      onStatusFilterChange={setStatusFilter}
+      onSessionFilterChange={setSessionFilter}
+      onRefetch={refetch}
+      onViewSchedule={(id, patient) => navigate(`/schedules/${id}`, { state: { patientId: patient.patient_id } })}
+      onEditSchedule={(prescription, detail) =>
+        navigate('/schedules', {
+          state: {
+            mode: 'createFromPrescription',
+            prescriptionId: prescription.prescription_id,
+            prescriptionDetailId: detail.prescription_detail_id,
+          },
+        })
+      }
+      onCancelSchedule={setCanceling}
+      onSendReminder={sendReminder}
+      onCloseCancel={() => setCanceling(null)}
+      onConfirmCancel={confirmCancel}
+      onCloseToast={() => setToast(null)}
+    />
   )
 }

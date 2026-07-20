@@ -47,57 +47,6 @@
   box-shadow: none;
 }
 
-.report-patient-input-wrap {
-  overflow: hidden;
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
-  background: #fff;
-}
-
-.reminder-report-actions label.has-error .report-patient-input-wrap {
-  border-color: #ef4444;
-}
-
-.report-patient-dropdown {
-  display: grid;
-  max-height: 168px;
-  overflow-y: auto;
-  background: #fff;
-}
-
-.report-patient-dropdown button {
-  display: grid;
-  gap: 2px;
-  width: 100%;
-  border: 0;
-  border-bottom: 1px solid #edf0f2;
-  background: #fff;
-  color: #111827;
-  padding: 9px 12px;
-  text-align: left;
-}
-
-.report-patient-dropdown button:hover,
-.report-patient-dropdown button.active {
-  background: #f2fbfd;
-}
-
-.report-patient-dropdown button strong {
-  color: #00405c;
-  font-size: 13px;
-}
-
-.report-patient-dropdown button span,
-.report-patient-dropdown p {
-  margin: 0;
-  color: #6b7280;
-  font-size: 12px;
-}
-
-.report-patient-dropdown p {
-  padding: 10px 12px;
-}
-
 .patient-advanced-filters {
   display: flex;
   flex-wrap: wrap;

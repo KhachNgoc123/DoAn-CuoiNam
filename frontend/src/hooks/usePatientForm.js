@@ -1,15 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+﻿import { useEffect, useMemo, useRef, useState } from 'react'
 import { getProvinceDetail, getProvinces } from "../api/provincesApi";
 import { getList } from "../api/resources";
-import { toApiDateValue, toCompactDateInputValue } from "../utils/formatters";
-import { isValidPhone, normalizePhoneInput } from "../utils/phone";
+import { toCompactDateInputValue } from "../utils/formatters";
+import { normalizePhoneInput } from "../utils/phone";
 import {
-  normalizeFullName,
   normalizeGender,
-  normalizeAddressValue,
   validatePatient,
   formatBirthDateInput,
-  isFutureApiDate,
 } from "../utils/patientValidation";
 
 import {
@@ -24,9 +21,7 @@ import {
 
 export default function usePatientForm({
   initialValue = {},
-  loading,
   onSubmit,
-  onCancel,
 }) {
   const [form, setForm] = useState({
     full_name: initialValue.full_name || '',
@@ -173,13 +168,12 @@ const provinceSuggestions = useMemo(() => {
       .slice(0, 8)
   }, [form.allergy, patientSuggestions.allergies])
 
-  //hàm xử lí 
   function changePhone(value) {
     const phone = normalizePhoneInput(value)
     setForm((current) => ({ ...current, phone }))
     setFieldErrors((current) => ({
       ...current,
-      phone: phone.length > 0 && phone.length < 10 ? 'Số điện thoại chưa đủ 10 chữ số.' : '',
+      phone: phone.length > 0 && phone.length < 10 ? 'Sá»‘ Ä‘iá»‡n thoáº¡i chÆ°a Ä‘á»§ 10 chá»¯ sá»‘.' : '',
     }))
   }
   function changeBirthDate(value) {
@@ -294,23 +288,6 @@ const provinceSuggestions = useMemo(() => {
 
   function submit(event) {
     event.preventDefault()
-    const fullName = normalizeFullName(form.full_name)
-    const phone = normalizePhoneInput(form.phone)
-    const birthDate = toApiDateValue(form.date_of_birth || '')
-    const address = normalizeAddressValue(form.address)
-    const birthDateError = !birthDate
-      ? 'Ngày sinh phải nhập đúng định dạng dd/mm/yyyy.'
-      : isFutureApiDate(birthDate)
-        ? 'Ngày sinh không được lớn hơn ngày hiện tại.'
-        : ''
-    // const nextErrors = {
-    //   full_name: fullName ? '' : 'Vui lòng nhập họ tên.',
-    //   gender: form.gender ? '' : 'Vui lòng chọn giới tính.',
-    //   date_of_birth: birthDateError,
-    //   phone: isValidPhone(phone) ? '' : 'Số điện thoại chưa đủ 10 chữ số.',
-    //   address: address ? '' : 'Vui lòng nhập địa chỉ.',
-    // }
-    //sua ở dâyd
      const result = validatePatient(form)
     setFieldErrors(result.errors)
     if (!result.isValid) return
