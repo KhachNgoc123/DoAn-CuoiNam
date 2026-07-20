@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
+use App\Models\Doctor;
 use App\Services\DoctorToken;
 use Closure;
 use Illuminate\Http\Request;

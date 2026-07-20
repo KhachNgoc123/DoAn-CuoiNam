@@ -33,7 +33,7 @@ import {
   todayApiDate,
 } from '../utils/medicationReminders'
 
-const ACTIVE_RECORD_MESSAGE =
+const ACTIVE_RECORD_MESSAGE ='Bệnh nhân đang có hồ sơ điều trị. Không thể tạo hồ sơ mới.'
   
 
 function InfoItem({ label, value }) {
@@ -193,14 +193,14 @@ function evaluateHealthMetric(metric) {
     const systolic = numbers[0]
     const diastolic = numbers[1]
     if (Number.isFinite(systolic) && Number.isFinite(diastolic)) {
-      if (systolic >= 140 || diastolic >= 90) return { status: 'warning', message: 'Cao hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
-      if (systolic < 90 || diastolic < 60) return { status: 'warning', message: 'Tháº¥p hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
+      if (systolic >= 140 || diastolic >= 90) return { status: 'warning', message: 'Cao hơn ngưỡng bình thường' }
+      if (systolic < 90 || diastolic < 60) return { status: 'warning', message: 'Thấp hơn ngưỡng bình thường' }
     }
   }
 
   if ((name.includes('nhip tim') || name.includes('heart')) && Number.isFinite(firstValue)) {
-    if (firstValue > 100) return { status: 'warning', message: 'Cao hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
-    if (firstValue < 60) return { status: 'warning', message: 'Tháº¥p hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
+    if (firstValue > 100) return { status: 'warning', message: 'Cao hơn ngưỡng bình thường' }
+    if (firstValue < 60) return { status: 'warning', message: 'Thấp hơn ngưỡng bình thường' }
   }
 
   if ((name.includes('nhiet do') || name.includes('temperature')) && Number.isFinite(firstValue)) {
@@ -229,7 +229,7 @@ function HealthMetricDialog({ metric, onClose }) {
         <div className="dialog-header">
           <div>
             <span>Chi tiáº¿t chá»‰ sá»‘ sá»©c khá»e</span>
-            <h2>{metric.health_type?.health_type_name || 'Chá»‰ sá»‘ sá»©c khá»e'}</h2>
+            <h2>{metric.health_type?.health_type_name || 'Chỉ số sức khỏe'}</h2>
           </div>
           <button className="icon-button" title="ÄÃ³ng" onClick={onClose}>
             Ã—
@@ -267,11 +267,13 @@ export default function PatientDetailPage() {
             setLoading(true);
             setError("");
 
-            const patient = await getPatient(id);
+           const patient = await getPatient(id);
 
-            if (active) {
-                setPatient(patient);
-            }
+console.log("Patient:", patient);
+
+if (active) {
+    setPatient(patient);
+}
         } catch (error) {
             if (active) {
                 setError(getErrorMessage(error));
@@ -322,13 +324,13 @@ export default function PatientDetailPage() {
     [records],
   )
   const currentStatus = activeTreatmentRecord ? 'Äang Ä‘iá»u trá»‹' : records.length ? 'HoÃ n thÃ nh Ä‘iá»u trá»‹' : 'Theo dÃµi Ä‘á»‹nh ká»³'
-
+//4 tab
   const detailTabs = [
-    { key: 'personal', label: 'ThÃ´ng tin cÃ¡ nhÃ¢n' },
-    { key: 'prescriptions', label: 'Toa thuá»‘c' },
-    { key: 'schedules', label: 'Lá»‹ch uá»‘ng thuá»‘c' },
-    { key: 'health', label: 'ThÃ´ng tin sá»©c khá»e' },
-    { key: 'records', label: 'Há»“ sÆ¡ bá»‡nh Ã¡n' },
+    { key: 'personal', label: 'Thông tin cá nhân' },
+    { key: 'prescriptions', label: 'Toa thuốc' },
+    { key: 'schedules', label: 'Lịch uống thuốc' },
+    { key: 'health', label: 'Thông tin sức khỏe' },
+    { key: 'records', label: 'Hồ sơ bệnh án' },
     
   ]
 
@@ -414,32 +416,32 @@ export default function PatientDetailPage() {
           </nav>
 
           {activeSection === 'personal' && (
-            <Section title="ThÃ´ng tin cÃ¡ nhÃ¢n">
+            <Section title="Thông tin cá nhân">
               <div className="patient-profile-grid">
-                <InfoItem label="Há» tÃªn" value={patient.full_name} />
-                <InfoItem label="Giá»›i tÃ­nh" value={formatGender(patient.gender)} />
-                <InfoItem label="NgÃ y sinh" value={formatDate(patient.date_of_birth)} />
-                <InfoItem label="Sá»‘ Ä‘iá»‡n thoáº¡i" value={patient.phone} />
-                <InfoItem label="Äá»‹a chá»‰" value={patient.address} />
-                <InfoItem label="Tráº¡ng thÃ¡i Ä‘iá»u trá»‹" value={currentStatus} />
-                <InfoItem label="Bá»‡nh ná»n" value={patientChronicDiseaseText(patient)} />
-                <InfoItem label="Dá»‹ á»©ng thuá»‘c" value={patientAllergyText(patient)} />
+                <InfoItem label="Họ Tên" value={patient.full_name} />
+                <InfoItem label="Giới tính" value={formatGender(patient.gender)} />
+                <InfoItem label="Ngày Sinh" value={formatDate(patient.date_of_birth)} />
+                <InfoItem label="Số điện thoại" value={patient.phone} />
+                <InfoItem label="Địa chỉ" value={patient.address} />
+                <InfoItem label="Trạng Thái" value={currentStatus} />
+                <InfoItem label="Bệnh nền " value={patientChronicDiseaseText(patient)} />
+                <InfoItem label="Dị ứng" value={patientAllergyText(patient)} />
               </div>
             </Section>
           )}
 
           {activeSection === 'prescriptions' && (
-            <Section title="Toa thuá»‘c">
+            <Section title="Toa thuốc">
               {prescriptions.length ? (
                 <div className="patient-detail-table-wrap">
                   <table>
                     <thead>
                       <tr>
-                        <th>MÃ£ Ä‘Æ¡n</th>
-                        <th>NgÃ y kÃª</th>
-                        <th>Tráº¡ng thÃ¡i</th>
-                        <th>Sá»‘ thuá»‘c</th>
-                        <th>Thao tÃ¡c</th>
+                        <th>Mã toa</th>
+                        <th>Ngày khám</th>
+                        <th>Trạng thái</th>
+                        <th>Sá»‘ </th>
+                        <th>Thao tác</th>
                       </tr>
                     </thead>
                     <tbody>

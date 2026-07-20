@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\DoctorNotificationController;
 use App\Http\Controllers\Api\HealthMetricController;
 use App\Http\Controllers\Api\MedicalRecordAttachmentController;
-use App\Http\Controllers\Api\MedicalRecordController;
+use App\Http\Controllers\MedicalRecordController;
 use App\Http\Controllers\Api\MedicationReminderLogController;
 use App\Http\Controllers\Api\MedicationScheduleController;
 use App\Http\Controllers\Api\MedicationReactionController;
@@ -41,7 +41,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('dashboard', DashboardController::class);
     Route::get('doctor-notifications', [DoctorNotificationController::class, 'index']);
     Route::post('doctor-notifications/{doctorNotification}/action', [DoctorNotificationController::class, 'action']);
-
+                            // ----------------DANH SÁCH BỆNH NHÂN--------------------
     //hiển thị ds bệnh nhân
     Route::get('patients', [PatientController::class, 'index']);
     //thêm bệnh nhân
@@ -52,10 +52,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('patient-suggestions', [PatientController::class, 'patientSuggestions']);
     //xem chi tiết bệnh nhân
     Route::get('patients/{id}', [PatientController::class, 'show']);
-  
-    Route::post('patients/{patient}/delete', [PatientController::class, 'destroy']);
 
+                                // -----------------HỒ SƠ BỆNH ÁN ---------------------------
+    //hiển thị danh sách hồ sơ bệnh án 
     Route::get('medical-records', [MedicalRecordController::class, 'index']);
+    
     Route::get('medical-record-suggestions', [MedicalRecordController::class, 'suggestions']);
     Route::post('medical-records', [MedicalRecordController::class, 'store']);
     Route::get('medical-records/{medicalRecord}', [MedicalRecordController::class, 'show']);

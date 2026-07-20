@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\MedicalRecord;
 use App\Models\Patient;
-use App\Models\User;
+use App\Models\Doctor;
 use Illuminate\Database\Eloquent\Builder;
 
 class DoctorRecordScope

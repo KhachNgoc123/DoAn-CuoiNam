@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Doctor;
 use Illuminate\Database\Eloquent\Model;
 
 class MedicalRecord extends Model
@@ -16,11 +16,12 @@ class MedicalRecord extends Model
 
     protected $table = 'medical_records';
     protected $primaryKey = 'record_id';
-    protected $fillable = ['patient_id', 'doctor_id', 'diagnosis_id', 'visit_date', 'chief_complaint', 'symptoms', 'diagnosis', 'medical_history', 'allergy', 'treatment_plan', 'doctor_note', 'next_visit_date', 'note', 'status'];
+    protected $fillable = ['patient_id', 'doctor_id', 'diagnosis_id','note', 'status'];
     protected $appends = ['id'];
+    
     public function getIdAttribute(): int { return $this->record_id; }
 
-    protected $casts = ['visit_date' => 'date', 'next_visit_date' => 'date'];
+    protected $casts = ['visit_date' => 'date'];
 
     public function isInTreatment(): bool
     {
@@ -60,7 +61,7 @@ class MedicalRecord extends Model
 
     public function doctor()
     {
-        return $this->belongsTo(User::class, 'doctor_id', 'doctor_id');
+        return $this->belongsTo(Doctor::class, 'doctor_id', 'doctor_id');
     }
 
     public function documents()
