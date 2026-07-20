@@ -1,7 +1,15 @@
-html {
-  background: #f4f7fb;
-}
-
-#root {
-  min-height: 100vh;
-}
+@import "./styles/variables.css";
+@import "./styles/global.css";
+@import "./styles/layout.css";
+@import "./styles/components.css";
+@import "./styles/login.css";
+@import "./styles/dashboard.css";
+@import "./styles/patients.css";
+@import "./styles/medical-record.css";
+@import "./styles/prescription.css";
+@import "./styles/schedule.css";
+@import "./styles/health.css";
+@import "./styles/reports.css";
+@import "./styles/account.css";
+@import "./styles/utilities.css";
+@import "./styles/overrides.css";

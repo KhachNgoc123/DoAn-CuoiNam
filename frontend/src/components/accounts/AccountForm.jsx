@@ -61,22 +61,16 @@ export default function AccountForm({ initialValue, loading, onSubmit, onCancel,
       <div className="doctor-edit-main">
         <aside className="doctor-edit-avatar-panel">
           <div className="doctor-edit-avatar-label">Ảnh đại diện</div>
-          <AvatarPicker
-            avatar={form.avatar}
-            name={form.full_name}
-            onChange={(avatar) => set('avatar', avatar)}
-          />
+          <AvatarPicker avatar={form.avatar} name={form.full_name} onChange={(avatar) => set('avatar', avatar)} />
         </aside>
 
         <Section title="Thông tin cá nhân">
           <div className="doctor-edit-grid">
-          <InfoRow label="Mã bác sĩ">{initialValue?.doctor_id ? `BS${String(initialValue.doctor_id).padStart(3, '0')}` : '-'}</InfoRow>
+            <InfoRow label="Mã bác sĩ">
+              {initialValue?.doctor_id ? `BS${String(initialValue.doctor_id).padStart(3, '0')}` : '-'}
+            </InfoRow>
             <Field label="Họ và tên" required>
-              <input
-                value={form.full_name}
-                onChange={(event) => set('full_name', event.target.value)}
-                required
-              />
+              <input value={form.full_name} onChange={(event) => set('full_name', event.target.value)} required />
             </Field>
             <Field label="Giới tính">
               <div className="doctor-edit-radio-group">
@@ -110,19 +104,10 @@ export default function AccountForm({ initialValue, loading, onSubmit, onCancel,
               </select>
             </Field>
             <Field label="Số điện thoại" required>
-              <input
-                value={form.phone}
-                onChange={(event) => set('phone', event.target.value)}
-                required
-              />
+              <input value={form.phone} onChange={(event) => set('phone', event.target.value)} required />
             </Field>
             <Field label="Email" required>
-              <input
-                type="email"
-                value={form.email}
-                onChange={(event) => set('email', event.target.value)}
-                required
-              />
+              <input type="email" value={form.email} onChange={(event) => set('email', event.target.value)} required />
             </Field>
             <Field label="Địa chỉ" span={2}>
               <textarea value={form.address} onChange={(event) => set('address', event.target.value)} />

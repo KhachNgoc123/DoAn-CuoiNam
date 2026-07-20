@@ -1,0 +1,272 @@
+/* Design tokens and shared theme values. */
+
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+:root {
+  --bg: #f5f7fb;
+  --panel: #ffffff;
+  --ink: #172033;
+  --muted: #64748b;
+  --line: #dbe4ef;
+  --soft: #f8fafc;
+  --teal: #0f766e;
+  --teal-dark: #115e59;
+  --blue: #2563eb;
+  --red: #dc2626;
+  --amber: #b45309;
+  --sidebar: #14213d;
+  --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+  --font-main: "Be Vietnam Pro", Arial, sans-serif;
+  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+  --font-print: "Be Vietnam Pro", Arial, sans-serif;
+}
+
+/* =====================================================
+   FINAL SIDEBAR + AUTH RESTORE
+   - Sidebar fixed/sticky, even item sizes, all actions visible
+   - Login/Forgot password restored to compact centered card
+   ===================================================== */
+
+:root {
+  --mc-sidebar-width-final: 260px;
+  --mc-topbar-height-final: 72px;
+}
+
+/* MEDICONTROL visual theme based on the provided reference */
+
+:root {
+  --bg: #f8fafc;
+  --panel: #ffffff;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --soft: #f1f5f9;
+  --teal: #0284c7;
+  --teal-dark: #0369a1;
+  --blue: #0284c7;
+  --red: #ef4444;
+  --amber: #f59e0b;
+  --sidebar: #0f172a;
+  --shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+  --font-main: "Be Vietnam Pro", Arial, sans-serif;
+  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+}
+
+/* MediControl Pro interface theme from the provided reference */
+
+:root {
+  --nav: #101d31;
+  --nav2: #172842;
+  --blue: #1687f8;
+  --cyan: #12b5cb;
+  --green: #17b878;
+  --amber: #f59e0b;
+  --red: #ef4a5a;
+  --ink: #192438;
+  --muted: #718096;
+  --line: #e4eaf1;
+  --bg: #f4f7fb;
+  --card: #fff;
+  --panel: #fff;
+  --soft: #edf3fa;
+  --teal: #1687f8;
+  --teal-dark: #0f72d4;
+  --sidebar: #fff;
+  --shadow: 0 10px 30px rgba(29, 53, 87, 0.08);
+  --r: 18px;
+  --font-main: "Be Vietnam Pro", Arial, sans-serif;
+  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+}
+
+/* -------------------------------------------------------------------------- */
+
+/* MediControl Pro rebuild layer                                               */
+
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --mc-nav: #101d31;
+  --mc-nav-2: #172842;
+  --mc-blue: #1687f8;
+  --mc-blue-dark: #0b75dc;
+  --mc-cyan: #12b5cb;
+  --mc-green: #17b878;
+  --mc-amber: #f59e0b;
+  --mc-red: #ef4a5a;
+  --mc-ink: #192438;
+  --mc-muted: #718096;
+  --mc-line: #e4eaf1;
+  --mc-bg: #f4f7fb;
+  --mc-card: #ffffff;
+  --mc-soft: #f8fafd;
+  --mc-shadow: 0 10px 30px rgba(29, 53, 87, 0.08);
+  --mc-radius: 18px;
+  --font-main: "Be Vietnam Pro", Arial, sans-serif;
+}
+
+/* 80% density scale pass */
+
+:root {
+  --ui-scale: 0.8;
+}
+
+/* Final reference sizing: match the provided 1920px mockups without requiring browser zoom */
+
+:root {
+  --ref-sidebar: clamp(260px, 17.2vw, 330px);
+  --ref-page-x: clamp(22px, 1.9vw, 36px);
+  --ref-page-y: clamp(22px, 2.2vw, 42px);
+  --ref-card-radius: 18px;
+  --ref-row-gap: clamp(18px, 1.5vw, 28px);
+}
+
+/* Full-screen compact layout from provided style file */
+
+:root {
+  --compact-sidebar: 240px;
+  --compact-topbar: 64px;
+  --compact-bg: #f4f7fb;
+  --compact-line: #e4eaf1;
+  --compact-ink: #192438;
+  --compact-muted: #718096;
+  --compact-blue: #1687f8;
+}
+
+/* Final typography system from provided font-size file */
+
+:root {
+  --font-main: "Be Vietnam Pro", Arial, sans-serif;
+  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+  --font-8: 8px;
+  --font-9: 9px;
+  --font-10: 10px;
+  --font-11: 11px;
+  --font-12: 12px;
+  --font-13: 13px;
+  --font-14: 14px;
+  --font-16: 16px;
+  --font-18: 18px;
+  --font-20: 20px;
+  --font-22: 22px;
+  --font-24: 24px;
+  --font-28: 28px;
+  --font-42: 42px;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --weight-black: 900;
+  --text-primary: #192438;
+  --text-secondary: #536176;
+  --text-muted: #718096;
+  --text-light: #9aa8ba;
+  --text-white: #ffffff;
+  --primary: #1687f8;
+  --primary-dark: #0871d9;
+  --primary-light: #eaf4ff;
+  --success: #17b878;
+  --success-dark: #087a50;
+  --success-light: #e9faf3;
+  --warning: #f59e0b;
+  --warning-dark: #a96600;
+  --warning-light: #fff7e7;
+  --danger: #ef4a5a;
+  --danger-dark: #c83043;
+  --danger-light: #fff0f2;
+  --background: #f4f7fb;
+  --surface: #ffffff;
+  --surface-secondary: #f7f9fc;
+  --border: #e4eaf1;
+  --radius-small: 8px;
+  --radius-medium: 10px;
+  --radius-large: 14px;
+  --radius-card: 16px;
+  --line-tight: 1.2;
+  --line-normal: 1.5;
+  --line-relaxed: 1.65;
+}
+
+/* Restore layout/style before the last compact typography import */
+
+:root {
+  --font-main: "Be Vietnam Pro", Arial, sans-serif;
+  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+  --ref-sidebar: clamp(260px, 17.2vw, 330px);
+  --ref-page-x: clamp(22px, 1.9vw, 36px);
+  --ref-page-y: clamp(22px, 2.2vw, 42px);
+  --ref-card-radius: 18px;
+  --ref-row-gap: clamp(18px, 1.5vw, 28px);
+}
+
+/* Typography scale requested by user */
+
+:root {
+  --font-main: "Be Vietnam Pro", Arial, sans-serif;
+  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+}
+
+/* Detailed typography specification requested by user */
+
+:root {
+  --font-main: "Be Vietnam Pro", Arial, sans-serif;
+  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+  --font-print: "Be Vietnam Pro", Arial, sans-serif;
+  --font-8: 8px;
+  --font-9: 9px;
+  --font-10: 10px;
+  --font-11: 11px;
+  --font-12: 12px;
+  --font-13: 13px;
+  --font-14: 14px;
+  --font-16: 16px;
+  --font-18: 18px;
+  --font-20: 20px;
+  --font-22: 22px;
+  --font-24: 24px;
+  --font-28: 28px;
+  --font-42: 42px;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+  --weight-black: 900;
+  --line-tight: 1.2;
+  --line-normal: 1.5;
+  --line-relaxed: 1.65;
+  --text-primary: #192438;
+  --text-secondary: #536176;
+  --text-muted: #718096;
+  --text-light: #9aa8ba;
+  --primary: #1687f8;
+  --primary-light: #eaf4ff;
+  --success-dark: #087a50;
+  --success-light: #e9faf3;
+  --warning-dark: #a96600;
+  --warning-light: #fff7e7;
+  --danger: #ef4a5a;
+  --danger-dark: #c83043;
+  --danger-light: #fff0f2;
+}
+
+/* =====================================================
+   FINAL READABILITY PASS: BIGGER TEXT + SIDEBAR LIKE REFERENCE
+   ===================================================== */
+
+:root {
+  --mc-sidebar-width-final: 300px;
+}
+
+/* Global typography normalization: Be Vietnam Pro across the whole app. */
+
+:root {
+  --font-main: "Be Vietnam Pro", Arial, sans-serif;
+  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+  --font-print: "Be Vietnam Pro", Arial, sans-serif;
+  --type-page-title: 24px;
+  --type-section-title: 18px;
+  --type-card-title: 16px;
+  --type-body: 14px;
+  --type-subtle: 12px;
+}

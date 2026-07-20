@@ -1,0 +1,7 @@
+/* Small utility classes and route-level helpers. */
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

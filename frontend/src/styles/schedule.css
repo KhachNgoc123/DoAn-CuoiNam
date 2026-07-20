@@ -1,0 +1,1467 @@
+/* Medication schedule list, detail, form, and reminder styles. */
+
+.schedule-day-panel,
+.health-history-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.schedule-summary-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.schedule-summary-card,
+.health-focus-card,
+.health-mini-stat,
+.health-metric-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--soft);
+}
+
+.schedule-summary-card {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+}
+
+.schedule-session-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.schedule-session-card {
+  display: grid;
+  gap: 7px;
+  min-height: 96px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.schedule-session-card:hover,
+.schedule-session-card.active {
+  border-color: var(--teal);
+  background: #eff6ff;
+}
+
+.schedule-session-card span,
+.schedule-session-card small {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.schedule-session-card strong {
+  color: var(--ink);
+  font-size: 20px;
+}
+
+.schedule-summary-card span,
+.health-focus-card span,
+.health-mini-stat span,
+.health-metric-card span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.schedule-summary-card strong,
+.health-mini-stat strong,
+.health-metric-card strong {
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.daily-schedule-list {
+  display: grid;
+  gap: 14px;
+}
+
+.schedule-toolbar-panel {
+  padding: 14px;
+}
+
+.schedule-toolbar-filters {
+  width: 100%;
+}
+
+.schedule-compliance-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  color: #596579;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.schedule-compliance-line strong {
+  color: #111827;
+  font-size: 18px;
+}
+
+.list-management-card .table-card,
+.list-management-card .daily-schedule-table-wrap {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.list-management-card .daily-schedule-table th,
+.list-management-card .daily-schedule-table td,
+.list-management-card .table-card th,
+.list-management-card .table-card td {
+  padding: 12px 14px;
+}
+
+.medication-schedule-table-wrap {
+  overflow-x: auto;
+}
+
+.medication-schedule-table {
+  min-width: 1040px;
+  table-layout: fixed;
+}
+
+.medication-schedule-table th,
+.medication-schedule-table td {
+  vertical-align: middle;
+}
+
+.medication-schedule-table th:nth-child(1),
+.medication-schedule-table td:nth-child(1) {
+  width: 56px;
+  text-align: center;
+}
+
+.medication-schedule-table th:nth-child(2),
+.medication-schedule-table td:nth-child(2) {
+  width: 92px;
+  text-align: center;
+}
+
+.medication-schedule-table th:nth-child(3),
+.medication-schedule-table td:nth-child(3) {
+  width: 190px;
+}
+
+.medication-schedule-table th:nth-child(4),
+.medication-schedule-table td:nth-child(4) {
+  width: 170px;
+}
+
+.medication-schedule-table th:nth-child(5),
+.medication-schedule-table td:nth-child(5),
+.medication-schedule-table th:nth-child(6),
+.medication-schedule-table td:nth-child(6) {
+  width: 96px;
+  text-align: center;
+}
+
+.medication-schedule-table th:nth-child(7),
+.medication-schedule-table td:nth-child(7),
+.medication-schedule-table th:nth-child(8),
+.medication-schedule-table td:nth-child(8) {
+  width: 122px;
+  text-align: center;
+}
+
+.medication-schedule-table th:nth-child(9),
+.medication-schedule-table td:nth-child(9) {
+  width: 168px;
+  text-align: center;
+}
+
+.medication-schedule-table td:nth-child(3),
+.medication-schedule-table td:nth-child(4) {
+  overflow-wrap: anywhere;
+}
+
+.medication-schedule-table .status-badge {
+  justify-content: center;
+  min-width: 88px;
+  white-space: nowrap;
+}
+
+.medication-schedule-table .table-actions {
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+.medication-schedule-table .icon-button.small {
+  width: 32px;
+  height: 32px;
+}
+
+.schedule-compact-detail-grid,
+.schedule-reminder-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 26px;
+}
+
+.schedule-compact-detail-grid > div,
+.schedule-reminder-summary > div {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  min-width: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.schedule-compact-detail-grid span,
+.schedule-reminder-summary span {
+  color: #596579;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.schedule-compact-detail-grid strong,
+.schedule-reminder-summary strong {
+  color: #111827;
+  overflow-wrap: anywhere;
+}
+
+.medication-schedules-page .page-header,
+.medication-schedules-page .list-management-toolbar,
+.medication-schedules-page .list-management-card,
+.medication-schedules-page .schedule-detail-summary-panel,
+.medication-schedules-page .schedule-reminder-action-panel {
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: none;
+}
+
+.medication-schedules-page .page-header {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+}
+
+.medication-schedules-page .page-header h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.medication-schedules-page .page-header h1::before {
+  content: "â°";
+  font-size: 22px;
+}
+
+.medication-schedules-page .page-actions,
+.medication-schedules-page .toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.medication-schedules-page .schedule-toolbar-panel {
+  padding: 14px;
+}
+
+.medication-schedules-page .toolbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.medication-schedules-page .toolbar-filters {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.medication-schedules-page .list-management-filters.schedule-toolbar-filters {
+  display: grid;
+  grid-template-columns: minmax(240px, 1.4fr) repeat(5, minmax(120px, 1fr));
+  align-items: end;
+  gap: 10px;
+  width: 100%;
+}
+
+.medication-schedules-page .list-management-filters.schedule-toolbar-filters > label {
+  min-width: 0;
+  max-width: none;
+}
+
+.medication-schedules-page .list-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.medication-schedules-page .list-stat-grid article {
+  min-height: 86px;
+  padding: 15px 16px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: none;
+}
+
+.medication-schedules-page .list-stat-grid span {
+  color: #404a5c;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.medication-schedules-page .list-stat-grid strong {
+  font-size: 26px;
+}
+
+.medication-schedules-page .list-management-card .panel-heading,
+.medication-schedules-page .schedule-detail-summary-panel .panel-heading,
+.medication-schedules-page .schedule-reminder-action-panel .panel-heading {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ececec;
+}
+
+.medication-schedules-page .panel-heading h2 {
+  margin: 0;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.medication-schedules-page .schedule-detail-summary-panel .panel-heading h2,
+.medication-schedules-page .schedule-reminder-action-panel .panel-heading h2 {
+  text-transform: none;
+}
+
+.medication-schedules-page .schedule-detail-summary-panel .panel-heading h2::before {
+  content: "ðŸ‘¤ ";
+}
+
+.medication-schedules-page .schedule-detail-summary-panel .panel-heading p {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.schedule-detail-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.medication-schedules-page .schedule-reminder-action-panel .panel-heading h2::before {
+  content: "ðŸ”” ";
+}
+
+.medication-schedules-page .list-management-card:last-of-type .panel-heading h2::before {
+  content: "ðŸ“œ ";
+}
+
+.medication-schedules-page .medication-schedule-table {
+  width: 100%;
+  min-width: 1120px;
+  table-layout: fixed;
+}
+
+.medication-schedules-page .medication-schedule-table th,
+.medication-schedules-page .medication-schedule-table td {
+  padding: 12px 10px;
+}
+
+.medication-schedules-page .medication-schedule-table th:nth-child(1),
+.medication-schedules-page .medication-schedule-table td:nth-child(1) {
+  width: 48px;
+}
+
+.medication-schedules-page .medication-schedule-table th:nth-child(2),
+.medication-schedules-page .medication-schedule-table td:nth-child(2) {
+  width: 82px;
+}
+
+.medication-schedules-page .medication-schedule-table th:nth-child(3),
+.medication-schedules-page .medication-schedule-table td:nth-child(3) {
+  width: 190px;
+}
+
+.medication-schedules-page .medication-schedule-table th:nth-child(4),
+.medication-schedules-page .medication-schedule-table td:nth-child(4) {
+  width: 170px;
+}
+
+.medication-schedules-page .medication-schedule-table th:nth-child(5),
+.medication-schedules-page .medication-schedule-table td:nth-child(5),
+.medication-schedules-page .medication-schedule-table th:nth-child(6),
+.medication-schedules-page .medication-schedule-table td:nth-child(6) {
+  width: 88px;
+}
+
+.medication-schedules-page .medication-schedule-table th:nth-child(7),
+.medication-schedules-page .medication-schedule-table td:nth-child(7),
+.medication-schedules-page .medication-schedule-table th:nth-child(8),
+.medication-schedules-page .medication-schedule-table td:nth-child(8) {
+  width: 116px;
+}
+
+.medication-schedules-page .medication-schedule-table th:nth-child(9),
+.medication-schedules-page .medication-schedule-table td:nth-child(9) {
+  width: 144px;
+}
+
+.medication-schedules-page .schedule-compact-detail-grid,
+.medication-schedules-page .schedule-reminder-summary {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 40px;
+}
+
+.medication-schedules-page .schedule-compact-detail-grid > div,
+.medication-schedules-page .schedule-reminder-summary > div {
+  grid-template-columns: 138px minmax(0, 1fr);
+  padding: 0;
+  border-bottom: 0;
+}
+
+.medication-schedules-page .schedule-compact-detail-grid span,
+.medication-schedules-page .schedule-reminder-summary span {
+  color: #404a5c;
+}
+
+.medication-schedules-page .centered-actions {
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.schedule-simple-header {
+  display: grid;
+  gap: 14px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.schedule-simple-header h1 {
+  margin: 0;
+  padding: 0 0 14px;
+  border-bottom: 1px solid #ececec;
+  color: #111827;
+  font-size: 22px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.schedule-simple-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.medication-schedules-page .list-management-filters.schedule-toolbar-filters {
+  grid-template-columns: minmax(260px, 1.5fr) minmax(160px, 0.8fr) minmax(160px, 0.8fr);
+}
+
+.simple-medication-schedule-table {
+  min-width: 920px !important;
+}
+
+.medication-schedules-page .simple-medication-schedule-table th:nth-child(1),
+.medication-schedules-page .simple-medication-schedule-table td:nth-child(1) {
+  width: 56px;
+  text-align: center;
+}
+
+.medication-schedules-page .simple-medication-schedule-table th:nth-child(2),
+.medication-schedules-page .simple-medication-schedule-table td:nth-child(2) {
+  width: 190px;
+  text-align: left;
+}
+
+.medication-schedules-page .simple-medication-schedule-table th:nth-child(3),
+.medication-schedules-page .simple-medication-schedule-table td:nth-child(3) {
+  width: auto;
+  text-align: left;
+}
+
+.medication-schedules-page .simple-medication-schedule-table th:nth-child(4),
+.medication-schedules-page .simple-medication-schedule-table td:nth-child(4) {
+  width: 150px;
+  text-align: center;
+}
+
+.medication-schedules-page .simple-medication-schedule-table th:nth-child(5),
+.medication-schedules-page .simple-medication-schedule-table td:nth-child(5) {
+  width: 140px;
+  text-align: center;
+}
+
+.medication-schedules-page .simple-medication-schedule-table th:nth-child(6),
+.medication-schedules-page .simple-medication-schedule-table td:nth-child(6) {
+  width: 150px;
+  text-align: center;
+}
+
+.medication-schedules-page .simple-medication-schedule-table th:nth-child(7),
+.medication-schedules-page .simple-medication-schedule-table td:nth-child(7) {
+  width: 190px;
+  text-align: center;
+}
+
+.simple-medication-schedule-table td strong,
+.simple-medication-schedule-table td small {
+  display: block;
+}
+
+.simple-medication-schedule-table td small {
+  margin-top: 3px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.simple-medication-schedule-table .table-actions {
+  justify-content: center;
+}
+
+.simple-medication-schedule-table .danger-icon-button {
+  color: #dc2626;
+}
+
+.simple-medication-schedule-table .danger-icon-button:hover {
+  border-color: rgba(220, 38, 38, 0.35);
+  color: #b91c1c;
+  background: #fff1f2;
+}
+
+.schedule-time-edit-field {
+  display: grid !important;
+  gap: 5px !important;
+}
+
+.schedule-preview-list {
+  display: grid;
+  gap: 8px;
+}
+
+.schedule-preview-list > div {
+  display: grid;
+  grid-template-columns: 100px 70px minmax(0, 1fr);
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.schedule-preview-list span,
+.schedule-preview-list small {
+  color: #596579;
+  font-weight: 800;
+}
+
+.schedule-preview-list strong {
+  color: #111827;
+}
+
+.schedule-preview-total {
+  color: #0f7f75;
+  font-size: 16px;
+}
+
+.schedule-update-dialog {
+  display: grid;
+  gap: 16px;
+  width: min(760px, calc(100vw - 32px));
+}
+
+.schedule-update-dialog .centered-heading {
+  justify-content: center;
+  text-align: center;
+  border-bottom: 1px solid #ececec;
+}
+
+.schedule-update-dialog .centered-heading h2 {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.schedule-update-readonly {
+  display: grid;
+  gap: 10px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ececec;
+}
+
+.schedule-update-readonly h3 {
+  margin: 0;
+  color: #596579;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.schedule-update-readonly p {
+  margin: 0 0 6px;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.schedule-update-readonly small {
+  color: #64748b;
+  font-weight: 800;
+}
+
+.schedule-update-readonly > div {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 8px 12px;
+  margin-top: 4px;
+}
+
+.schedule-update-readonly span {
+  color: #596579;
+  font-weight: 900;
+}
+
+.schedule-update-readonly strong {
+  color: #111827;
+}
+
+.schedule-update-edit-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.schedule-update-edit-grid .wide-field {
+  grid-column: 1 / -1;
+}
+
+.schedule-section-tabs {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.schedule-summary-compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.daily-schedule-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.daily-schedule-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #ffffff, #f8fafc);
+}
+
+.daily-schedule-head h2 {
+  margin: 3px 0;
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+.daily-schedule-head span,
+.daily-schedule-head p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.daily-schedule-head span {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.daily-schedule-badges {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 8px;
+  text-align: right;
+}
+
+.daily-schedule-badges strong {
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: #075985;
+  background: #e0f2fe;
+}
+
+.daily-schedule-badges span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--teal-dark);
+  text-transform: none;
+}
+
+.daily-schedule-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.daily-schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.daily-schedule-table th,
+.daily-schedule-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.daily-schedule-table th {
+  color: #334155;
+  background: #f1f5f9;
+  font-size: 13px;
+}
+
+.daily-schedule-table td {
+  font-size: 14px;
+}
+
+.daily-schedule-table td strong,
+.daily-schedule-table td small {
+  display: block;
+}
+
+.daily-schedule-table td small {
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+.daily-schedule-table th:nth-child(1),
+.daily-schedule-table td:nth-child(1) {
+  width: 32%;
+}
+
+.daily-schedule-table th:nth-child(2),
+.daily-schedule-table td:nth-child(2),
+.daily-schedule-table th:nth-child(3),
+.daily-schedule-table td:nth-child(3) {
+  width: 18%;
+}
+
+.daily-schedule-table th:nth-child(4),
+.daily-schedule-table td:nth-child(4),
+.daily-schedule-table th:nth-child(5),
+.daily-schedule-table td:nth-child(5) {
+  width: 16%;
+}
+
+.daily-schedule-table th:nth-child(6),
+.daily-schedule-table td:nth-child(6) {
+  width: 10%;
+}
+
+.daily-schedule-table {
+  min-width: 960px;
+  table-layout: auto;
+}
+
+.daily-schedule-table th:nth-child(1),
+.daily-schedule-table td:nth-child(1) {
+  width: 56px;
+}
+
+.daily-schedule-table th:nth-child(2),
+.daily-schedule-table td:nth-child(2) {
+  width: 22%;
+}
+
+.daily-schedule-table th:nth-child(3),
+.daily-schedule-table td:nth-child(3),
+.daily-schedule-table th:nth-child(4),
+.daily-schedule-table td:nth-child(4),
+.daily-schedule-table th:nth-child(5),
+.daily-schedule-table td:nth-child(5),
+.daily-schedule-table th:nth-child(6),
+.daily-schedule-table td:nth-child(6),
+.daily-schedule-table th:nth-child(7),
+.daily-schedule-table td:nth-child(7),
+.daily-schedule-table th:nth-child(8),
+.daily-schedule-table td:nth-child(8) {
+  width: auto;
+}
+
+/* Medication schedule page refresh */
+
+.medication-schedules-page {
+  gap: 18px;
+}
+
+.medication-schedules-page .page-header {
+  border-color: #d9e2ec;
+  background: #fff;
+}
+
+.medication-schedules-page .page-header p {
+  max-width: 720px;
+}
+
+.medication-schedules-page .schedule-toolbar-panel {
+  padding: 16px;
+  border-color: #d9e2ec;
+}
+
+.medication-schedules-page .schedule-toolbar-panel .toolbar {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.4fr) minmax(320px, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.medication-schedules-page .schedule-toolbar-panel .search-input {
+  min-width: 0;
+  width: 100%;
+}
+
+.medication-schedules-page .schedule-toolbar-panel .toolbar-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.medication-schedules-page .schedule-toolbar-panel .toolbar-actions {
+  align-self: end;
+  margin-left: 0;
+}
+
+.medication-schedules-page .schedule-toolbar-panel .filter-field input,
+.medication-schedules-page .schedule-toolbar-panel .filter-field select {
+  min-height: 42px;
+}
+
+.medication-schedules-page .schedule-stat-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.medication-schedules-page .schedule-stat-grid article {
+  border-color: #d9e2ec;
+  background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+}
+
+.medication-schedules-page .schedule-stat-grid strong {
+  color: #0f766e;
+}
+
+.medication-schedules-page .list-management-card {
+  padding: 18px;
+  border-color: #d9e2ec;
+}
+
+.medication-schedules-page .list-management-card .panel-heading {
+  margin: -2px 0 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.medication-schedules-page .list-management-card .panel-heading h2 {
+  color: #111827;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.medication-schedules-page .list-management-card .panel-heading span {
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.medication-schedules-page .list-management-card .table-card {
+  margin: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.medication-schedules-page .list-management-card th {
+  background: #f8fafc;
+  color: #334155;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.medication-schedules-page .list-management-card td {
+  vertical-align: middle;
+}
+
+.medication-schedules-page .list-management-card .table-actions {
+  justify-content: center;
+  gap: 8px;
+}
+
+.medication-schedules-page .small-button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.medication-schedules-page .small-button:disabled {
+  cursor: not-allowed;
+  color: #94a3b8;
+  background: #f1f5f9;
+}
+
+.medication-schedules-page .cell-stack {
+  display: grid;
+  gap: 3px;
+}
+
+.medication-schedules-page .cell-stack small {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (max-width: 1180px) {
+  .medication-schedules-page .schedule-toolbar-panel .toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .medication-schedules-page .schedule-toolbar-panel .toolbar-actions {
+    justify-content: flex-start;
+  }
+
+  .medication-schedules-page .schedule-stat-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .medication-schedules-page .page-header {
+    grid-template-columns: 1fr;
+  }
+
+  .medication-schedules-page .schedule-toolbar-panel .toolbar-filters,
+  .medication-schedules-page .schedule-stat-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.medication-schedules-page .page-header,
+.medication-schedules-page .schedule-toolbar-panel,
+.medication-schedules-page .list-management-card {
+  border-radius: 20px;
+}
+
+.page-header,
+.medication-schedules-page .page-header {
+  gap: 12px;
+  padding: 14px 16px;
+}
+
+.panel-heading h2,
+.form-section h3,
+.medication-schedules-page .panel-heading h2 {
+  font-size: 16px;
+}
+
+.icon-button,
+.medication-schedule-table .icon-button.small {
+  width: 34px;
+  min-height: 34px;
+  height: 34px;
+}
+
+.daily-schedule-table {
+  min-width: 820px;
+}
+
+.medication-schedule-table,
+.medication-schedules-page .medication-schedule-table {
+  min-width: 980px;
+}
+
+.simple-medication-schedule-table {
+  min-width: 820px !important;
+}
+
+.medication-schedule-table,
+.medication-schedules-page .medication-schedule-table {
+  min-width: 860px;
+}
+
+.daily-schedule-table,
+.simple-medication-schedule-table {
+  min-width: 760px !important;
+}
+
+/* Schedule pages reference layout */
+
+.mc-schedules-page,
+.mc-schedule-detail-page {
+  padding: 38px 30px 56px 34px;
+}
+
+.mc-schedules-page .mc-list-hero,
+.mc-schedule-detail-page .mc-detail-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 74px;
+  margin-bottom: 26px;
+}
+
+.mc-schedules-page .mc-list-hero h1,
+.mc-schedule-detail-page .mc-detail-hero h1 {
+  margin: 0;
+  color: #061530;
+  font-size: 31px;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+.mc-schedules-page .mc-list-hero p,
+.mc-schedule-detail-page .mc-detail-hero p {
+  margin: 11px 0 0;
+  color: #637394;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.schedule-filter-card {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+  align-items: end;
+  padding: 27px 25px 25px;
+  margin-bottom: 24px;
+  border: 1px solid #dfe7f1;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.schedule-filter-card label {
+  display: grid;
+  gap: 10px;
+}
+
+.schedule-filter-card label > span {
+  color: #34435c;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.schedule-filter-card input,
+.schedule-filter-card select {
+  min-height: 54px;
+  border: 1px solid #dbe5f1;
+  border-radius: 12px;
+  padding: 0 18px;
+  background: #fff;
+  color: #061530;
+  font-size: 16px;
+}
+
+.schedule-filter-card .mc-search-button {
+  width: 232px;
+}
+
+.schedule-stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.schedule-stat-row article {
+  min-height: 108px;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  border: 1px solid #dfe7f1;
+  border-radius: 20px;
+  padding: 24px 22px;
+  background: #fff;
+}
+
+.schedule-stat-row span {
+  color: #637394;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.schedule-stat-row strong {
+  color: #061530;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.schedule-today-panel {
+  overflow: hidden;
+  border: 1px solid #dfe7f1;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 18px 36px rgba(34, 58, 96, 0.05);
+}
+
+.schedule-today-table-panel {
+  overflow: hidden;
+}
+
+.schedule-today-table-panel .schedule-today-table-wrap {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.schedule-today-head {
+  padding: 28px 25px 22px;
+}
+
+.schedule-today-head h2 {
+  margin: 0;
+  color: #061530;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.schedule-today-head p,
+.schedule-empty-line {
+  margin: 9px 0 0;
+  color: #637394;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.schedule-empty-line {
+  padding: 0 25px 28px;
+}
+
+.schedule-reminder-list {
+  display: grid;
+}
+
+.schedule-today-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  background: #fff;
+}
+
+.schedule-today-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+}
+
+.schedule-today-table th,
+.schedule-today-table td {
+  padding: 18px 20px;
+  border-bottom: 1px solid #e7edf5;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.schedule-today-table th {
+  color: #7a869b;
+  background: #f5f8fc;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.schedule-today-table td {
+  color: #061530;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.schedule-today-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.schedule-today-table .table-actions {
+  justify-content: center;
+}
+
+.schedule-today-table .icon-button {
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0;
+  border: 1px solid #e1e8f2;
+  background: #fff;
+}
+
+.schedule-today-table .schedule-table-empty {
+  padding: 24px 16px;
+  color: #637394;
+  text-align: center;
+  font-weight: 700;
+}
+
+.schedule-reminder-row {
+  display: grid;
+  grid-template-columns: 106px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 23px 20px 23px;
+  border-top: 1px solid #e5edf6;
+}
+
+.schedule-time-pill {
+  width: 106px;
+  min-height: 74px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 6px;
+  border-radius: 10px;
+  background: #eaf4ff;
+  color: #1687f8;
+}
+
+.schedule-time-pill strong {
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.schedule-time-pill span {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.schedule-reminder-main {
+  display: grid;
+  gap: 7px;
+}
+
+.schedule-reminder-main > strong {
+  color: #061530;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.schedule-reminder-main p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: #637394;
+  font-size: 16px;
+}
+
+.schedule-row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.schedule-row-actions .primary-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.schedule-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 486px;
+  gap: 24px;
+  align-items: start;
+}
+
+.schedule-detail-card {
+  border: 1px solid #dfe7f1;
+  border-radius: 20px;
+  background: #fff;
+  padding: 27px 25px;
+  box-shadow: 0 18px 36px rgba(34, 58, 96, 0.05);
+}
+
+.schedule-detail-card h2 {
+  margin: 0 0 22px;
+  color: #061530;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.schedule-detail-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.schedule-detail-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.schedule-detail-info-item {
+  min-height: 86px;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  border-radius: 14px;
+  padding: 18px 16px;
+  background: #f5f7fb;
+}
+
+.schedule-detail-info-item span {
+  color: #6c7a96;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.schedule-detail-info-item strong {
+  color: #061530;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.schedule-reminder-card .schedule-reminder-info {
+  display: grid;
+  gap: 14px;
+}
+
+.schedule-reminder-card .schedule-detail-info-item {
+  min-height: 86px;
+}
+
+.schedule-history-detail-card {
+  margin-top: 24px;
+}
+
+.schedule-history-list {
+  display: grid;
+  gap: 12px;
+}
+
+.schedule-history-row {
+  display: grid;
+  grid-template-columns: 46px 100px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #e5edf6;
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: #f8fafc;
+}
+
+.schedule-history-row span,
+.schedule-history-row strong {
+  color: #061530;
+  font-weight: 900;
+}
+
+.schedule-history-row small {
+  color: #637394;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (max-width: 1400px) {
+  .schedule-filter-card {
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+  }
+
+  .schedule-detail-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 980px) {
+  .mc-schedules-page,
+  .mc-schedule-detail-page {
+    padding: 20px;
+  }
+
+  .mc-schedules-page .mc-list-hero,
+  .mc-schedule-detail-page .mc-detail-hero,
+  .schedule-reminder-row {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .schedule-filter-card,
+  .schedule-stat-row,
+  .schedule-detail-info-grid,
+  .schedule-history-row {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-row-actions {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+.table-actions button,
+.schedule-row-actions button {
+  min-width: 42px !important;
+  min-height: 42px !important;
+  border-radius: 11px !important;
+  font-size: 14px !important;
+}
+
+.mc-detail-actions,
+.mc-hero-actions,
+.actions,
+.table-actions,
+.schedule-row-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  flex-wrap: wrap !important;
+}
+
+.table-actions button,
+.schedule-row-actions button {
+  min-width: 30px !important;
+  width: auto !important;
+  min-height: 30px !important;
+  padding: 0 9px !important;
+}
+
+.schedule-reminder-row,
+.schedule-card {
+  min-height: 62px !important;
+  padding: 10px 13px !important;
+  gap: 11px !important;
+}
+
+.table-actions button,
+.schedule-row-actions button {
+  min-width: 42px !important;
+  min-height: 42px !important;
+  border-radius: 11px !important;
+  font-size: 14px !important;
+}
+
+.table-actions button,
+.schedule-row-actions button,
+.icon-btn {
+  font-size: var(--font-10) !important;
+  font-weight: var(--weight-bold) !important;
+}

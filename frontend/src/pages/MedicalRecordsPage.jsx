@@ -1,18 +1,19 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { Eye, FileSpreadsheet, Pencil, Plus, RotateCcw, Search } from 'lucide-react'
 import useResourceList from '../api/useResourceList'
 import { createOne, getList, updateOne } from '../api/resources'
 import { getErrorMessage } from '../api/client'
-import StatusBadge from '../components/ui/StatusBadge'
-import Toast from '../components/ui/Toast'
-import MedicalRecordForm from '../components/medical-records/MedicalRecordForm'
+import MedicalRecordEntryView from '../components/medical-records/MedicalRecordEntryView'
+import MedicalRecordFilterBar from '../components/medical-records/MedicalRecordFilterBar'
+import MedicalRecordListHeader from '../components/medical-records/MedicalRecordListHeader'
+import MedicalRecordTable from '../components/medical-records/MedicalRecordTable'
 import PatientMedicalRecordsView from '../components/medical-records/PatientMedicalRecordsView'
-import PatientSearchBox from '../components/patients/PatientSearchBox'
+import Toast from '../components/ui/Toast'
 import { formatDate, isMedicalRecordInTreatmentStatus } from '../utils/formatters'
 import { clearActiveVisit, getActiveVisit, setActiveVisit } from '../utils/activeVisit'
 import { downloadStyledExcel } from '../utils/excelExport'
+import { formatRecordCode } from '../components/medical-records/medicalRecordHelpers'
 
 const ACTIVE_RECORD_MESSAGE =
   'Bệnh nhân đang có một hồ sơ điều trị. Vui lòng hoàn thành điều trị trước khi tạo hồ sơ bệnh án mới.'
@@ -35,10 +36,6 @@ function sortMedicalRecords(records) {
     const rightDate = new Date(right.visit_date || right.created_at || 0).getTime()
     return rightDate - leftDate
   })
-}
-
-function formatRecordCode(record) {
-  return record?.record_code || `HS-${String(record?.record_id || record?.id || '').padStart(3, '0')}`
 }
 
 export default function MedicalRecordsPage() {
@@ -196,7 +193,18 @@ export default function MedicalRecordsPage() {
   const sortedRecords = useMemo(() => sortMedicalRecords(items), [items])
 
   function clearFilters() {
-    setParams({ patient_id: '', search: '', status: '', visit_date: '', from_date: '', to_date: '', doctor: '', diagnosis: '', page: 1, per_page: 20 })
+    setParams({
+      patient_id: '',
+      search: '',
+      status: '',
+      visit_date: '',
+      from_date: '',
+      to_date: '',
+      doctor: '',
+      diagnosis: '',
+      page: 1,
+      per_page: 20,
+    })
   }
 
   function exportExcel() {
@@ -243,59 +251,42 @@ export default function MedicalRecordsPage() {
     [editingRecord, patients, workflow],
   )
 
+  function cancelForm() {
+    if (workflow === 'new-patient') {
+      clearActiveVisit()
+      setWorkflow('')
+    }
+    setShowForm(false)
+    setEditingRecord(null)
+  }
+
   if (showForm) {
-    const formPatient = editingRecord?.patient || selectedPatient
     return (
-      <main className="page medical-record-entry-page">
-        <section className="mc-list-hero">
-          <div>
-            <h1>{editingRecord?.id ? 'Chỉnh sửa hồ sơ bệnh án' : 'Thêm hồ sơ bệnh án'}</h1>
-            <p>Nhập triệu chứng, chẩn đoán, ghi chú và các chỉ số cơ bản của lần khám.</p>
-          </div>
-        </section>
-        <section className="medical-record-entry-surface">
-          <MedicalRecordForm
-            initialValue={{ ...editingRecord, patient: formPatient }}
-            patients={patients}
-            healthTypes={healthTypes}
-            recordSuggestions={recordSuggestions}
-            loading={saving}
-            onSubmit={saveRecord}
-            onDraftChange={saveActiveVisitDraft}
-            onCancel={() => {
-              if (workflow === 'new-patient') {
-                clearActiveVisit()
-                setWorkflow('')
-              }
-              setShowForm(false)
-              setEditingRecord(null)
-            }}
-          />
-        </section>
-        <Toast toast={toast} onClose={() => setToast(null)} />
-      </main>
+      <MedicalRecordEntryView
+        editingRecord={editingRecord}
+        formPatient={editingRecord?.patient || selectedPatient}
+        patients={patients}
+        healthTypes={healthTypes}
+        recordSuggestions={recordSuggestions}
+        saving={saving}
+        toast={toast}
+        onSubmit={saveRecord}
+        onDraftChange={saveActiveVisitDraft}
+        onCancel={cancelForm}
+        onCloseToast={() => setToast(null)}
+      />
     )
   }
 
   return (
     <main className="page mc-records-page">
-      <section className="mc-list-hero">
-        <div>
-          <h1>Quản lý hồ sơ bệnh án</h1>
-        </div>
-        <button type="button" className="secondary-button prescription-export-button" onClick={exportExcel}>
-          <FileSpreadsheet size={17} /> Excel
-        </button>
-        <button
-          className="primary-button mc-add-button"
-          onClick={() => {
-            setEditingRecord(null)
-            setShowForm(true)
-          }}
-        >
-          <Plus size={18} /> Thêm hồ sơ bệnh án
-        </button>
-      </section>
+      <MedicalRecordListHeader
+        onExport={exportExcel}
+        onCreate={() => {
+          setEditingRecord(null)
+          setShowForm(true)
+        }}
+      />
 
       {routedPatientId ? (
         <PatientMedicalRecordsView
@@ -305,147 +296,23 @@ export default function MedicalRecordsPage() {
         />
       ) : (
         <>
-          <section className="mc-record-filter-card">
-            <label>
-              <span>Từ khóa</span>
-              <div className="mc-filter-input">
-                <Search size={17} />
-                <PatientSearchBox
-                  patients={patients}
-                  value={params.patient_id || ''}
-                  queryValue={params.search || ''}
-                  onSelect={(patient) =>
-                    setParams({ patient_id: patient?.patient_id || '', search: '', page: 1, per_page: 20 })
-                  }
-                  onQueryChange={(search) => setParams({ search, patient_id: '', page: 1, per_page: 20 })}
-                  placeholder="Mã hồ sơ, bệnh nhân, SĐT"
-                />
-              </div>
-            </label>
-            <label>
-              <span>Trạng thái</span>
-              <select
-                value={params.status || ''}
-                onChange={(event) => setParams({ status: event.target.value, page: 1, per_page: 20 })}
-              >
-                {statusFilterOptions.map((option) => (
-                  <option key={option.value || 'all'} value={option.value}>{option.label}</option>
-                ))}
-              </select>
-            </label>
-            <label>
-              <span>Ngày lập hồ sơ</span>
-              <input
-                type="date"
-                value={params.visit_date || ''}
-                onChange={(event) => setParams({ visit_date: event.target.value, page: 1, per_page: 20 })}
-              />
-            </label>
-            <label>
-              <span>Bác sĩ</span>
-              <input
-                value={params.doctor || ''}
-                onChange={(event) => setParams({ doctor: event.target.value, page: 1, per_page: 20 })}
-                placeholder="Tên bác sĩ"
-              />
-            </label>
-            <label>
-              <span>Chẩn đoán</span>
-              <input
-                value={params.diagnosis || ''}
-                onChange={(event) => setParams({ diagnosis: event.target.value, page: 1, per_page: 20 })}
-                placeholder="Tên chẩn đoán"
-              />
-            </label>
-            <label>
-              <span>Từ ngày</span>
-              <input
-                type="date"
-                value={params.from_date || ''}
-                onChange={(event) => setParams({ from_date: event.target.value, visit_date: '', page: 1, per_page: 20 })}
-              />
-            </label>
-            <label>
-              <span>Đến ngày</span>
-              <input
-                type="date"
-                value={params.to_date || ''}
-                onChange={(event) => setParams({ to_date: event.target.value, visit_date: '', page: 1, per_page: 20 })}
-              />
-            </label>
-            <button type="button" className="mc-search-button" onClick={() => refetch()}>
-              <Search size={17} /> Tìm kiếm
-            </button>
-            <button type="button" className="secondary-button" onClick={clearFilters}>
-              <RotateCcw size={17} /> Làm mới
-            </button>
-          </section>
-
-          <section className="mc-table-panel medical-record-list-panel">
-            <div className="table-wrap medical-record-list-table-wrap">
-              <table className="medical-record-list-table">
-                <thead>
-                  <tr>
-                    <th>STT</th>
-                    <th>Mã hồ sơ</th>
-                    <th>Bệnh nhân</th>
-                    <th>Ngày lập</th>
-                    <th>Bác sĩ</th>
-                    <th>Chẩn đoán</th>
-                    <th>Trạng thái</th>
-                    <th>Thao tác</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {loading ? (
-                    <tr><td colSpan="8">Đang tải dữ liệu...</td></tr>
-                  ) : sortedRecords.length ? (
-                    sortedRecords.map((record, index) => (
-                      <tr key={record.record_id || record.id}>
-                        <td>{index + 1}</td>
-                        <td><strong>{formatRecordCode(record)}</strong></td>
-                        <td>
-                          <div className="cell-stack">
-                            <span>{record.patient?.full_name || '-'}</span>
-                            <small>{record.patient?.phone || ''}</small>
-                          </div>
-                        </td>
-                        <td>{formatDate(record.visit_date)}</td>
-                        <td>{record.doctor?.full_name || '-'}</td>
-                        <td>{record.diagnosis || 'Chưa chẩn đoán'}</td>
-                        <td><StatusBadge value={record.status} /></td>
-                        <td>
-                          <div className="mc-row-actions">
-                            <button
-                              type="button"
-                              className="icon-button small"
-                              title="Xem chi tiết"
-                              onClick={() => navigate(`/medical-records/${record.id || record.record_id}`)}
-                            >
-                              <Eye size={16} />
-                            </button>
-                            <button
-                              type="button"
-                              className="icon-button small"
-                              title="Cập nhật hồ sơ"
-                              onClick={() => {
-                                setEditingRecord({ ...record, id: record.id || record.record_id })
-                                setShowForm(true)
-                              }}
-                            >
-                              <Pencil size={16} />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr><td colSpan="8">Chưa có hồ sơ bệnh án</td></tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </section>
+          <MedicalRecordFilterBar
+            params={params}
+            patients={patients}
+            statusOptions={statusFilterOptions}
+            onParamsChange={setParams}
+            onSearch={refetch}
+            onClear={clearFilters}
+          />
+          <MedicalRecordTable
+            records={sortedRecords}
+            loading={loading}
+            onView={(record) => navigate(`/medical-records/${record.id || record.record_id}`)}
+            onEdit={(record) => {
+              setEditingRecord({ ...record, id: record.id || record.record_id })
+              setShowForm(true)
+            }}
+          />
         </>
       )}
 
