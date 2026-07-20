@@ -45,31 +45,31 @@ export default function AllergyField({
         {open && (
           <div className="address-suggest-list">
             {suggestions.length ? (
-              suggestions.map((suggestion, index) => (
-                <button
-                  key={suggestion}
-                  type="button"
-                  ref={(el) => {
-                    suggestionRefs.current[index] = el
-                  }}
-                  onKeyDown={(event) =>
-                    handleSuggestionKeyDown(
-                      event,
-                      index,
-                      suggestions,
-                      suggestionRefs,
-                      inputRef,
-                      () => setOpen(false)
-                    )
-                  }
-                  onMouseDown={(event) => event.preventDefault()}
-                  onClick={() =>
-                    chooseSuggestion(suggestion)
-                  }
-                >
-                  {suggestion}
-                </button>
-              ))
+            suggestions.map((suggestion, index) => (
+  <button
+    key={suggestion.id}
+    type="button"
+    ref={(el) => {
+      suggestionRefs.current[index] = el
+    }}
+    onKeyDown={(event) =>
+      handleSuggestionKeyDown(
+        event,
+        index,
+        suggestions,
+        suggestionRefs,
+        inputRef,
+        () => setOpen(false)
+      )
+    }
+    onMouseDown={(event) => event.preventDefault()}
+    onClick={() =>
+      chooseSuggestion(suggestion.allergy_name)
+    }
+  >
+    {suggestion.allergy_name}
+  </button>
+))
             ) : (
               <span>Không có dị ứng phù hợp</span>
             )}

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Services\PatientService;
 use Illuminate\Http\Request;
+use App\Models\Allergy;
+use App\Models\ChronicDisease;
+use App\Models\Patient;
 
 class PatientController extends Controller
 {
@@ -69,5 +72,29 @@ class PatientController extends Controller
         'data'=>$patient
     ]);
    }
+   //danh sách bệnh nền và dị ứng 
+   public function patientSuggestions()//phải giống bên api.php
+    {
+        return response()->json([
+            'success' => true,
+            'chronic_diseases' => ChronicDisease::select(
+             'chronic_disease_id',
+                   'disease_name'
+            )->get(),
+
+            'allergies' => Allergy::select(
+                'allergy_id',
+                'allergy_name'
+            )->get(),
+        ]);
+    }
+    //xem chi tiết 
+    public function show($id){
+        $patient=$this->patientService->getPatientById($id);
+        return response()->json([
+            'success'=>true,
+            'data'=>$patient
+        ]);
+    }
 
 }

@@ -3,6 +3,7 @@ import { getProvinceDetail, getProvinces } from "../api/provincesApi";
 import { getList } from "../api/resources";
 import { toApiDateValue, toCompactDateInputValue } from "../utils/formatters";
 import { isValidPhone, normalizePhoneInput } from "../utils/phone";
+import { getPatientSuggestions } from '../api/patientApi';
 import {
   normalizeFullName,
   normalizeGender,
@@ -73,19 +74,22 @@ export default function usePatientForm({
       .then((data) => setProvinces(Array.isArray(data) ? data : []))
       .catch(() => setProvinces([]))
   }, [])
-
-  useEffect(() => {
-    getList('/patient-suggestions')
-      .then((result) =>
-        setPatientSuggestions({
-          chronic_diseases: Array.isArray(result.raw?.chronic_diseases)
-            ? result.raw.chronic_diseases
-            : [],
-          allergies: Array.isArray(result.raw?.allergies) ? result.raw.allergies : [],
-        }),
-      )
-      .catch(() => setPatientSuggestions({ chronic_diseases: [], allergies: [] }))
-  }, [])
+//bệnh nền và dị ứng 
+ useEffect(() => {
+  getPatientSuggestions()//hàm lấy api bên patientApi
+    .then((data) => {
+      setPatientSuggestions({
+        chronic_diseases: data.chronic_diseases || [],
+        allergies: data.allergies || [],
+      });
+    })
+    .catch(() => {
+      setPatientSuggestions({
+        chronic_diseases: [],
+        allergies: [],
+      });
+    });
+}, []);
   useEffect(() => {
     if (addressHydratedRef.current || !initialValue.address || !provinces.length) return
     let active = true
@@ -303,14 +307,6 @@ const provinceSuggestions = useMemo(() => {
       : isFutureApiDate(birthDate)
         ? 'Ngày sinh không được lớn hơn ngày hiện tại.'
         : ''
-    // const nextErrors = {
-    //   full_name: fullName ? '' : 'Vui lòng nhập họ tên.',
-    //   gender: form.gender ? '' : 'Vui lòng chọn giới tính.',
-    //   date_of_birth: birthDateError,
-    //   phone: isValidPhone(phone) ? '' : 'Số điện thoại chưa đủ 10 chữ số.',
-    //   address: address ? '' : 'Vui lòng nhập địa chỉ.',
-    // }
-    //sua ở dâyd
      const result = validatePatient(form)
     setFieldErrors(result.errors)
     if (!result.isValid) return
@@ -396,6 +392,3 @@ const provinceSuggestions = useMemo(() => {
     allergyOpen,
 }
 }
-
-
-   

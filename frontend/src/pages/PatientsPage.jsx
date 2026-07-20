@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { createPatient, getPatients,updatePatient } from '../api/patientApi'//chỗ này sửa
 import { CalendarClock, Eye, Pencil, Plus, RotateCcw, Search, X } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 //form thêm bệnh nhân
 import PatientForm from '../components/patients/PatientForm'//lấy bên trang PatientForm
 
@@ -11,6 +12,7 @@ export default function PatientsPage() {
     const [filters, setFilters] = useState({ record_status: '',})//lọc 
     const [showForm, setShowForm] = useState(false)
     const [editingPatient, setEditingPatient] = useState(null)
+    const navigate = useNavigate();
 
 
 
@@ -106,17 +108,11 @@ async function savePatient(payload) {
                                 <td>{patient.address}</td>
                                 <td>
                                     <div className="mc-row-actions">
-                                        <button
+                                       <button
                                         type="button"
-                                        className="icon-button small"
-                                        title="Xem chi tiết"
-                                        onClick={() =>{
-                                            console.log(patient)
-                                            //sau này sẽ navigite sang chi tiết
-                                        }}
+                                        onClick={() => navigate(`/patients/${patient.patient_id}`)}
                                         >
-                                            <Eye size ={16} />
-
+                                            Xem chi tiết
                                         </button>
                                         <button
                                         type="button"

@@ -1,4 +1,4 @@
-﻿/* eslint-disable react-hooks/set-state-in-effect */
+﻿import { getPatient } from "../api/patientApi";
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
@@ -37,14 +37,18 @@ const ACTIVE_RECORD_MESSAGE =
   
 
 function InfoItem({ label, value }) {
-  return (
-    <div className="patient-profile-item">
-      <span>{label}</span>
-      <strong>{value || EMPTY_TEXT}</strong>
-    </div>
-  )
-}
+    return (
+        <div className="info-item">
+            <span className="info-label">
+                {label}
+            </span>
 
+            <strong className="info-value">
+                {value || EMPTY_TEXT}
+            </strong>
+        </div>
+    )
+}
 function Section({ title, children, actions }) {
   return (
     <section className="mc-patient-tab-panel">
@@ -254,24 +258,38 @@ export default function PatientDetailPage() {
   const [reminderLogsBySchedule, setReminderLogsBySchedule] = useState(() => new Map())
   const [toast, setToast] = useState(null)
 
+  //xem chi tiết bệnh nhân
   useEffect(() => {
-    let active = true
-    setLoading(true)
-    setError('')
-    getOne('/patients', id)
-      .then((data) => {
-        if (active) setPatient(data)
-      })
-      .catch((requestError) => {
-        if (active) setError(getErrorMessage(requestError))
-      })
-      .finally(() => {
-        if (active) setLoading(false)
-      })
-    return () => {
-      active = false
+    let active = true;
+
+    async function fetchPatient() {
+        try {
+            setLoading(true);
+            setError("");
+
+            const patient = await getPatient(id);
+
+            if (active) {
+                setPatient(patient);
+            }
+        } catch (error) {
+            if (active) {
+                setError(getErrorMessage(error));
+            }
+        } finally {
+            if (active) {
+                setLoading(false);
+            }
+        }
     }
-  }, [id])
+
+    fetchPatient();
+
+    return () => {
+        active = false;
+    };
+}, [id]);
+
 
   useEffect(() => {
     let active = true

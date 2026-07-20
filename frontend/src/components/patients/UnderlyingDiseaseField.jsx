@@ -45,29 +45,27 @@ export default function UnderlyingDiseaseField({
                 {open && (
                     <div className="address-suggest-list">
                         {suggestions.length ? (
-                            suggestions.map((item, index) => (
-                                <button
-                                    key={item}
-                                    type="button"
-                                    ref={(el) =>
-                                        (suggestionRefs.current[index] = el)
-                                    }
-                                    onMouseDown={(e) => e.preventDefault()}
-                                    onClick={() => chooseSuggestion(item)}
-                                    onKeyDown={(event) =>
-                                        handleSuggestionKeyDown(
-                                            event,
-                                            index,
-                                            suggestions,
-                                            suggestionRefs,
-                                            inputRef,
-                                            () => setOpen(false)
-                                        )
-                                    }
-                                >
-                                    {item}
-                                </button>
-                            ))
+                       suggestions.map((item, index) => (
+  <button
+    key={item.id}
+    type="button"
+    ref={(el) => (suggestionRefs.current[index] = el)}
+    onMouseDown={(e) => e.preventDefault()}
+    onClick={() => chooseSuggestion(item.disease_name)}
+    onKeyDown={(event) =>
+      handleSuggestionKeyDown(
+        event,
+        index,
+        suggestions,
+        suggestionRefs,
+        inputRef,
+        () => setOpen(false)
+      )
+    }
+  >
+    {item.disease_name}
+  </button>
+))
                         ) : (
                             <span>Không có bệnh nền phù hợp</span>
                         )}

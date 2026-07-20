@@ -14,5 +14,15 @@ class PatientService{
         return Patient::create($data);
     }
     //sửa bệnh nhân
+    //xem chi tiết 
+   public function getPatientById($id)
+{
+    return Patient::with([
+        'medicalRecords.prescriptions.details.schedules',
+        'healthMetrics.healthType',
+        'allergies',
+        'chronicDiseases'
+    ])->findOrFail($id);
+}
     
 }
