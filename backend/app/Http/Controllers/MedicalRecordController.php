@@ -12,6 +12,7 @@ class MedicalRecordController extends Controller
     {
         $this->medicalRecordService = $medicalRecordService;
     }
+    //hiển thị danh sách hồ sơ bệnh án
 
     public function index()
     {
@@ -20,6 +21,14 @@ class MedicalRecordController extends Controller
         return response()->json([
             'success' => true,
             'data' => $records
+        ]);
+    }
+    //xem chi tiết hồ sơ bệnh án 
+    public function show(Request $request,$id){
+        $records = $this->medicalRecordService->getMedicalRecordById($id);
+        return response()->json([
+            'success'=>true,
+            'data'=>$records
         ]);
     }
 }

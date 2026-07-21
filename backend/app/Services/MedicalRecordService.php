@@ -3,7 +3,7 @@
 namespace App\Services;
 use App\Models\MedicalRecord;
 class MedicalRecordService{
-    //lấy bên controller
+    //1.lấy bên controller
     public function getAllMedicalRecord(){
         return MedicalRecord::with([
             'patient',
@@ -13,4 +13,14 @@ class MedicalRecordService{
         ->get();
 
     }
+    //2.hàm xem chi tiết
+    public function getAllMedicalRecordById($id){
+        return MedicalRecord::with([
+            'patient',
+            'doctor',
+            'diagnosisInfo',
+            'prescriptions.details.schedules',//
+            'healthMonitorings.healthMetrics.healthType',//
+        ])->findOrFail();
+    } 
 }

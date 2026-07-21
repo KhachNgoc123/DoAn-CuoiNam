@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Doctor;
 class PatientFeedback extends Model
 {
     protected $table = 'patient_feedbacks';
@@ -28,7 +28,7 @@ class PatientFeedback extends Model
 
     public function doctor()
     {
-        return $this->belongsTo(User::class, 'doctor_id', 'doctor_id');
+        return $this->belongsTo(Doctor::class, 'doctor_id', 'doctor_id');
     }
 
     public function patient()

@@ -33,9 +33,3 @@ export async function getPatientSuggestions() {
   const response = await apiClient.get('/patient-suggestions')
   return response.data
 }
-
-// Danh sách hồ sơ bệnh án
-export async function getAllMedicalRecords() {
-  const response = await apiClient.get('/medical-records')
-  return response.data
-}

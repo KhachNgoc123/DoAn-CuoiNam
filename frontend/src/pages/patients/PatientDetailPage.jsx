@@ -36,10 +36,6 @@ import {
   reminderStatusForSchedule,
   todayApiDate,
 } from '../../utils/medicationReminders'
-
-
-const ACTIVE_RECORD_MESSAGE ='Bệnh nhân đang có hồ sơ điều trị. Không thể tạo hồ sơ mới.'
-  
 const ACTIVE_RECORD_MESSAGE =
   'Bệnh nhân đang có một hồ sơ điều trị. Vui lòng hoàn thành điều trị trước khi tạo hồ sơ bệnh án mới.'
 
@@ -336,8 +332,6 @@ if (active) {
     [records],
   )
 
-  const currentStatus = activeTreatmentRecord ? 'Äang Ä‘iá»u trá»‹' : records.length ? 'HoÃ n thÃ nh Ä‘iá»u trá»‹' : 'Theo dÃµi Ä‘á»‹nh ká»³'
-//4 t
   const currentStatus = activeTreatmentRecord ? 'Đang điều trị' : records.length ? 'Hoàn thành điều trị' : 'Theo dõi định kỳ'
 
 

@@ -10,6 +10,8 @@ import { getErrorMessage } from '../../api/client'
 import LoadingState from '../../components/ui/LoadingState'
 import EmptyState from '../../components/ui/EmptyState'
 import Toast from '../../components/ui/Toast'
+//chỗ này
+import { getMedicalRecord } from "../api/medicalRecordtApi";
 import MedicalRecordAllergyCard from '../../components/medical-records/MedicalRecordAllergyCard'
 import MedicalRecordConditionCard from '../../components/medical-records/MedicalRecordConditionCard'
 import MedicalRecordDetailHeader from '../../components/medical-records/MedicalRecordDetailHeader'
@@ -32,16 +34,14 @@ import {
   latestPrescriptionRows,
   prescriptionMedicineText,
 } from '../../components/medical-records/medicalRecordHelpers'
-
-/**
- * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh MedicalRecordDetail.
- */
+//chi tiết hồ sơ bệnh án
 export default function MedicalRecordDetailPage() {
+  //cho hiển thị hồ sơ và xem chi tiết 
   const { id } = useParams()
   const navigate = useNavigate()
-  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [record, setRecord] = useState(null)
   const [loading, setLoading] = useState(true)
+
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState(null)
@@ -55,10 +55,9 @@ export default function MedicalRecordDetailPage() {
       .finally(() => setLoading(false))
   }
 
-  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(load, [id])
 
-  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
+  
   useEffect(() => {
     const patientId = record?.patient_id || record?.patient?.patient_id
     if (!patientId) {

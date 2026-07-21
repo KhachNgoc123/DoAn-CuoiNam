@@ -1,15 +1,15 @@
-/**
- * Các API liên quan hồ sơ bệnh án.
- */
+import apiClient from "./client";
 
-import apiClient, { extractList, extractPagination } from './client'
+// Danh sách hồ sơ bệnh án
+export async function getAllMedicalRecords(params = {}) {
+    const response = await apiClient.get("/medical-records", {
+        params,
+    });
+    return response.data;
+}
 
-export async function getMedicalRecords(params = {}) {
-  const response = await apiClient.get('/medical-records', { params })
-
-  return {
-    data: extractList(response),
-    pagination: extractPagination(response),
-    raw: response.data,
-  }
+// Chi tiết hồ sơ bệnh án
+export async function getMedicalRecord(id) {
+    const response = await apiClient.get(`/medical-records/${id}`);
+    return response.data;
 }
