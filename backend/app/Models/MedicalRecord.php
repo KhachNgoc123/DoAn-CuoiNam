@@ -20,7 +20,7 @@ class MedicalRecord extends Model
     protected $appends = ['id'];
     
     public function getIdAttribute(): int { return $this->record_id; }
-
+//kiểm tra ngày khám 
     protected $casts = ['visit_date' => 'date'];
 
     public function isInTreatment(): bool

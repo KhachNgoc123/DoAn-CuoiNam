@@ -12,9 +12,7 @@ import {
 import PatientForm from '../../components/patients/PatientForm'
 import PatientsListView from '../../components/patients/PatientsListView'
 
-/**
- * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh Patients.
- */
+
 export default function PatientsPage() {
   const navigate = useNavigate()
 
@@ -45,23 +43,34 @@ export default function PatientsPage() {
   }
 
   // Hàm savePatient gửi dữ liệu mới lên API hoặc component cha.
-  async function savePatient(payload) {
-    try {
-      if (editingPatient) {
-        await updatePatient(editingPatient.patient_id, payload)
-        alert('Cập nhật bệnh nhân thành công')
-      } else {
-        await createPatient(payload)
-        alert('Thêm bệnh nhân thành công')
-      }
+ async function savePatient(payload) {
+  try {
+    if (editingPatient) {
+      await updatePatient(editingPatient.patient_id, payload)
+      alert('Cập nhật bệnh nhân thành công')
 
       setShowForm(false)
       setEditingPatient(null)
       await loadPatients()
-    } catch (error) {
-      console.error(error)
+    } else {
+     const response = await createPatient(payload);
+
+console.log(response);
+
+const newPatient = response.data;
+
+console.log(newPatient);
+
+navigate("/medical-records", {
+  state: {
+    patient: newPatient,
+  },
+});
     }
+  } catch (error) {
+    console.error(error)
   }
+}
 
   if (showForm) {
     return (

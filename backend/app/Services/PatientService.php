@@ -13,7 +13,6 @@ class PatientService{
     public function createPatient(array $data){
         return Patient::create($data);
     }
-    //sửa bệnh nhân
     //xem chi tiết 
    public function getPatientById($id)
 {

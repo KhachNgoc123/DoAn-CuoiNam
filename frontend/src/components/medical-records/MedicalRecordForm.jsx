@@ -143,7 +143,7 @@ function hasNestedErrors(errors) {
 
 export default function MedicalRecordForm({
   initialValue,
-  patients,
+  patients = [],
   healthTypes = [],
   recordSuggestions = {},
   loading,
@@ -152,9 +152,13 @@ export default function MedicalRecordForm({
   onDraftChange,
 }) {
   const isEdit = Boolean(initialValue?.record_id || initialValue?.id)
+  //sửa chỗ này
   const patient =
-    initialValue?.patient ||
-    patients.find((item) => String(item.patient_id) === String(initialValue?.patient_id))
+  initialValue?.patient ??
+  patients.find(
+    (item) => item.patient_id === form.patient_id
+  ) ??
+  null;
   // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [form, setForm] = useState(() => ({
     patient_id: '',

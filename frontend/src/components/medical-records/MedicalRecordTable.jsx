@@ -7,14 +7,7 @@ import { formatDate } from '../../utils/formatters'
 import StatusBadge from '../ui/StatusBadge'
 import { formatRecordCode } from './medicalRecordHelpers'
 
-/**
- * Hiển thị bảng dữ liệu MedicalRecord.
- * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
- * @param {*} props.records Giá trị records được dùng để render hoặc xử lý tương tác.
- * @param {*} props.loading Giá trị loading được dùng để render hoặc xử lý tương tác.
- * @param {*} props.onView Giá trị onView được dùng để render hoặc xử lý tương tác.
- * @param {*} props.onEdit Giá trị onEdit được dùng để render hoặc xử lý tương tác.
- */
+
 export default function MedicalRecordTable({ records, loading, onView, onEdit }) {
   return (
     <section className="mc-table-panel medical-record-list-panel">

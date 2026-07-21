@@ -18,7 +18,14 @@ import { formatRecordCode } from './medicalRecordHelpers'
  * @param {*} props.onCancel Giá trị onCancel được dùng để render hoặc xử lý tương tác.
  * @param {*} props.onCloseToast Giá trị onCloseToast được dùng để render hoặc xử lý tương tác.
  */
-export default function MedicalRecordEditView({ record, patient, saving, toast, onSubmit, onCancel, onCloseToast }) {
+export default function MedicalRecordEntryView({
+  editingRecord,
+  selectedPatient,
+  saving,
+  onSubmit,
+  onCancel,
+  onCloseToast
+}) {
   return (
     <main className="page medical-record-entry-page">
       <section className="mc-list-hero">
@@ -30,13 +37,17 @@ export default function MedicalRecordEditView({ record, patient, saving, toast, 
         </div>
       </section>
       <section className="medical-record-entry-surface">
-        <MedicalRecordForm
-          initialValue={record}
-          patients={[patient]}
-          loading={saving}
-          onSubmit={onSubmit}
-          onCancel={onCancel}
-        />
+      <MedicalRecordForm
+  initialValue={{
+    ...record,
+    patient: selectedPatient,
+    patient_id: selectedPatient?.patient_id,
+  }}
+  patients={selectedPatient ? [selectedPatient] : []}
+  loading={saving}
+  onSubmit={onSubmit}
+  onCancel={onCancel}
+/>
       </section>
       <Toast toast={toast} onClose={onCloseToast} />
     </main>

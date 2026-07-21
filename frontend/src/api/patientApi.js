@@ -13,7 +13,7 @@ export async function getPatients() {
 // Chi tiết bệnh nhân
 export async function getPatient(id) {
   const response = await apiClient.get(`/patients/${id}`)
-  return response.data
+  return response.data.data
 }
 
 // Thêm bệnh nhân

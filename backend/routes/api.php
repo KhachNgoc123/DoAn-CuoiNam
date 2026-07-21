@@ -58,12 +58,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('medical-records', [MedicalRecordController::class, 'index']);
     //xem chi tiết hồ sơ bệnh án 
     Route::get('medical-records/{id}', [MedicalRecordController::class, 'show']);
-    
+    //thêm hồ sơ bệnh án 
+    Route::post('medical-records', [MedicalRecordController::class, 'store']);
+    //cập nhật hồ sơ bệnh án 
+    Route::post('medical-records/{id}', [MedicalRecordController::class, 'update']);
 
     Route::get('medical-record-suggestions', [MedicalRecordController::class, 'suggestions']);
-    Route::post('medical-records', [MedicalRecordController::class, 'store']);
     
-    Route::post('medical-records/{medicalRecord}', [MedicalRecordController::class, 'update']);
+    
+    
     Route::post('medical-records/{medicalRecord}/delete', [MedicalRecordController::class, 'destroy']);
     Route::get('medical-records/{medicalRecord}/documents', [MedicalRecordAttachmentController::class, 'index']);
     Route::post('medical-records/{medicalRecord}/documents', [MedicalRecordAttachmentController::class, 'store']);
