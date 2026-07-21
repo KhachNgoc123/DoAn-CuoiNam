@@ -1,15 +1,20 @@
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
 import { useEffect, useMemo, useState } from 'react'
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, CirclePause, HeartPulse, Pencil, Send } from 'lucide-react'
-import { createOne, getList, getOne, updateOne } from '../api/resources'
-import { getErrorMessage } from '../api/client'
-import LoadingState from '../components/ui/LoadingState'
-import EmptyState from '../components/ui/EmptyState'
-import Toast from '../components/ui/Toast'
-import ConfirmDialog from '../components/ui/ConfirmDialog'
-import StatusBadge from '../components/ui/StatusBadge'
-import { formatDate, formatPatientCode, statusAfterEndDate } from '../utils/formatters'
-import { todayApiDate } from '../utils/medicationReminders'
+import { createOne, getList, getOne, updateOne } from '../../api/resources'
+import { getErrorMessage } from '../../api/client'
+import LoadingState from '../../components/ui/LoadingState'
+import EmptyState from '../../components/ui/EmptyState'
+import Toast from '../../components/ui/Toast'
+import ConfirmDialog from '../../components/ui/ConfirmDialog'
+import StatusBadge from '../../components/ui/StatusBadge'
+import { formatDate, formatPatientCode, statusAfterEndDate } from '../../utils/formatters'
+import { todayApiDate } from '../../utils/medicationReminders'
 
 function scheduleId(schedule) {
   return schedule?.schedule_id ?? schedule?.id
@@ -97,6 +102,12 @@ function latestReminderText(log) {
   return `Hôm nay, ${time}`
 }
 
+/**
+ * Hiển thị component InfoItem trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.label Giá trị label được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.value Giá trị value được dùng để render hoặc xử lý tương tác.
+ */
 function InfoItem({ label, value }) {
   return (
     <div className="schedule-detail-info-item">
@@ -106,9 +117,13 @@ function InfoItem({ label, value }) {
   )
 }
 
+/**
+ * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh MedicationScheduleDetail.
+ */
 export default function MedicationScheduleDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [schedule, setSchedule] = useState(null)
   const [logs, setLogs] = useState([])
   const [loading, setLoading] = useState(true)
@@ -116,6 +131,7 @@ export default function MedicationScheduleDetailPage() {
   const [pendingAction, setPendingAction] = useState(null)
   const [sending, setSending] = useState(false)
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     let active = true
     setLoading(true)
@@ -135,6 +151,7 @@ export default function MedicationScheduleDetailPage() {
     }
   }, [id])
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     let active = true
     getList('/medication-reminder-logs', {
@@ -235,7 +252,7 @@ export default function MedicationScheduleDetailPage() {
           <button
             className="secondary-button"
             onClick={() =>
-              navigate('/schedules', {
+              navigate('/schedules/create', {
                 state: {
                   mode: 'createFromPrescription',
                   prescriptionId: prescription.prescription_id,

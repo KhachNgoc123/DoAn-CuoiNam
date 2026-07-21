@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { Eye, FileSpreadsheet, Pencil, Plus, Search } from 'lucide-react'
 import StatusBadge from '../ui/StatusBadge'
 import Toast from '../ui/Toast'

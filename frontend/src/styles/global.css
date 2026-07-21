@@ -1,9 +1,7 @@
 /* Global reset, document defaults, and typography primitives. */
-
 * {
   box-sizing: border-box;
 }
-
 html,
 body,
 #root,
@@ -11,14 +9,12 @@ body,
 .main-layout {
   font-family: var(--font-main);
 }
-
 body {
   margin: 0;
   min-width: 320px;
   background: var(--bg);
   color: var(--ink);
 }
-
 button,
 input,
 select,
@@ -28,35 +24,24 @@ table,
 label,
 a,
 p,
-span:not(.material-icons):not(.fa):not([class*="icon"]) {
+span:not(.material-icons):not(.fa):not([class*='icon']) {
   font-family: inherit;
 }
-
 thead,
 tbody,
 tr,
 th,
 td,
-.table-card th,
-.daily-schedule-table th,
-.record-table th,
-.health-table-head,
-.health-detail-head,
-.dashboard-mini-table-head,
-.rx-table th,
-.rx-medicine-section th {
+.table-card th {
   font-family: var(--font-main);
 }
-
 button:disabled {
   cursor: not-allowed;
   opacity: 0.55;
 }
-
 a {
   color: inherit;
 }
-
 input,
 select,
 textarea {
@@ -68,13 +53,11 @@ textarea {
   background: #fff;
   color: var(--ink);
 }
-
 table {
   width: 100%;
   min-width: 760px;
   border-collapse: collapse;
 }
-
 th,
 td {
   padding: 13px 12px;
@@ -85,7 +68,6 @@ td {
 }
 
 /* Global typography normalization */
-
 html,
 body,
 #root {
@@ -96,7 +78,6 @@ body,
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 body,
 button,
 input,
@@ -106,7 +87,6 @@ table,
 label {
   font-family: var(--font-main);
 }
-
 input,
 select,
 textarea,
@@ -115,38 +95,28 @@ textarea,
   font-weight: 400;
   line-height: 1.4;
 }
-
 table {
   font-size: 14px;
   line-height: 1.4;
 }
-
 th,
-.table-card th,
-.daily-schedule-table th,
-.record-table th {
+.table-card th {
   font-size: 14px;
   font-weight: 800;
   line-height: 1.4;
   letter-spacing: 0;
 }
-
 td,
-.table-card td,
-.daily-schedule-table td,
-.record-table td {
+.table-card td {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.45;
 }
-
 body {
   background:
-    radial-gradient(circle at top left, rgba(2, 132, 199, 0.08), transparent 32%),
-    #f8fafc;
+    radial-gradient(circle at top left, rgba(2, 132, 199, 0.08), transparent 32%), #f8fafc;
   color: #0f172a;
 }
-
 h1,
 h2,
 h3,
@@ -155,57 +125,47 @@ h5,
 h6,
 .page-header h1,
 .panel-heading h2,
-.login-panel h1,
 .topbar-page-title strong,
 .sidebar-brand strong {
   font-family: var(--font-heading);
 }
-
 input,
 select,
 textarea {
   min-height: 44px;
   box-shadow: none;
 }
-
 table {
   border-collapse: separate;
   border-spacing: 0;
 }
-
 table {
   min-width: 860px;
 }
-
 html {
   scroll-behavior: smooth;
 }
-
 body {
   background: var(--bg);
   color: var(--ink);
   font: 14px/1.55 var(--font-main);
 }
-
 button,
 input,
 select,
 textarea {
   font: inherit;
 }
-
 input,
 select,
 textarea {
   padding: 11px 13px;
 }
-
 html,
 body,
 #root {
   min-height: 100%;
 }
-
 body {
   background: var(--mc-bg);
   color: var(--mc-ink);
@@ -213,7 +173,6 @@ body {
   font-size: 14px;
   line-height: 1.55;
 }
-
 button,
 input,
 select,
@@ -221,7 +180,6 @@ textarea,
 table {
   font-family: var(--font-main);
 }
-
 input,
 select,
 textarea,
@@ -242,13 +200,11 @@ textarea,
 }
 
 /* Compact page density */
-
 html,
 body,
 #root {
   font-size: 14px;
 }
-
 input,
 select,
 textarea,
@@ -260,34 +216,23 @@ textarea,
 .toolbar input:not(.search-input input),
 .compact-date-filter input,
 .compact-date-filter select,
-.medication-schedules-page .list-management-filters input,
-.medication-schedules-page .list-management-filters select,
 .mc-filter-card select,
-.mc-filter-card input,
-.mc-record-filter-card select,
-.mc-record-filter-card input,
-.mc-patient-filter-card select,
-.mc-filter-input .patient-search-input,
-.patient-search-input {
+.mc-filter-card input {
   min-height: 36px;
   height: auto;
   border-radius: 8px;
   padding: 7px 10px;
   font-size: 13px;
 }
-
 textarea,
-.field textarea,
-.compact-prescription-form textarea {
+.field textarea {
   min-height: 76px;
   padding-top: 8px;
   padding-bottom: 8px;
 }
-
 table {
   min-width: 680px;
 }
-
 input,
 select,
 textarea,
@@ -298,18 +243,8 @@ textarea,
 .field textarea,
 .filter-field input,
 .filter-field select,
-.health-filter-grid input,
-.health-filter-grid select,
-.patient-advanced-filters input,
-.patient-advanced-filters select,
-.patient-search-input,
-.patient-search-input input,
 .mc-filter-card select,
 .mc-filter-card input,
-.mc-patient-filter-card select,
-.mc-patient-filter-card input,
-.mc-record-filter-card select,
-.mc-record-filter-card input,
 .mc-filter-input {
   min-height: 32px;
   height: auto;
@@ -317,47 +252,27 @@ textarea,
   padding: 6px 9px;
   font-size: 12px;
 }
-
 textarea,
 .field textarea {
   min-height: 68px;
 }
-
 input,
 select,
 textarea,
-.health-filter-card input,
-.health-filter-card select,
-.schedule-filter-card input,
-.schedule-filter-card select,
-.rx-filter-card input,
-.rx-filter-card select,
 .mc-filter-card input,
-.mc-filter-card select,
-.patient-filter-card input,
-.patient-filter-card select {
+.mc-filter-card select {
   min-height: 46px !important;
   border-radius: 11px !important;
   font-size: 14px !important;
 }
-
 body {
   font-size: 13px !important;
 }
-
 input,
 select,
 textarea,
-.health-filter-card input,
-.health-filter-card select,
-.schedule-filter-card input,
-.schedule-filter-card select,
-.rx-filter-card input,
-.rx-filter-card select,
 .mc-filter-card input,
-.mc-filter-card select,
-.patient-filter-card input,
-.patient-filter-card select {
+.mc-filter-card select {
   min-height: 37px !important;
   border-radius: 9px !important;
   font-size: 12px !important;
@@ -365,7 +280,6 @@ textarea,
 }
 
 /* Unified typography after compact scale */
-
 body,
 button,
 input,
@@ -376,11 +290,9 @@ table {
   font-size: 13px !important;
   line-height: 1.5 !important;
 }
-
 input,
 select,
 textarea,
-.patient-search-input,
 .control {
   font-size: 12px !important;
   font-weight: 500 !important;
@@ -388,7 +300,6 @@ textarea,
 }
 
 /* Balanced overflow guard */
-
 html,
 body,
 #root,
@@ -398,19 +309,16 @@ body,
   max-width: 100% !important;
   min-width: 0 !important;
 }
-
 html,
 body {
   overflow-x: hidden !important;
 }
-
 html,
 body,
 #root {
   min-width: 0 !important;
   overflow-x: hidden !important;
 }
-
 body,
 button,
 input,
@@ -420,11 +328,9 @@ table {
   font-size: 14px !important;
   line-height: 1.45 !important;
 }
-
 input,
 select,
 textarea,
-.patient-search-input,
 .control {
   min-height: 56px !important;
   height: 56px !important;
@@ -432,7 +338,6 @@ textarea,
   font-size: 16px !important;
   font-weight: 500 !important;
 }
-
 html,
 body,
 #root {
@@ -441,7 +346,6 @@ body,
   margin: 0 !important;
   overflow: hidden !important;
 }
-
 body,
 button,
 input,
@@ -452,14 +356,12 @@ table {
   font-size: 12px !important;
   line-height: 1.45 !important;
 }
-
 html {
   font-size: 14px !important;
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
 }
-
 body {
   color: var(--text-primary) !important;
   background: var(--background) !important;
@@ -468,7 +370,6 @@ body {
   font-weight: var(--weight-normal) !important;
   line-height: var(--line-normal) !important;
 }
-
 button,
 input,
 select,
@@ -477,7 +378,6 @@ option,
 table {
   font-family: var(--font-main) !important;
 }
-
 h1,
 h2,
 h3,
@@ -490,36 +390,28 @@ h6 {
   font-weight: var(--weight-extrabold) !important;
   line-height: var(--line-tight) !important;
 }
-
 h1 {
   font-size: var(--font-24) !important;
 }
-
 h2 {
   font-size: var(--font-20) !important;
 }
-
 h3 {
   font-size: var(--font-16) !important;
 }
-
 h4 {
   font-size: var(--font-14) !important;
 }
-
 h5 {
   font-size: var(--font-13) !important;
 }
-
 h6 {
   font-size: var(--font-12) !important;
 }
-
 p {
   font-size: var(--font-12) !important;
   line-height: var(--line-normal) !important;
 }
-
 html,
 body,
 #root {
@@ -530,7 +422,6 @@ body,
   overflow-x: hidden !important;
   overflow-y: auto !important;
 }
-
 body,
 button,
 input,
@@ -541,19 +432,6 @@ table {
   font-size: 14px !important;
   line-height: 1.45 !important;
 }
-
-input,
-select,
-textarea,
-.patient-search-input,
-.control {
-  min-height: 56px !important;
-  height: 56px !important;
-  border-radius: 13px !important;
-  font-size: 16px !important;
-  font-weight: 500 !important;
-}
-
 body,
 button,
 input,
@@ -562,27 +440,21 @@ textarea,
 table {
   font-family: var(--font-main) !important;
 }
-
 body,
 p,
 .mc-list-hero p,
 .mc-detail-hero p,
-.mc-dashboard-hero p,
 .page-header p,
 .sub,
 .description,
-.small-description,
-.dashboard-empty,
-.schedule-empty-line {
+.small-description {
   font-size: 13px !important;
   line-height: 1.5 !important;
 }
-
 input,
 select,
 textarea,
 .control,
-.patient-search-input,
 .field input,
 .field select,
 .field textarea {
@@ -590,14 +462,6 @@ textarea,
   line-height: 1.35 !important;
   font-weight: 500 !important;
 }
-
-html {
-  font-size: 14px !important;
-  text-rendering: optimizeLegibility !important;
-  -webkit-font-smoothing: antialiased !important;
-  -moz-osx-font-smoothing: grayscale !important;
-}
-
 body {
   color: var(--text-primary) !important;
   font-family: var(--font-main) !important;
@@ -605,16 +469,6 @@ body {
   font-weight: var(--weight-normal) !important;
   line-height: var(--line-normal) !important;
 }
-
-button,
-input,
-select,
-textarea,
-option,
-table {
-  font-family: var(--font-main) !important;
-}
-
 h1,
 h2,
 h3,
@@ -626,30 +480,11 @@ h6 {
   font-weight: var(--weight-extrabold) !important;
   line-height: var(--line-tight) !important;
 }
-
-h1 { font-size: var(--font-24) !important; }
-
-h2 { font-size: var(--font-20) !important; }
-
-h3 { font-size: var(--font-16) !important; }
-
-h4 { font-size: var(--font-14) !important; }
-
-h5 { font-size: var(--font-13) !important; }
-
-h6 { font-size: var(--font-12) !important; }
-
-p {
-  font-size: var(--font-12) !important;
-  line-height: var(--line-normal) !important;
-}
-
 small {
   color: var(--text-muted) !important;
   font-size: var(--font-10) !important;
   line-height: 1.4 !important;
 }
-
 body {
   font-size: 14px !important;
 }
@@ -657,7 +492,6 @@ body {
 /* =====================================================
    GLOBAL FINAL TYPOGRAPHY HIERARCHY FOR ALL PAGES
    ===================================================== */
-
 body,
 button,
 input,
@@ -666,7 +500,6 @@ textarea {
   font-size: 15px !important;
   line-height: 1.5 !important;
 }
-
 input,
 select,
 textarea,
@@ -674,37 +507,25 @@ textarea,
 .field input,
 .field select,
 .field textarea,
-.patient-search-input,
 .mc-filter-input input {
   font-size: 15px !important;
   line-height: 1.4 !important;
   font-weight: 500 !important;
 }
-
 th,
 .data-table th,
-.table th,
-.patient-modern-table-head span,
-.record-modern-table-head span,
-.rx-modern-table-head span,
-.health-modern-table-head span {
+.table th {
   font-size: 12px !important;
   line-height: 1.35 !important;
   font-weight: 900 !important;
 }
-
 td,
 .data-table td,
-.table td,
-.patient-modern-table-row,
-.record-modern-table-row,
-.rx-modern-table-row,
-.health-modern-table-row {
+.table td {
   font-size: 14px !important;
   line-height: 1.45 !important;
   font-weight: 500 !important;
 }
-
 html,
 body,
 #root,
@@ -712,17 +533,12 @@ body,
 .main-area,
 .page,
 .mc-page,
-.mc-dashboard,
 .mc-list-page,
-.mc-detail-page,
-.rx-page,
-.rx-detail-page,
-.doctor-profile-page {
+.mc-detail-page {
   font-family: var(--font-main) !important;
   font-size: var(--type-body) !important;
   font-weight: 400 !important;
 }
-
 button,
 input,
 select,
@@ -730,21 +546,15 @@ textarea {
   font: inherit !important;
   font-family: var(--font-main) !important;
 }
-
 h1,
 .page-header h1,
-.mc-dashboard-hero h1,
 .mc-list-hero h1,
-.mc-detail-hero h1,
-.rx-list-hero h1,
-.rx-detail-hero h1,
-.doctor-profile-hero h1 {
+.mc-detail-hero h1 {
   font-family: var(--font-main) !important;
   font-size: var(--type-page-title) !important;
   font-weight: 700 !important;
   line-height: 1.25 !important;
 }
-
 h2,
 .section-title,
 .panel-heading h2,
@@ -757,13 +567,11 @@ h2,
   font-weight: 600 !important;
   line-height: 1.3 !important;
 }
-
 h3,
 h4,
 .card-title,
 .stat-card-title,
 .mc-stat-card span,
-.dashboard-stat-card span,
 .form-section h3,
 .modal h3,
 .dialog h3 {
@@ -772,7 +580,6 @@ h4,
   font-weight: 600 !important;
   line-height: 1.35 !important;
 }
-
 button,
 .button,
 .primary-button,

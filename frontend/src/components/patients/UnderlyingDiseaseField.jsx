@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import Field from "../ui/Field";
 
 export default function UnderlyingDiseaseField({

@@ -1,7 +1,19 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { useState } from 'react'
 import Field from '../ui/Field'
 
+/**
+ * Hiển thị form ChangePassword và nhận các hàm xử lý từ component cha.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.loading Giá trị loading được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onSubmit Giá trị onSubmit được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onCancel Giá trị onCancel được dùng để render hoặc xử lý tương tác.
+ */
 export default function ChangePasswordForm({ loading, onSubmit, onCancel }) {
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [form, setForm] = useState({
     current_password: '',
     new_password: '',

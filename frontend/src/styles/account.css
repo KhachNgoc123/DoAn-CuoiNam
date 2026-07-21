@@ -338,8 +338,8 @@
   display: grid;
   grid-template-columns: 42px minmax(0, 1fr);
   grid-template-areas:
-    "icon label"
-    "icon value";
+    'icon label'
+    'icon value';
   gap: 4px 12px;
   align-items: center;
   padding: 16px;
@@ -792,7 +792,6 @@
   font-family: sans-serif;
 }
 
-
 .doctor-info-modern-grid .doctor-profile-item {
   min-height: 86px;
   display: grid;
@@ -1001,14 +1000,14 @@
 }
 
 .mc-doctor-profile-page .doctor-profile-item > span {
-  font-family:"Inter", "Be Vietnam Pro", Arial, sans-serif !important;
+  font-family: 'Inter', 'Be Vietnam Pro', Arial, sans-serif !important;
   font-size: 14px !important;
   line-height: 1.35 !important;
   font-weight: 900 !important;
 }
 
 .mc-doctor-profile-page .doctor-profile-item strong {
-  font-family:"Inter", "Be Vietnam Pro", Arial, sans-serif !important;
+  font-family: 'Inter', 'Be Vietnam Pro', Arial, sans-serif !important;
   font-size: 18px !important;
   line-height: 1.45 !important;
   font-weight: 900 !important;
@@ -1022,4 +1021,806 @@
 .mc-doctor-profile-page .dialog p {
   font-size: 16px !important;
   line-height: 1.5 !important;
+}
+
+/* =====================================================
+   MOVED ACCOUNT CSS FROM OTHER STYLE FILES
+   Keep this module's selectors in account.css.
+   ===================================================== */
+
+/* From dashboard.css */
+
+.doctor-profile-panel {
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.05);
+}
+
+.doctor-profile-panel {
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(34, 58, 96, 0.04);
+}
+
+.mc-doctor-profile-page {
+  padding: 24px 24px !important;
+}
+
+.mc-doctor-profile-page {
+  padding: 18px 18px !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero h1 {
+  font-size: 23px !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero p {
+  font-size: 12px !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero h1 {
+  font-size: 23px !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero p {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.45 !important;
+}
+
+.doctor-profile-modern-layout,
+.doctor-info-modern-grid {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.mc-doctor-profile-page {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  padding: var(--ref-page-y) var(--ref-page-x) !important;
+  overflow-x: hidden !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero h1 {
+  font-size: clamp(28px, 1.65vw, 32px) !important;
+  line-height: 1.18 !important;
+  font-weight: 900 !important;
+  color: #061530 !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero p {
+  margin-top: 10px !important;
+  font-size: 16px !important;
+  line-height: 1.45 !important;
+  color: #637394 !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero h1 {
+  margin: 0 0 3px !important;
+  font-size: 21px !important;
+  line-height: 1.2 !important;
+  font-weight: 900 !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero p {
+  margin: 0 !important;
+  color: var(--compact-muted) !important;
+  font-size: 11px !important;
+  line-height: 1.4 !important;
+}
+
+@media (max-height: 800px) {
+  .main-area > .mc-doctor-profile-page {
+    height: calc(100vh - 58px) !important;
+    padding: 11px 13px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .main-area > .mc-doctor-profile-page {
+    height: calc(100vh - 58px) !important;
+    padding: 10px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .doctor-info-modern-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .doctor-profile-modern-layout {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.mc-doctor-profile-page .mc-list-hero p {
+  color: var(--text-muted) !important;
+  font-size: var(--font-11) !important;
+  font-weight: var(--weight-medium) !important;
+  line-height: var(--line-normal) !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero h1 {
+  margin: 0 0 4px !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-heading) !important;
+  font-size: var(--font-22) !important;
+  font-weight: var(--weight-black) !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.3px !important;
+}
+
+@media (max-height: 800px) {
+  .doctor-info-modern-grid .doctor-profile-item strong {
+    font-size: var(--font-10) !important;
+  }
+}
+
+.mc-doctor-profile-page .mc-list-hero h1 {
+  font-family: var(--font-main) !important;
+  font-size: clamp(28px, 1.65vw, 32px) !important;
+  line-height: 1.18 !important;
+  font-weight: 900 !important;
+  color: #061530 !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero h1 {
+  font-size: 22px !important;
+  line-height: 1.25 !important;
+  font-weight: 900 !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero h1 {
+  color: var(--text-primary) !important;
+  font-family: var(--font-heading) !important;
+  font-size: var(--font-22) !important;
+  font-weight: var(--weight-black) !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.3px !important;
+}
+
+@media (max-height: 800px) {
+  .doctor-info-modern-card h2,
+  .doctor-settings-modern h2 {
+    font-size: var(--font-13) !important;
+  }
+}
+
+@media (max-height: 800px) {
+  .doctor-info-modern-grid .doctor-profile-item strong {
+    font-size: var(--font-10) !important;
+  }
+}
+
+.doctor-modern-hero h1 {
+  font-size: 32px !important;
+  line-height: 1.18 !important;
+  font-weight: 900 !important;
+  letter-spacing: 0 !important;
+}
+
+.doctor-modern-hero p {
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+  font-weight: 500 !important;
+}
+
+@media (max-height: 800px) {
+  .doctor-modern-hero h1 {
+    font-size: 28px !important;
+  }
+}
+
+.doctor-profile-page,
+.accounts-page {
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  color: #061530 !important;
+}
+
+.doctor-profile-page *,
+.accounts-page * {
+  letter-spacing: 0 !important;
+}
+
+.doctor-profile-page h1,
+.accounts-page h1 {
+  font-size: 30px !important;
+  line-height: 1.2 !important;
+  font-weight: 900 !important;
+}
+
+.doctor-profile-page .doctor-modern-hero p,
+.accounts-page .doctor-modern-hero p,
+.doctor-profile-page p,
+.accounts-page p {
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+
+.doctor-profile-page h2,
+.doctor-profile-page h3,
+.accounts-page h2,
+.accounts-page h3 {
+  font-size: 20px !important;
+  line-height: 1.3 !important;
+  font-weight: 900 !important;
+}
+
+.doctor-profile-page label,
+.doctor-profile-page label > span,
+.accounts-page label,
+.accounts-page label > span {
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+  font-weight: 900 !important;
+}
+
+.doctor-profile-page input,
+.doctor-profile-page select,
+.doctor-profile-page textarea,
+.accounts-page input,
+.accounts-page select,
+.accounts-page textarea {
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  font-weight: 500 !important;
+}
+
+.doctor-profile-page button,
+.accounts-page button {
+  font-size: 15px !important;
+  line-height: 1.2 !important;
+  font-weight: 900 !important;
+}
+
+.doctor-profile-page th,
+.accounts-page th {
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+  font-weight: 900 !important;
+}
+
+.doctor-profile-page td,
+.accounts-page td {
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+  font-weight: 500 !important;
+}
+
+.doctor-profile-page td strong,
+.accounts-page td strong {
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+  font-weight: 900 !important;
+}
+
+.doctor-profile-page .status-badge,
+.accounts-page .status-badge,
+.doctor-profile-page .badge,
+.accounts-page .badge {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  font-weight: 900 !important;
+}
+
+.doctor-profile-page .mc-stat-card span,
+.accounts-page .mc-stat-card span {
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+  font-weight: 800 !important;
+}
+
+.doctor-profile-page .mc-stat-card strong,
+.accounts-page .mc-stat-card strong {
+  font-size: 30px !important;
+  line-height: 1.1 !important;
+  font-weight: 900 !important;
+}
+
+.doctor-profile-page small,
+.accounts-page small {
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+/* From global.css */
+
+.doctor-profile-page {
+  font-family: var(--font-main) !important;
+  font-size: var(--type-body) !important;
+  font-weight: 400 !important;
+}
+
+.doctor-profile-hero h1 {
+  font-family: var(--font-main) !important;
+  font-size: var(--type-page-title) !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+}
+
+/* From health.css */
+
+.mc-doctor-profile-page .mc-list-hero h1 {
+  font-size: 28px !important;
+  line-height: 1.2 !important;
+}
+
+.mc-doctor-profile-page .mc-list-hero p {
+  font-size: 14px !important;
+}
+
+/* From layout.css */
+
+.sidebar-doctor-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(2, 6, 23, 0.42);
+}
+
+.sidebar-doctor-card strong {
+  display: block;
+  color: #f8fafc;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.sidebar-doctor-card span {
+  display: block;
+  margin-top: 2px;
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.topbar-account-menu {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+}
+
+.sidebar-doctor-card {
+  margin: 14px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: linear-gradient(180deg, #fff, #f8fbff);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.sidebar-doctor-card strong {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.sidebar-doctor-card span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.topbar-account-menu {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 18px 42px rgba(29, 53, 87, 0.14);
+}
+
+.topbar-account-menu button:hover {
+  background: #f4f8fd;
+  color: var(--blue);
+}
+
+.sidebar-doctor-card {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-doctor-card strong {
+  display: block;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.sidebar-doctor-card span {
+  display: block;
+  margin-top: 2px;
+  color: #aebfd6;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.topbar-account-menu button {
+  font-family: var(--font-main);
+}
+
+.topbar-doctor-menu {
+  position: relative;
+}
+
+.topbar-account-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 210px;
+  padding: 8px;
+  border: 1px solid var(--mc-line);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 18px 45px rgba(29, 53, 87, 0.18);
+}
+
+.topbar-account-menu button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 11px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--mc-ink);
+  font-size: 13px;
+  font-weight: 800;
+  text-align: left;
+}
+
+.topbar-account-menu button:hover {
+  background: var(--mc-soft);
+}
+
+.mc-doctor-pill {
+  min-height: 36px;
+  padding: 4px 10px;
+  font-size: 13px;
+}
+
+.mc-doctor-profile-page {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  overflow-x: clip !important;
+}
+
+.main-area > .mc-doctor-profile-page {
+  flex: 1 !important;
+  width: 100% !important;
+  height: calc(100vh - var(--compact-topbar)) !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 16px 18px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+.main-area > .mc-doctor-profile-page::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.main-area > .mc-doctor-profile-page::-webkit-scrollbar-track {
+  background: #f1f5f9 !important;
+}
+
+.main-area > .mc-doctor-profile-page::-webkit-scrollbar-thumb {
+  background: #cbd5e1 !important;
+  border-radius: 10px !important;
+}
+
+.main-area > .mc-doctor-profile-page {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: calc(100vh - 88px) !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: var(--ref-page-y) var(--ref-page-x) !important;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+}
+
+.doctor-profile-page,
+.accounts-page {
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+
+.main-area .doctor-modern-hero h1 {
+  font-size: 34px !important;
+  line-height: 1.18 !important;
+  font-weight: 900 !important;
+}
+
+.main-area .doctor-info-modern-card h2 {
+  font-size: 22px !important;
+  line-height: 1.3 !important;
+  font-weight: 900 !important;
+}
+
+/* From login.css */
+
+@media (max-width: 760px) {
+  .doctor-info-modern-card h2,
+  .doctor-settings-modern h2 {
+    font-size: var(--font-13) !important;
+  }
+}
+
+/* From overrides.css */
+
+.status-doctor {
+  color: #065f46;
+  background: #d1fae5;
+}
+
+.main-area .doctor-modern-hero h1 {
+  font-size: 24px !important;
+  line-height: 1.22 !important;
+}
+
+.main-area .doctor-info-modern-card h2 {
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+}
+
+/* From patients.css */
+
+.doctor-profile-label {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.doctor-profile-panel {
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.mc-patient-avatar {
+  width: 116px;
+  height: 116px;
+  display: grid;
+  place-items: center;
+  border-radius: 31px;
+  background: linear-gradient(180deg, #d5edff, #b7dcf6);
+  color: #0868bb;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.mc-patient-avatar {
+  width: 78px;
+  height: 78px;
+  border-radius: 18px;
+  font-size: 24px;
+}
+
+.mc-patient-detail-page .mc-patient-avatar {
+  width: 116px;
+  height: 116px;
+  display: grid;
+  place-items: center;
+  border-radius: 31px;
+  background: linear-gradient(180deg, #d5edff, #b7dcf6);
+  color: #0868bb;
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.doctor-avatar-modern-card,
+.doctor-info-modern-card {
+  border-radius: 16px !important;
+}
+
+.doctor-info-modern-grid .doctor-profile-item {
+  min-height: 72px !important;
+  border-radius: 12px !important;
+  padding: 14px 14px !important;
+}
+
+.doctor-avatar-modern-card,
+.doctor-info-modern-card {
+  border-radius: 13px !important;
+}
+
+.doctor-info-modern-grid .doctor-profile-item {
+  min-height: 58px !important;
+  border-radius: 10px !important;
+  padding: 11px 11px !important;
+}
+
+.doctor-info-modern-grid .doctor-profile-item > span {
+  font-size: 10px !important;
+}
+
+.doctor-info-modern-grid .doctor-profile-item strong {
+  font-size: 12px !important;
+}
+
+.doctor-info-modern-card h2,
+.doctor-settings-modern h2 {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0 !important;
+}
+
+.doctor-profile-item > span {
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  line-height: 1.3 !important;
+}
+
+.doctor-info-modern-grid .doctor-profile-item strong {
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+}
+
+.doctor-avatar-modern-card,
+.doctor-info-modern-card {
+  border-radius: var(--ref-card-radius) !important;
+  border: 1px solid #dfe7f1 !important;
+  box-shadow: 0 18px 45px rgba(38, 58, 84, 0.07) !important;
+}
+
+.doctor-avatar-modern-card,
+.doctor-info-modern-card {
+  background: #fff !important;
+  border: 1px solid var(--compact-line) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 7px 22px rgba(29, 53, 87, 0.06) !important;
+}
+
+.doctor-profile-modern-layout {
+  min-height: 0 !important;
+  grid-template-columns: 220px minmax(0, 1fr) !important;
+  gap: 12px !important;
+}
+
+.doctor-avatar-modern-card {
+  overflow-y: auto !important;
+}
+
+.doctor-info-modern-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+
+.doctor-info-modern-grid .doctor-profile-item {
+  padding: 10px !important;
+  border-radius: 10px !important;
+  min-height: 52px !important;
+}
+
+.doctor-info-modern-grid .doctor-profile-item > span {
+  font-size: 9px !important;
+}
+
+.doctor-info-modern-grid .doctor-profile-item strong {
+  margin-top: 3px !important;
+  font-size: 11px !important;
+}
+
+.doctor-info-modern-card h2,
+.doctor-settings-modern h2 {
+  margin: 0 !important;
+  color: var(--text-primary) !important;
+  font-size: var(--font-14) !important;
+  font-weight: var(--weight-extrabold) !important;
+  line-height: 1.35 !important;
+}
+
+.doctor-info-modern-grid .doctor-profile-item > span {
+  color: var(--text-muted) !important;
+  font-size: var(--font-9) !important;
+  font-weight: var(--weight-extrabold) !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0.3px !important;
+  text-transform: uppercase !important;
+}
+
+.doctor-info-modern-grid .doctor-profile-item strong {
+  color: var(--text-primary) !important;
+  font-size: var(--font-11) !important;
+  font-weight: var(--weight-extrabold) !important;
+  line-height: 1.45 !important;
+}
+
+.doctor-info-modern-card h2,
+.doctor-settings-modern h2 {
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+  font-weight: 800 !important;
+}
+
+.doctor-info-modern-card h2,
+.doctor-settings-modern h2 {
+  color: var(--text-primary) !important;
+  font-size: var(--font-14) !important;
+  font-weight: var(--weight-extrabold) !important;
+  line-height: 1.35 !important;
+}
+
+.doctor-info-modern-card h2,
+.doctor-settings-modern h2 {
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+  font-weight: 900 !important;
+}
+
+.doctor-info-modern-card h2,
+.doctor-settings-modern h2 {
+  font-size: 20px !important;
+  line-height: 1.3 !important;
+  font-weight: 900 !important;
+}
+
+.doctor-profile-item span {
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  font-weight: 800 !important;
+}
+
+.doctor-profile-item strong {
+  font-size: 15px !important;
+  line-height: 1.45 !important;
+  font-weight: 900 !important;
+}
+
+/* From prescription.css */
+
+.doctor-settings-actions .secondary-button {
+  min-height: 52px;
+  border-radius: 12px;
+  padding: 0 18px;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.doctor-info-modern-card h2,
+.doctor-settings-modern h2 {
+  font-size: 18px !important;
+}
+
+.doctor-avatar-modern-card,
+.doctor-info-modern-card {
+  padding: 18px 18px !important;
+}
+
+.doctor-info-modern-card h2,
+.doctor-settings-modern h2 {
+  font-size: 15px !important;
+}
+
+.mc-doctor-profile-page button,
+.mc-doctor-profile-page .primary-button,
+.mc-doctor-profile-page .secondary-button {
+  font-size: 17px !important;
+  line-height: 1.25 !important;
+  font-weight: 900 !important;
 }

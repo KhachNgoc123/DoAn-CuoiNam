@@ -1,18 +1,26 @@
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
 import { useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom'
-import { getErrorMessage } from '../api/client'
-import { changePassword, logout, updateMe } from '../api/authApi'
-import AccountForm from '../components/accounts/AccountForm'
-import ChangePasswordForm from '../components/accounts/ChangePasswordForm'
-import DoctorAvatarCard from '../components/accounts/DoctorAvatarCard'
-import DoctorInfoCard from '../components/accounts/DoctorInfoCard'
-import DoctorProfileHeader from '../components/accounts/DoctorProfileHeader'
-import ConfirmDialog from '../components/ui/ConfirmDialog'
-import Toast from '../components/ui/Toast'
+import { getErrorMessage } from '../../api/client'
+import { changePassword, logout, updateMe } from '../../api/authApi'
+import AccountForm from '../../components/accounts/AccountForm'
+import ChangePasswordForm from '../../components/accounts/ChangePasswordForm'
+import DoctorAvatarCard from '../../components/accounts/DoctorAvatarCard'
+import DoctorInfoCard from '../../components/accounts/DoctorInfoCard'
+import DoctorProfileHeader from '../../components/accounts/DoctorProfileHeader'
+import ConfirmDialog from '../../components/ui/ConfirmDialog'
+import Toast from '../../components/ui/Toast'
 
+/**
+ * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh Accounts.
+ */
 export default function AccountsPage() {
   const { user, onUserChange } = useOutletContext()
   const navigate = useNavigate()
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [profile, setProfile] = useState(user || {})
   const [editing, setEditing] = useState(false)
   const [changingPassword, setChangingPassword] = useState(false)
@@ -27,6 +35,7 @@ export default function AccountsPage() {
     setChangingPassword(true)
   }
 
+  // Hàm submitProfile gửi dữ liệu mới lên API hoặc component cha.
   async function submitProfile(payload) {
     setSaving(true)
     try {
@@ -43,6 +52,7 @@ export default function AccountsPage() {
     }
   }
 
+  // Hàm submitPassword gửi dữ liệu mới lên API hoặc component cha.
   async function submitPassword(payload) {
     setPasswordSaving(true)
     try {

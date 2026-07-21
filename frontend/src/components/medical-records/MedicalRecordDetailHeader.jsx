@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { ArrowLeft, CalendarClock, FileSpreadsheet, Pencil, Pill, Printer } from 'lucide-react'
 import { formatDate } from '../../utils/formatters'
 import { formatRecordCode } from './medicalRecordHelpers'

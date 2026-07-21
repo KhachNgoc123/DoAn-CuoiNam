@@ -1,9 +1,14 @@
+/**
+ * Hook nạp danh sách có loading, lỗi, filter và phân trang.
+ */
+
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { getErrorMessage } from './client'
 import { getList, hasCachedList } from './resources'
 
 export default function useResourceList(endpoint, initialParams = {}) {
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [items, setItems] = useState([])
   const [pagination, setPagination] = useState({ currentPage: 1, lastPage: 1, total: 0 })
   const [params, setParams] = useState({ page: 1, per_page: 10, ...initialParams })
@@ -12,6 +17,7 @@ export default function useResourceList(endpoint, initialParams = {}) {
   const [requestError, setRequestError] = useState(null)
   const requestIdRef = useRef(0)
 
+  // Hàm fetchData nạp dữ liệu từ API hoặc nguồn dữ liệu hiện có để cập nhật giao diện.
   const fetchData = useCallback(
     async (nextParams = params) => {
       const requestId = requestIdRef.current + 1
@@ -36,10 +42,12 @@ export default function useResourceList(endpoint, initialParams = {}) {
     [endpoint, params],
   )
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     fetchData(params)
   }, [fetchData, params])
 
+  // Hàm updateParams gửi dữ liệu chỉnh sửa lên API hoặc component cha.
   function updateParams(next) {
     setParams((current) => {
       const merged = { ...current, ...next }

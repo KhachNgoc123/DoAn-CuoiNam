@@ -1,19 +1,23 @@
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { getMedicalRecords } from '../api/medicalRecordApi'
-import { createOne, getList, updateOne } from '../api/resources'
-import { getErrorMessage } from '../api/client'
-import MedicalRecordEntryView from '../components/medical-records/MedicalRecordEntryView'
-import MedicalRecordFilterBar from '../components/medical-records/MedicalRecordFilterBar'
-import MedicalRecordListHeader from '../components/medical-records/MedicalRecordListHeader'
-import MedicalRecordTable from '../components/medical-records/MedicalRecordTable'
-import PatientMedicalRecordsView from '../components/medical-records/PatientMedicalRecordsView'
-import Toast from '../components/ui/Toast'
-import { formatDate, isMedicalRecordInTreatmentStatus } from '../utils/formatters'
-import { clearActiveVisit, getActiveVisit, setActiveVisit } from '../utils/activeVisit'
-import { downloadStyledExcel } from '../utils/excelExport'
-import { formatRecordCode } from '../components/medical-records/medicalRecordHelpers'
+import { getMedicalRecords } from '../../api/medicalRecordApi'
+import { createOne, getList, updateOne } from '../../api/resources'
+import { getErrorMessage } from '../../api/client'
+import MedicalRecordEntryView from '../../components/medical-records/MedicalRecordEntryView'
+import MedicalRecordFilterBar from '../../components/medical-records/MedicalRecordFilterBar'
+import MedicalRecordListHeader from '../../components/medical-records/MedicalRecordListHeader'
+import MedicalRecordTable from '../../components/medical-records/MedicalRecordTable'
+import PatientMedicalRecordsView from '../../components/medical-records/PatientMedicalRecordsView'
+import Toast from '../../components/ui/Toast'
+import { formatDate, isMedicalRecordInTreatmentStatus } from '../../utils/formatters'
+import { clearActiveVisit, getActiveVisit, setActiveVisit } from '../../utils/activeVisit'
+import { downloadStyledExcel } from '../../utils/excelExport'
+import { formatRecordCode } from '../../components/medical-records/medicalRecordHelpers'
 
 const ACTIVE_RECORD_MESSAGE =
   'Bệnh nhân đang có một hồ sơ điều trị. Vui lòng hoàn thành điều trị trước khi tạo hồ sơ bệnh án mới.'
@@ -38,13 +42,18 @@ function sortMedicalRecords(records) {
   })
 }
 
+/**
+ * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh MedicalRecords.
+ */
 export default function MedicalRecordsPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const [searchParams] = useSearchParams()
   const activeVisit = getActiveVisit()
+  // Hàm createPatientId gửi dữ liệu mới lên API hoặc component cha.
   const createPatientId = location.state?.createPatientId || ''
   const routedPatientId = location.state?.patientId || ''
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [workflow, setWorkflow] = useState(location.state?.workflow || '')
   const initialPatientId = searchParams.get('patient_id') || createPatientId || routedPatientId
   const [records, setRecords] = useState([])
@@ -80,6 +89,7 @@ export default function MedicalRecordsPage() {
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState(() => location.state?.toast || null)
 
+  // Hàm loadMedicalRecords nạp dữ liệu từ API hoặc nguồn dữ liệu hiện có để cập nhật giao diện.
   const loadMedicalRecords = useCallback(async (nextParams = params) => {
     setLoading(true)
     try {
@@ -104,10 +114,12 @@ export default function MedicalRecordsPage() {
     loadMedicalRecords(params)
   }
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     loadMedicalRecords(params)
   }, [loadMedicalRecords, params])
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     const routeToast = location.state?.toast
     if (!routeToast) return
@@ -117,12 +129,14 @@ export default function MedicalRecordsPage() {
     })
   }, [location.pathname, location.state, navigate])
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     getList('/patients', { per_page: 50, scope: 'all' })
       .then((result) => setPatients(result.items))
       .catch(() => setPatients([]))
   }, [])
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     if (!showForm || recordFormOptionsRequested) return
     setRecordFormOptionsRequested(true)
@@ -138,12 +152,14 @@ export default function MedicalRecordsPage() {
       })
   }, [recordFormOptionsRequested, showForm])
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     if (location.state?.createPatientId) {
       navigate('/medical-records', { replace: true })
     }
   }, [location.state, navigate])
 
+  // Hàm saveRecord gửi dữ liệu mới lên API hoặc component cha.
   async function saveRecord(payload) {
     setSaving(true)
     try {
@@ -196,7 +212,7 @@ export default function MedicalRecordsPage() {
         if (workflow === 'new-patient') {
           setWorkflow('')
           clearActiveVisit()
-          navigate('/prescriptions', {
+          navigate('/prescriptions/create', {
             state: {
               mode: 'create',
               recordId: savedRecord.record_id,
@@ -259,6 +275,7 @@ export default function MedicalRecordsPage() {
     })
   }
 
+  // Hàm saveActiveVisitDraft gửi dữ liệu mới lên API hoặc component cha.
   const saveActiveVisitDraft = useCallback(
     (draft) => {
       if (workflow !== 'new-patient' || editingRecord?.id || !draft?.patient_id) return

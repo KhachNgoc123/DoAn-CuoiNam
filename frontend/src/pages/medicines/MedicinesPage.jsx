@@ -1,11 +1,15 @@
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
 import { useEffect, useMemo, useState } from 'react'
-import useResourceList from '../api/useResourceList'
-import { createOne, deleteOne, getList, updateOne } from '../api/resources'
-import { getErrorMessage } from '../api/client'
-import StatusBadge from '../components/ui/StatusBadge'
-import MedicinesView from '../components/medicines/MedicinesView'
-import { formatDate } from '../utils/formatters'
-import { downloadStyledExcel } from '../utils/excelExport'
+import useResourceList from '../../api/useResourceList'
+import { createOne, deleteOne, getList, updateOne } from '../../api/resources'
+import { getErrorMessage } from '../../api/client'
+import StatusBadge from '../../components/ui/StatusBadge'
+import MedicinesView from '../../components/medicines/MedicinesView'
+import { formatDate } from '../../utils/formatters'
+import { downloadStyledExcel } from '../../utils/excelExport'
 
 const emptyForm = {
   category_id: '',
@@ -40,13 +44,17 @@ function isLowStock(medicine) {
 }
 
 function medicineStatus(medicine) {
-  if (isExpired(medicine)) return 'Háº¿t háº¡n'
-  if (isLowStock(medicine)) return 'Sáº¯p háº¿t'
-  return 'Hoáº¡t Ä‘á»™ng'
+  if (isExpired(medicine)) return 'Hết hạn'
+  if (isLowStock(medicine)) return 'Sắp hết'
+  return 'Hoạt động'
 }
 
+/**
+ * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh Medicines.
+ */
 export default function MedicinesPage() {
   const { items, params, setParams, loading, refetch } = useResourceList('/medicines', { per_page: 20 })
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [categories, setCategories] = useState([])
   const [editing, setEditing] = useState(null)
   const [form, setForm] = useState(emptyForm)
@@ -56,6 +64,7 @@ export default function MedicinesPage() {
   const [categoryFilter, setCategoryFilter] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     getList('/medicine-categories', { per_page: 50 })
       .then((result) => setCategories(result.items))
@@ -83,13 +92,13 @@ export default function MedicinesPage() {
   )
 
   const columns = [
-    { key: 'medicine_id', label: 'MÃ£ thuá»‘c', render: medicineCode },
-    { key: 'medicine_name', label: 'TÃªn thuá»‘c' },
-    { key: 'category', label: 'NhÃ³m thuá»‘c', render: (row) => row.category?.category_name || '-' },
-    { key: 'unit', label: 'ÄÆ¡n vá»‹' },
-    { key: 'quantity', label: 'Tá»“n kho', render: (row) => row.quantity ?? '-' },
-    { key: 'expiry_date', label: 'Háº¡n dÃ¹ng', render: (row) => formatDate(row.expiry_date) || '-' },
-    { key: 'status', label: 'TÃ¬nh tráº¡ng', render: (row) => <StatusBadge value={medicineStatus(row)} /> },
+    { key: 'medicine_id', label: 'Mã thuốc', render: medicineCode },
+    { key: 'medicine_name', label: 'Tên thuốc' },
+    { key: 'category', label: 'Nhóm thuốc', render: (row) => row.category?.category_name || '-' },
+    { key: 'unit', label: 'Đơn vị' },
+    { key: 'quantity', label: 'Tồn kho', render: (row) => row.quantity ?? '-' },
+    { key: 'expiry_date', label: 'Hạn dùng', render: (row) => formatDate(row.expiry_date) || '-' },
+    { key: 'status', label: 'Tình trạng', render: (row) => <StatusBadge value={medicineStatus(row)} /> },
   ]
 
   function openForm(medicine = null) {
@@ -132,7 +141,7 @@ export default function MedicinesPage() {
         await createOne('/medicines', payload)
       }
 
-      setToast({ type: 'success', message: currentMedicineId ? 'ÄÃ£ cáº­p nháº­t thuá»‘c.' : 'ÄÃ£ thÃªm thuá»‘c.' })
+      setToast({ type: 'success', message: currentMedicineId ? 'Đã cập nhật thuốc.' : 'Đã thêm thuốc.' })
       closeForm()
       refetch()
     } catch (error) {
@@ -146,7 +155,7 @@ export default function MedicinesPage() {
     if (!deleting) return
     try {
       await deleteOne('/medicines', medicineId(deleting))
-      setToast({ type: 'success', message: 'ÄÃ£ xÃ³a thuá»‘c.' })
+      setToast({ type: 'success', message: 'Đã xóa thuốc.' })
       setDeleting(null)
       refetch()
     } catch (error) {
@@ -156,10 +165,10 @@ export default function MedicinesPage() {
 
   function exportExcel() {
     downloadStyledExcel('danh-sach-thuoc.xls', {
-      title: 'Danh sÃ¡ch thuá»‘c',
+      title: 'Danh sách thuốc',
       rows: [
-        ['Danh sÃ¡ch thuá»‘c'],
-        ['STT', 'MÃ£ thuá»‘c', 'TÃªn thuá»‘c', 'NhÃ³m thuá»‘c', 'ÄÆ¡n vá»‹', 'Tá»“n kho', 'Háº¡n dÃ¹ng', 'TÃ¬nh tráº¡ng', 'MÃ´ táº£'],
+        ['Danh sách thuốc'],
+        ['STT', 'Mã thuốc', 'Tên thuốc', 'Nhóm thuốc', 'Đơn vị', 'Tồn kho', 'Hạn dùng', 'Tình trạng', 'Mô tả'],
         ...visibleItems.map((item, index) => [
           index + 1,
           medicineCode(item),

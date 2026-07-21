@@ -1,3 +1,7 @@
+/**
+ * Tiện ích xuất dữ liệu bảng ra file Excel phục vụ báo cáo.
+ */
+
 export function escapeExcelHtml(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -45,6 +49,9 @@ function renderRows(rows, columnCount) {
     .join('')
 }
 
+/**
+ * Hàm tiện ích downloadStyledExcel dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function downloadStyledExcel(filename, { title, rows, subtitle = '', generatedAt = new Date() }) {
   const columnCount = maxColumnCount(rows)
   const colgroup = Array.from({ length: columnCount })

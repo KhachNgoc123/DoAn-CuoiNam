@@ -1,13 +1,17 @@
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
-import { createOne, getList, getOne, updateOne } from '../api/resources'
-import { getErrorMessage } from '../api/client'
-import PageHeader from '../components/ui/PageHeader'
-import LoadingState from '../components/ui/LoadingState'
-import MedicationScheduleForm from '../components/schedules/MedicationScheduleForm'
-import Toast from '../components/ui/Toast'
-import { formatDate, formatPatientCode } from '../utils/formatters'
+import { createOne, getList, getOne, updateOne } from '../../api/resources'
+import { getErrorMessage } from '../../api/client'
+import PageHeader from '../../components/ui/PageHeader'
+import LoadingState from '../../components/ui/LoadingState'
+import MedicationScheduleForm from '../../components/schedules/MedicationScheduleForm'
+import Toast from '../../components/ui/Toast'
+import { formatDate, formatPatientCode } from '../../utils/formatters'
 
 const doseSessions = [
   { key: 'morning', label: 'Sáng', time: '08:00' },
@@ -93,6 +97,7 @@ export function PrescriptionScheduleBuilder({ prescription, prescriptionDetailId
     : (prescription?.details || [])
   const patient = prescription?.medical_record?.patient || {}
   const doctor = prescription?.medical_record?.doctor || {}
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [detailSchedules, setDetailSchedules] = useState(() => buildInitialDetailSchedules(details))
   const [note, setNote] = useState(prescription?.note || '')
   const [remindOnTime, setRemindOnTime] = useState(true)
@@ -308,6 +313,13 @@ export function PrescriptionScheduleBuilder({ prescription, prescriptionDetailId
   )
 }
 
+/**
+ * Điều phối dữ liệu và hiển thị màn hình MedicationScheduleForm.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.mode Giá trị mode được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.prescriptionId Giá trị prescriptionId được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.prescriptionDetailId Giá trị prescriptionDetailId được dùng để render hoặc xử lý tương tác.
+ */
 export default function MedicationScheduleFormPage({ mode, prescriptionId, prescriptionDetailId }) {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -319,6 +331,7 @@ export default function MedicationScheduleFormPage({ mode, prescriptionId, presc
   const [saving, setSaving] = useState(false)
   const [toast, setToast] = useState(null)
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     Promise.all([
       prescriptionId ? Promise.resolve({ items: [] }) : getList('/prescriptions', { per_page: 50, status: 'active' }),
@@ -364,6 +377,7 @@ export default function MedicationScheduleFormPage({ mode, prescriptionId, presc
     }
   }
 
+  // Hàm submitPrescriptionSchedules gửi dữ liệu mới lên API hoặc component cha.
   async function submitPrescriptionSchedules(schedules) {
     if (!schedules.length) {
       setToast({ type: 'error', message: 'Vui lòng chọn ít nhất một giờ uống thuốc.' })

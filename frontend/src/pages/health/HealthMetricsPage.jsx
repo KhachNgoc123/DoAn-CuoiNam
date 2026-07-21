@@ -1,16 +1,21 @@
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
 import { useEffect, useMemo, useState } from 'react'
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom'
 import { AlertTriangle, ArrowLeft, CalendarClock, Eye, HeartPulse, Pill, Plus, Save, Users } from 'lucide-react'
-import useResourceList from '../api/useResourceList'
-import { createOne, getList } from '../api/resources'
-import { getErrorMessage } from '../api/client'
-import PageHeader from '../components/ui/PageHeader'
-import Field from '../components/ui/Field'
-import LoadingState from '../components/ui/LoadingState'
-import Toast from '../components/ui/Toast'
-import StatusBadge from '../components/ui/StatusBadge'
-import PatientSearchBox from '../components/patients/PatientSearchBox'
-import { EMPTY_TEXT, formatDate, formatDateTime, formatGender, formatPatientCode } from '../utils/formatters'
+import useResourceList from '../../api/useResourceList'
+import { createOne, getList } from '../../api/resources'
+import { getErrorMessage } from '../../api/client'
+import PageHeader from '../../components/ui/PageHeader'
+import Field from '../../components/ui/Field'
+import LoadingState from '../../components/ui/LoadingState'
+import Toast from '../../components/ui/Toast'
+import StatusBadge from '../../components/ui/StatusBadge'
+import PatientSearchBox from '../../components/patients/PatientSearchBox'
+import { EMPTY_TEXT, formatDate, formatDateTime, formatGender, formatPatientCode } from '../../utils/formatters'
 
 const todayValue = () => new Date().toISOString().slice(0, 10)
 
@@ -246,6 +251,14 @@ function dateHistoryRow(dayMetrics) {
   }
 }
 
+/**
+ * Hiển thị component ActivePrescriptionCard trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.prescriptions Giá trị prescriptions được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.loading Giá trị loading được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.error Giá trị error được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onViewPrescription Giá trị onViewPrescription được dùng để render hoặc xử lý tương tác.
+ */
 function ActivePrescriptionCard({ prescriptions, loading, error, onViewPrescription }) {
   return (
     <section className="health-active-prescription-card">
@@ -376,6 +389,9 @@ function patientGroupsFromData(patients, metrics, filters) {
     })
 }
 
+/**
+ * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh HealthMetrics.
+ */
 export default function HealthMetricsPage() {
   const location = useLocation()
   const navigate = useNavigate()
@@ -383,6 +399,7 @@ export default function HealthMetricsPage() {
   const { items, loading, error, refetch } = useResourceList('/health-metrics', {
     per_page: 50,
   })
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [patients, setPatients] = useState([])
   const [healthTypes, setHealthTypes] = useState([])
   const [selectedGroupId, setSelectedGroupId] = useState('')
@@ -400,6 +417,7 @@ export default function HealthMetricsPage() {
   const [activePrescriptionLoading, setActivePrescriptionLoading] = useState(false)
   const [activePrescriptionError, setActivePrescriptionError] = useState('')
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     let active = true
     Promise.all([
@@ -437,6 +455,7 @@ export default function HealthMetricsPage() {
   const treatmentCount = groups.filter((group) => patientStatus(group.patient)).length
   const currentDoctorName = user?.full_name ? ` ${user.full_name}` : 'Bác sĩ'
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     const patientId = selectedGroup?.patientId
     if (!patientId) {
@@ -508,7 +527,7 @@ export default function HealthMetricsPage() {
   }
 
   function viewPrescription(prescription) {
-    navigate('/prescriptions', {
+    navigate(`/prescriptions/${prescription.prescription_id}`, {
       state: {
         viewPrescriptionId: prescription.prescription_id,
         patientId: selectedGroup?.patientId,
@@ -530,6 +549,7 @@ export default function HealthMetricsPage() {
     setForm(metricFormDefaults)
   }
 
+  // Hàm submitMetrics gửi dữ liệu mới lên API hoặc component cha.
   async function submitMetrics(event) {
     event.preventDefault()
     const patientId = form.patient_id || recordingGroup?.patientId
@@ -653,17 +673,6 @@ export default function HealthMetricsPage() {
                   value={form.heart_rate}
                   placeholder="75"
                   onChange={(event) => setForm((current) => ({ ...current, heart_rate: event.target.value }))}
-                />
-              </Field>
-              <Field label="Nhiệt độ">
-                <input
-                  type="number"
-                  min="30"
-                  max="45"
-                  step="0.1"
-                  value={form.temperature}
-                  placeholder="36.8"
-                  onChange={(event) => setForm((current) => ({ ...current, temperature: event.target.value }))}
                 />
               </Field>
               <Field label="SpO2">

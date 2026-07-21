@@ -1,4 +1,8 @@
-﻿import { useEffect, useMemo, useRef, useState } from 'react'
+/**
+ * Hook qu?n l? to?n b? d? li?u v? x? l? submit c?a form b?nh nh?n.
+ */
+
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { getPatientSuggestions } from '../api/patientApi'
 import { getProvinceDetail, getProvinces } from '../api/provincesApi'
 import { toCompactDateInputValue } from '../utils/formatters'
@@ -22,6 +26,7 @@ export default function usePatientForm({
   initialValue = {},
   onSubmit,
 }) {
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [form, setForm] = useState({
     full_name: initialValue.full_name || '',
     gender:
@@ -381,6 +386,7 @@ export default function usePatientForm({
     refs.current[index]?.focus()
   }
 
+  // Hàm handleSuggestionInputKeyDown xử lý sự kiện người dùng trên giao diện.
   function handleSuggestionInputKeyDown(
     event,
     suggestions,
@@ -396,6 +402,7 @@ export default function usePatientForm({
     }
   }
 
+  // Hàm handleSuggestionKeyDown xử lý sự kiện người dùng trên giao diện.
   function handleSuggestionKeyDown(
     event,
     index,

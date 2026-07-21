@@ -1,15 +1,19 @@
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getErrorMessage } from '../api/client'
-import { forgotPassword, login, resetPassword, verifyResetOtp } from '../api/authApi'
-import { clearListCache } from '../api/resources'
-import AuthActions from '../components/auth/AuthActions'
-import AuthHeader from '../components/auth/AuthHeader'
-import ForgotEmailForm from '../components/auth/ForgotEmailForm'
-import LoginForm from '../components/auth/LoginForm'
-import OtpVerifyForm from '../components/auth/OtpVerifyForm'
-import ResetPasswordForm from '../components/auth/ResetPasswordForm'
-import Toast from '../components/ui/Toast'
+import { getErrorMessage } from '../../api/client'
+import { forgotPassword, login, resetPassword, verifyResetOtp } from '../../api/authApi'
+import { clearListCache } from '../../api/resources'
+import AuthActions from '../../components/auth/AuthActions'
+import AuthHeader from '../../components/auth/AuthHeader'
+import ForgotEmailForm from '../../components/auth/ForgotEmailForm'
+import LoginForm from '../../components/auth/LoginForm'
+import OtpVerifyForm from '../../components/auth/OtpVerifyForm'
+import ResetPasswordForm from '../../components/auth/ResetPasswordForm'
+import Toast from '../../components/ui/Toast'
 
 const lastEmail = localStorage.getItem('doctor_health_last_email') || ''
 
@@ -20,8 +24,14 @@ const initialForgotForm = {
   password_confirmation: '',
 }
 
+/**
+ * Điều phối dữ liệu và hiển thị màn hình Login.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.onLogin Giá trị onLogin được dùng để render hoặc xử lý tương tác.
+ */
 export default function LoginPage({ onLogin }) {
   const navigate = useNavigate()
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [form, setForm] = useState({
     email: lastEmail,
     password: '',
@@ -34,11 +44,13 @@ export default function LoginPage({ onLogin }) {
   const [forgotStep, setForgotStep] = useState('email')
   const [forgotForm, setForgotForm] = useState(initialForgotForm)
 
+  // Hàm updateLoginField gửi dữ liệu chỉnh sửa lên API hoặc component cha.
   function updateLoginField(key, value) {
     setForm((current) => ({ ...current, [key]: value }))
     setFieldErrors((current) => ({ ...current, [key]: '' }))
   }
 
+  // Hàm updateForgotField gửi dữ liệu chỉnh sửa lên API hoặc component cha.
   function updateForgotField(key, value) {
     setForgotForm((current) => ({ ...current, [key]: value }))
     const errorKeyMap = {
@@ -92,6 +104,7 @@ export default function LoginPage({ onLogin }) {
     }
   }
 
+  // Hàm submitForgotPassword gửi dữ liệu mới lên API hoặc component cha.
   async function submitForgotPassword(event) {
     event.preventDefault()
     setError('')

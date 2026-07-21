@@ -1,13 +1,26 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { EMPTY_TEXT } from '../../utils/formatters'
 
+/**
+ * Hàm tiện ích formatRecordCode dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function formatRecordCode(record) {
   return record?.record_code || `HS-${String(record?.record_id || record?.id || '').padStart(3, '0')}`
 }
 
+/**
+ * Hàm tiện ích formatPrescriptionCode dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function formatPrescriptionCode(prescription) {
   return prescription?.prescription_code || `DT${String(prescription?.prescription_id || '').padStart(3, '0')}`
 }
 
+/**
+ * Hàm tiện ích splitTextList dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function splitTextList(value) {
   return String(value || '')
     .split(/[,;|\n]+/u)
@@ -15,10 +28,16 @@ export function splitTextList(value) {
     .filter(Boolean)
 }
 
+/**
+ * Hàm tiện ích displayText dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function displayText(value) {
   return value === null || value === undefined || value === '' ? EMPTY_TEXT : value
 }
 
+/**
+ * Hàm tiện ích chronicDiseaseRows dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function chronicDiseaseRows(patient = {}) {
   const relationRows = Array.isArray(patient.chronic_diseases)
     ? patient.chronic_diseases.map((item, index) => ({
@@ -45,6 +64,9 @@ export function chronicDiseaseRows(patient = {}) {
   })
 }
 
+/**
+ * Hàm tiện ích allergyRows dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function allergyRows(patient = {}, record = {}) {
   const relationRows = Array.isArray(patient.allergies)
     ? patient.allergies.map((item, index) => ({
@@ -75,12 +97,18 @@ export function allergyRows(patient = {}, record = {}) {
   })
 }
 
+/**
+ * Hàm tiện ích latestPrescriptionRows dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function latestPrescriptionRows(prescriptions = []) {
   return [...prescriptions]
     .sort((left, right) => String(right.start_date || '').localeCompare(String(left.start_date || '')))
     .slice(0, 2)
 }
 
+/**
+ * Hàm tiện ích prescriptionMedicineText dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function prescriptionMedicineText(prescription) {
   return (
     prescription.details
@@ -98,6 +126,9 @@ export function prescriptionMedicineText(prescription) {
   )
 }
 
+/**
+ * Hàm tiện ích collectSchedules dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function collectSchedules(prescriptions = []) {
   return prescriptions.flatMap((prescription) =>
     (prescription.details || []).flatMap((detail) =>
@@ -110,19 +141,31 @@ export function collectSchedules(prescriptions = []) {
   )
 }
 
+/**
+ * Hàm tiện ích metricName dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function metricName(metric) {
   return metric?.health_type?.health_type_name || metric?.healthType?.health_type_name || ''
 }
 
+/**
+ * Hàm tiện ích metricUnit dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function metricUnit(metric) {
   return metric?.health_type?.unit || metric?.healthType?.unit || ''
 }
 
+/**
+ * Hàm tiện ích metricValue dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function metricValue(metric) {
   if (!metric) return EMPTY_TEXT
   return `${metric.value ?? metric.metric_value ?? EMPTY_TEXT}${metricUnit(metric) ? metricUnit(metric) : ''}`
 }
 
+/**
+ * Hàm tiện ích latestMetricMap dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function latestMetricMap(record) {
   const metrics = [...(record.visit_metrics || []), ...(record.latest_health_metrics || [])]
   const map = new Map()
@@ -133,6 +176,9 @@ export function latestMetricMap(record) {
   return map
 }
 
+/**
+ * Hàm tiện ích findMetric dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function findMetric(metrics, keywords) {
   return Array.from(metrics.entries()).find(([name]) =>
     keywords.some((keyword) => name.includes(keyword)),

@@ -1,12 +1,16 @@
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import useResourceList from '../api/useResourceList'
-import { createOne, getList, updateOne } from '../api/resources'
-import { getErrorMessage } from '../api/client'
-import MedicationSchedulesView from '../components/schedules/MedicationSchedulesView'
-import { downloadStyledExcel } from '../utils/excelExport'
-import { formatPatientCode, statusAfterEndDate } from '../utils/formatters'
-import { todayApiDate } from '../utils/medicationReminders'
+import useResourceList from '../../api/useResourceList'
+import { createOne, getList, updateOne } from '../../api/resources'
+import { getErrorMessage } from '../../api/client'
+import MedicationSchedulesView from '../../components/schedules/MedicationSchedulesView'
+import { downloadStyledExcel } from '../../utils/excelExport'
+import { formatPatientCode, statusAfterEndDate } from '../../utils/formatters'
+import { todayApiDate } from '../../utils/medicationReminders'
 
 function asArray(value) {
   if (Array.isArray(value)) return value
@@ -47,12 +51,12 @@ function scheduleMedicine(schedule) {
     schedule?.medicine_name ||
     scheduleDetail(schedule).medicine?.medicine_name ||
     scheduleDetail(schedule).medicine_name ||
-    'Thuá»‘c trong toa'
+    'Thuốc trong toa'
   )
 }
 
 function scheduleDosage(schedule) {
-  return schedule?.dosage || scheduleDetail(schedule).dosage || '1 viÃªn'
+  return schedule?.dosage || scheduleDetail(schedule).dosage || '1 viên'
 }
 
 function scheduleMeal(schedule) {
@@ -60,7 +64,7 @@ function scheduleMeal(schedule) {
     schedule?.meal_time_name ||
     scheduleDetail(schedule).meal_time?.meal_time_name ||
     scheduleDetail(schedule).meal_time_name ||
-    'Sau Äƒn'
+    'Sau ăn'
   )
 }
 
@@ -80,21 +84,21 @@ function firstScheduleTime(schedule) {
 
 function sessionFromTime(time) {
   const hour = Number(String(time).slice(0, 2))
-  if (!Number.isFinite(hour)) return 'SÃ¡ng'
-  if (hour < 11) return 'SÃ¡ng'
-  if (hour < 14) return 'TrÆ°a'
-  if (hour < 18) return 'Chiá»u'
-  return 'Tá»‘i'
+  if (!Number.isFinite(hour)) return 'Sáng'
+  if (hour < 11) return 'Sáng'
+  if (hour < 14) return 'Trưa'
+  if (hour < 18) return 'Chiều'
+  return 'Tối'
 }
 
 function scheduleStatus(schedule) {
-  const activeStatuses = ['Äang hoáº¡t Ä‘á»™ng', 'Äang sá»­ dá»¥ng', 'Äang dÃ¹ng', 'Äang uá»‘ng', 'active']
-  const completedStatuses = ['completed', 'ÄÃ£ xong', 'HoÃ n thÃ nh', 'HoÃ n táº¥t', 'ÄÃ£ uá»‘ng']
+  const activeStatuses = ['Đang hoạt động', 'Đang sử dụng', 'Đang dùng', 'Đang uống', 'active']
+  const completedStatuses = ['completed', 'Đã xong', 'Hoàn thành', 'Hoàn tất', 'Đã uống']
   const status = statusAfterEndDate(schedule || {}, activeStatuses)
   const prescriptionStatus = statusAfterEndDate(schedulePrescription(schedule) || {}, activeStatuses)
-  if (completedStatuses.includes(status) || completedStatuses.includes(prescriptionStatus)) return 'ÄÃ£ uá»‘ng'
-  if (activeStatuses.includes(status)) return 'Äang hoáº¡t Ä‘á»™ng'
-  return status || 'Äang hoáº¡t Ä‘á»™ng'
+  if (completedStatuses.includes(status) || completedStatuses.includes(prescriptionStatus)) return 'Đã uống'
+  if (activeStatuses.includes(status)) return 'Đang hoạt động'
+  return status || 'Đang hoạt động'
 }
 
 function minutesSinceTime(date, time) {
@@ -106,19 +110,19 @@ function minutesSinceTime(date, time) {
 
 function reminderAvailability(schedule, date) {
   const firstTime = scheduleTimeEntries(schedule)[0]
-  if (!firstTime?.time) return { allowed: false, label: 'ChÆ°a cÃ³ giá» uá»‘ng', time: null, timeId: null }
+  if (!firstTime?.time) return { allowed: false, label: 'Chưa có giờ uống', time: null, timeId: null }
 
   const diff = minutesSinceTime(date, firstTime.time)
-  if (diff === null) return { allowed: false, label: 'ChÆ°a xÃ¡c Ä‘á»‹nh giá»', time: firstTime.time, timeId: firstTime.id }
-  if (diff < 15) return { allowed: false, label: 'Chá» uá»‘ng', time: firstTime.time, timeId: firstTime.id }
-  if (diff > 60) return { allowed: false, label: 'QuÃªn nháº¯c', time: firstTime.time, timeId: firstTime.id }
-  return { allowed: true, label: 'Gá»­i nháº¯c', time: firstTime.time, timeId: firstTime.id }
+  if (diff === null) return { allowed: false, label: 'Chưa xác định giờ', time: firstTime.time, timeId: firstTime.id }
+  if (diff < 15) return { allowed: false, label: 'Chờ uống', time: firstTime.time, timeId: firstTime.id }
+  if (diff > 60) return { allowed: false, label: 'Quên nhắc', time: firstTime.time, timeId: firstTime.id }
+  return { allowed: true, label: 'Gửi nhắc', time: firstTime.time, timeId: firstTime.id }
 }
 
 function reminderDisplayStatus(schedule, date) {
   const status = scheduleStatus(schedule)
-  if (status === 'ÄÃ£ uá»‘ng' || status === 'Bá» lá»¡') return status
-  return reminderAvailability(schedule, date).label === 'QuÃªn nháº¯c' ? 'Bá» lá»¡' : 'Chá» uá»‘ng'
+  if (status === 'Đã uống' || status === 'Bỏ lỡ') return status
+  return reminderAvailability(schedule, date).label === 'Quên nhắc' ? 'Bỏ lỡ' : 'Chờ uống'
 }
 
 function reminderSendStatus(schedule, logs, date) {
@@ -128,8 +132,8 @@ function reminderSendStatus(schedule, logs, date) {
     const logDate = String(log?.reminder_date || log?.date || log?.created_at || '').slice(0, 10)
     return logScheduleId === id && (!logDate || logDate === date)
   })
-  if (hasSentLog) return 'ÄÃ£ gá»­i'
-  return reminderAvailability(schedule, date).label === 'QuÃªn nháº¯c' ? 'Gá»­i lá»—i' : 'ChÆ°a gá»­i'
+  if (hasSentLog) return 'Đã gửi'
+  return reminderAvailability(schedule, date).label === 'Quên nhắc' ? 'Gửi lỗi' : 'Chưa gửi'
 }
 
 function patientSearchText(schedule) {
@@ -145,12 +149,16 @@ function formatExcelDate(value) {
   return new Date(value).toLocaleDateString('vi-VN')
 }
 
+/**
+ * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh MedicationSchedules.
+ */
 export default function MedicationSchedulesPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const [searchParams] = useSearchParams()
   const defaultDate = todayApiDate()
   const routedPatientId = location.state?.patientId || searchParams.get('patient_id') || ''
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [statusFilter, setStatusFilter] = useState('')
   const [sessionFilter, setSessionFilter] = useState('')
   const [medicineFilter] = useState('')
@@ -221,10 +229,11 @@ export default function MedicationSchedulesPage() {
     [todayRows],
   )
 
-  const activeCount = rows.filter((schedule) => scheduleStatus(schedule) === 'Äang hoáº¡t Ä‘á»™ng').length
-  const missedCount = rows.filter((schedule) => reminderDisplayStatus(schedule, selectedDate) === 'Bá» lá»¡').length
-  const takenCount = rows.filter((schedule) => reminderDisplayStatus(schedule, selectedDate) === 'ÄÃ£ uá»‘ng').length
+  const activeCount = rows.filter((schedule) => scheduleStatus(schedule) === 'Đang hoạt động').length
+  const missedCount = rows.filter((schedule) => reminderDisplayStatus(schedule, selectedDate) === 'Bỏ lỡ').length
+  const takenCount = rows.filter((schedule) => reminderDisplayStatus(schedule, selectedDate) === 'Đã uống').length
 
+  // Hàm loadReminderLogs nạp dữ liệu từ API hoặc nguồn dữ liệu hiện có để cập nhật giao diện.
   const loadReminderLogs = useCallback(async () => {
     try {
       const result = await getList('/medication-reminder-logs', {
@@ -238,18 +247,19 @@ export default function MedicationSchedulesPage() {
     }
   }, [selectedDate])
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     window.queueMicrotask(() => loadReminderLogs())
   }, [loadReminderLogs])
 
   function exportExcel() {
     downloadStyledExcel(`lich-uong-thuoc-${selectedDate}.xls`, {
-      title: 'Lá»‹ch uá»‘ng vÃ  nháº¯c thuá»‘c',
+      title: 'Lịch uống và nhắc thuốc',
       rows: [
-        ['Lá»‹ch uá»‘ng vÃ  nháº¯c thuá»‘c'],
-        ['NgÃ y uá»‘ng', formatExcelDate(selectedDate)],
+        ['Lịch uống và nhắc thuốc'],
+        ['Ngày uống', formatExcelDate(selectedDate)],
         [],
-        ['STT', 'MÃ£ BN', 'Bá»‡nh nhÃ¢n', 'Thuá»‘c', 'Giá» uá»‘ng', 'Buá»•i', 'Liá»u lÆ°á»£ng', 'Bá»¯a Äƒn', 'Tráº¡ng thÃ¡i'],
+        ['STT', 'Mã BN', 'Bệnh nhân', 'Thuốc', 'Giờ uống', 'Buổi', 'Liều lượng', 'Bữa ăn', 'Trạng thái'],
         ...todayRows.map((schedule, index) => {
           const patient = schedulePatient(schedule)
           const time = firstScheduleTime(schedule)
@@ -284,9 +294,9 @@ export default function MedicationSchedulesPage() {
         schedule_time_id: reminder.timeId,
         reminder_date: selectedDate,
         reminder_time: reminder.time,
-        note: 'BÃ¡c sÄ© Ä‘Ã£ gá»­i nháº¯c ngÆ°á»i bá»‡nh uá»‘ng thuá»‘c.',
+        note: 'Bác sĩ đã gửi nhắc người bệnh uống thuốc.',
       })
-      setToast({ type: 'success', message: 'ÄÃ£ gá»­i nháº¯c uá»‘ng thuá»‘c cho ngÆ°á»i bá»‡nh.' })
+      setToast({ type: 'success', message: 'Đã gửi nhắc uống thuốc cho người bệnh.' })
       await loadReminderLogs()
       refetch()
     } catch (requestError) {
@@ -299,8 +309,8 @@ export default function MedicationSchedulesPage() {
   async function confirmCancel() {
     if (!canceling) return
     try {
-      await updateOne('/medicine-schedules', scheduleId(canceling), { status: 'Táº¡m ngÆ°ng' })
-      setToast({ type: 'success', message: 'ÄÃ£ táº¡m ngÆ°ng lá»‹ch uá»‘ng thuá»‘c.' })
+      await updateOne('/medicine-schedules', scheduleId(canceling), { status: 'Tạm ngưng' })
+      setToast({ type: 'success', message: 'Đã tạm ngưng lịch uống thuốc.' })
       setCanceling(null)
       refetch()
     } catch (requestError) {
@@ -348,7 +358,7 @@ export default function MedicationSchedulesPage() {
       onRefetch={refetch}
       onViewSchedule={(id, patient) => navigate(`/schedules/${id}`, { state: { patientId: patient.patient_id } })}
       onEditSchedule={(prescription, detail) =>
-        navigate('/schedules', {
+        navigate('/schedules/create', {
           state: {
             mode: 'createFromPrescription',
             prescriptionId: prescription.prescription_id,

@@ -1,22 +1,26 @@
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getList, getOne, updateOne } from '../api/resources'
-import { getErrorMessage } from '../api/client'
-import LoadingState from '../components/ui/LoadingState'
-import EmptyState from '../components/ui/EmptyState'
-import Toast from '../components/ui/Toast'
-import MedicalRecordAllergyCard from '../components/medical-records/MedicalRecordAllergyCard'
-import MedicalRecordConditionCard from '../components/medical-records/MedicalRecordConditionCard'
-import MedicalRecordDetailHeader from '../components/medical-records/MedicalRecordDetailHeader'
-import MedicalRecordEditView from '../components/medical-records/MedicalRecordEditView'
-import MedicalRecordHealthCard from '../components/medical-records/MedicalRecordHealthCard'
-import MedicalRecordPatientCard from '../components/medical-records/MedicalRecordPatientCard'
-import MedicalRecordPrescriptionHistory from '../components/medical-records/MedicalRecordPrescriptionHistory'
-import MedicalRecordSummaryCard from '../components/medical-records/MedicalRecordSummaryCard'
-import MedicalRecordVisitHistory from '../components/medical-records/MedicalRecordVisitHistory'
-import { formatDate, statusAfterEndDate } from '../utils/formatters'
-import { downloadStyledExcel } from '../utils/excelExport'
+import { getList, getOne, updateOne } from '../../api/resources'
+import { getErrorMessage } from '../../api/client'
+import LoadingState from '../../components/ui/LoadingState'
+import EmptyState from '../../components/ui/EmptyState'
+import Toast from '../../components/ui/Toast'
+import MedicalRecordAllergyCard from '../../components/medical-records/MedicalRecordAllergyCard'
+import MedicalRecordConditionCard from '../../components/medical-records/MedicalRecordConditionCard'
+import MedicalRecordDetailHeader from '../../components/medical-records/MedicalRecordDetailHeader'
+import MedicalRecordEditView from '../../components/medical-records/MedicalRecordEditView'
+import MedicalRecordHealthCard from '../../components/medical-records/MedicalRecordHealthCard'
+import MedicalRecordPatientCard from '../../components/medical-records/MedicalRecordPatientCard'
+import MedicalRecordPrescriptionHistory from '../../components/medical-records/MedicalRecordPrescriptionHistory'
+import MedicalRecordSummaryCard from '../../components/medical-records/MedicalRecordSummaryCard'
+import MedicalRecordVisitHistory from '../../components/medical-records/MedicalRecordVisitHistory'
+import { formatDate, statusAfterEndDate } from '../../utils/formatters'
+import { downloadStyledExcel } from '../../utils/excelExport'
 import {
   allergyRows,
   chronicDiseaseRows,
@@ -27,11 +31,15 @@ import {
   latestMetricMap,
   latestPrescriptionRows,
   prescriptionMedicineText,
-} from '../components/medical-records/medicalRecordHelpers'
+} from '../../components/medical-records/medicalRecordHelpers'
 
+/**
+ * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh MedicalRecordDetail.
+ */
 export default function MedicalRecordDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [record, setRecord] = useState(null)
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState(false)
@@ -47,8 +55,10 @@ export default function MedicalRecordDetailPage() {
       .finally(() => setLoading(false))
   }
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(load, [id])
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     const patientId = record?.patient_id || record?.patient?.patient_id
     if (!patientId) {
@@ -166,7 +176,7 @@ export default function MedicalRecordDetailPage() {
         patient={patient}
         onBack={() => navigate('/medical-records')}
         onEdit={() => setEditing(true)}
-        onPrescribe={() => navigate('/prescriptions', { state: { mode: 'create', recordId: record.record_id } })}
+        onPrescribe={() => navigate('/prescriptions/create', { state: { mode: 'create', recordId: record.record_id } })}
         onExport={exportRecordExcel}
         onPrint={() => window.print()}
         onCreateSchedule={(patientId) =>

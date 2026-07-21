@@ -1,6 +1,6 @@
 /* Design tokens and shared theme values. */
 
-@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 :root {
   --bg: #f5f7fb;
@@ -16,9 +16,9 @@
   --amber: #b45309;
   --sidebar: #14213d;
   --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
-  --font-main: "Be Vietnam Pro", Arial, sans-serif;
-  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
-  --font-print: "Be Vietnam Pro", Arial, sans-serif;
+  --font-main: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-heading: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-print: 'Be Vietnam Pro', Arial, sans-serif;
 }
 
 /* =====================================================
@@ -48,8 +48,8 @@
   --amber: #f59e0b;
   --sidebar: #0f172a;
   --shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
-  --font-main: "Be Vietnam Pro", Arial, sans-serif;
-  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+  --font-main: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-heading: 'Be Vietnam Pro', Arial, sans-serif;
 }
 
 /* MediControl Pro interface theme from the provided reference */
@@ -74,8 +74,8 @@
   --sidebar: #fff;
   --shadow: 0 10px 30px rgba(29, 53, 87, 0.08);
   --r: 18px;
-  --font-main: "Be Vietnam Pro", Arial, sans-serif;
-  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+  --font-main: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-heading: 'Be Vietnam Pro', Arial, sans-serif;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -101,7 +101,7 @@
   --mc-soft: #f8fafd;
   --mc-shadow: 0 10px 30px rgba(29, 53, 87, 0.08);
   --mc-radius: 18px;
-  --font-main: "Be Vietnam Pro", Arial, sans-serif;
+  --font-main: 'Be Vietnam Pro', Arial, sans-serif;
 }
 
 /* 80% density scale pass */
@@ -135,8 +135,8 @@
 /* Final typography system from provided font-size file */
 
 :root {
-  --font-main: "Be Vietnam Pro", Arial, sans-serif;
-  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+  --font-main: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-heading: 'Be Vietnam Pro', Arial, sans-serif;
   --font-8: 8px;
   --font-9: 9px;
   --font-10: 10px;
@@ -190,8 +190,8 @@
 /* Restore layout/style before the last compact typography import */
 
 :root {
-  --font-main: "Be Vietnam Pro", Arial, sans-serif;
-  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+  --font-main: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-heading: 'Be Vietnam Pro', Arial, sans-serif;
   --ref-sidebar: clamp(260px, 17.2vw, 330px);
   --ref-page-x: clamp(22px, 1.9vw, 36px);
   --ref-page-y: clamp(22px, 2.2vw, 42px);
@@ -202,16 +202,16 @@
 /* Typography scale requested by user */
 
 :root {
-  --font-main: "Be Vietnam Pro", Arial, sans-serif;
-  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
+  --font-main: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-heading: 'Be Vietnam Pro', Arial, sans-serif;
 }
 
 /* Detailed typography specification requested by user */
 
 :root {
-  --font-main: "Be Vietnam Pro", Arial, sans-serif;
-  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
-  --font-print: "Be Vietnam Pro", Arial, sans-serif;
+  --font-main: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-heading: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-print: 'Be Vietnam Pro', Arial, sans-serif;
   --font-8: 8px;
   --font-9: 9px;
   --font-10: 10px;
@@ -255,18 +255,23 @@
    ===================================================== */
 
 :root {
-  --mc-sidebar-width-final: 300px;
+  --mc-sidebar-width-final: 276px;
 }
 
 /* Global typography normalization: Be Vietnam Pro across the whole app. */
 
 :root {
-  --font-main: "Be Vietnam Pro", Arial, sans-serif;
-  --font-heading: "Be Vietnam Pro", Arial, sans-serif;
-  --font-print: "Be Vietnam Pro", Arial, sans-serif;
-  --type-page-title: 24px;
-  --type-section-title: 18px;
-  --type-card-title: 16px;
-  --type-body: 14px;
+  --font-main: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-heading: 'Be Vietnam Pro', Arial, sans-serif;
+  --font-print: 'Be Vietnam Pro', Arial, sans-serif;
+  --type-page-title: 22px;
+  --type-section-title: 17px;
+  --type-card-title: 15px;
+  --type-body: 13px;
   --type-subtle: 12px;
+  --density-sidebar-width: 276px;
+  --density-topbar-height: 84px;
+  --density-page-x: clamp(18px, 1.55vw, 30px);
+  --density-page-y: clamp(18px, 1.85vw, 34px);
+  --density-block-gap: 16px;
 }

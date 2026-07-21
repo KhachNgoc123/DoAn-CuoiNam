@@ -1,8 +1,18 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { formatDate } from '../../utils/formatters'
 import EmptyState from '../ui/EmptyState'
 import StatusBadge from '../ui/StatusBadge'
 import { formatRecordCode } from './medicalRecordHelpers'
 
+/**
+ * Hiển thị component MedicalRecordVisitHistory trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.visitHistory Giá trị visitHistory được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onView Giá trị onView được dùng để render hoặc xử lý tương tác.
+ */
 export default function MedicalRecordVisitHistory({ visitHistory, onView }) {
   return (
     <article className="mc-record-card mc-visit-history-card">

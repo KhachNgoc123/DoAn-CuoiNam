@@ -1,7 +1,18 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { KeyRound, Pencil } from 'lucide-react'
 import { formatDate } from '../../utils/formatters'
 import ProfileItem from './ProfileItem'
 
+/**
+ * Hiển thị component DoctorInfoCard trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.profile Giá trị profile được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onEdit Giá trị onEdit được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onChangePassword Giá trị onChangePassword được dùng để render hoặc xử lý tương tác.
+ */
 export default function DoctorInfoCard({ profile, onEdit, onChangePassword }) {
   return (
     <article className="doctor-info-modern-card">

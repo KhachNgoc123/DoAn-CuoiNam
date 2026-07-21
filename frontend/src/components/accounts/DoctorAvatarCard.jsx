@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { ImagePlus } from 'lucide-react'
 
 function doctorInitials(profile) {
@@ -7,6 +11,12 @@ function doctorInitials(profile) {
   return parts.length > 1 ? `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase() : name.slice(0, 2).toUpperCase()
 }
 
+/**
+ * Hiển thị component DoctorAvatarCard trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.profile Giá trị profile được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onEdit Giá trị onEdit được dùng để render hoặc xử lý tương tác.
+ */
 export default function DoctorAvatarCard({ profile, onEdit }) {
   return (
     <article className="doctor-avatar-modern-card">

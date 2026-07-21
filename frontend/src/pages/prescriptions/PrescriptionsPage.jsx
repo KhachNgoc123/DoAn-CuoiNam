@@ -1,5 +1,9 @@
-﻿import { useEffect, useMemo, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
   ArrowLeft,
   Clock3,
@@ -7,15 +11,15 @@ import {
   Pencil,
   Printer,
 } from 'lucide-react'
-import useResourceList from '../api/useResourceList'
-import { getList, getOne } from '../api/resources'
-import StatusBadge from '../components/ui/StatusBadge'
-import EmptyState from '../components/ui/EmptyState'
-import LoadingState from '../components/ui/LoadingState'
-import PrescriptionsListView from '../components/prescriptions/PrescriptionsListView'
-import { getDoseCount, getDoseTimes, getPrescriptionStartDate } from '../utils/prescriptions'
-import { formatDate, formatGender, formatPatientCode, statusAfterEndDate } from '../utils/formatters'
-import { downloadStyledExcel } from '../utils/excelExport'
+import useResourceList from '../../api/useResourceList'
+import { getList, getOne } from '../../api/resources'
+import StatusBadge from '../../components/ui/StatusBadge'
+import EmptyState from '../../components/ui/EmptyState'
+import LoadingState from '../../components/ui/LoadingState'
+import PrescriptionsListView from '../../components/prescriptions/PrescriptionsListView'
+import { getDoseCount, getDoseTimes, getPrescriptionStartDate } from '../../utils/prescriptions'
+import { formatDate, formatGender, formatPatientCode, statusAfterEndDate } from '../../utils/formatters'
+import { downloadStyledExcel } from '../../utils/excelExport'
 
 function prescriptionPatient(prescription) {
   return prescription.medical_record?.patient || {}
@@ -106,6 +110,16 @@ function printUsageText(detail) {
     .join('; ')
 }
 
+/**
+ * Hiển thị component PrescriptionPrintSheet trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.prescription Giá trị prescription được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.patient Giá trị patient được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.doctor Giá trị doctor được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.medicalRecord Giá trị medicalRecord được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.details Giá trị details được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.prescribedDate Giá trị prescribedDate được dùng để render hoặc xử lý tương tác.
+ */
 function PrescriptionPrintSheet({ prescription, patient, doctor, medicalRecord, details, prescribedDate }) {
   return (
     <section className="rx-print-only rx-a4-sheet" aria-hidden="true">
@@ -248,6 +262,12 @@ function PrescriptionPrintSheet({ prescription, patient, doctor, medicalRecord, 
   )
 }
 
+/**
+ * Hiển thị component InfoItem trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.label Giá trị label được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.value Giá trị value được dùng để render hoặc xử lý tương tác.
+ */
 function InfoItem({ label, value }) {
   return (
     <div className="rx-detail-info-item">
@@ -257,11 +277,19 @@ function InfoItem({ label, value }) {
   )
 }
 
+/**
+ * Hiển thị giao diện PrescriptionDetail sau khi page đã chuẩn bị dữ liệu.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.prescriptionId Giá trị prescriptionId được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onBack Giá trị onBack được dùng để render hoặc xử lý tương tác.
+ */
 function PrescriptionDetailView({ prescriptionId, onBack }) {
   const navigate = useNavigate()
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [prescription, setPrescription] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     let mounted = true
     window.queueMicrotask(() => {
@@ -347,7 +375,7 @@ function PrescriptionDetailView({ prescriptionId, onBack }) {
               type="button"
               className="rx-warning-button"
               onClick={() =>
-                navigate('/prescriptions', {
+                navigate(`/prescriptions/${prescription.prescription_id}/edit`, {
                   state: { mode: 'edit', prescriptionId: prescription.prescription_id },
                 })
               }
@@ -363,7 +391,7 @@ function PrescriptionDetailView({ prescriptionId, onBack }) {
                 ? navigate(`/schedules/${firstSchedule.schedule_id || firstSchedule.id}`, {
                     state: { patientId, prescriptionId: prescription.prescription_id },
                   })
-                : navigate('/schedules', {
+                : navigate('/schedules/create', {
                     state: {
                       mode: 'createFromPrescription',
                       patientId,
@@ -454,15 +482,19 @@ function PrescriptionDetailView({ prescriptionId, onBack }) {
   )
 }
 
+/**
+ * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh Prescriptions.
+ */
 export default function PrescriptionsPage() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { id: routePrescriptionId } = useParams()
   const patientId = location.state?.patientId || ''
   const { items, params, setParams, loading, refetch } = useResourceList(
     '/prescriptions',
     patientId ? { patient_id: patientId, per_page: 20 } : { per_page: 20 },
   )
-  const [viewingId, setViewingId] = useState(location.state?.viewPrescriptionId || null)
+  const [viewingId, setViewingId] = useState(routePrescriptionId || location.state?.viewPrescriptionId || null)
   const [toast, setToast] = useState(() => location.state?.toast || null)
   const [patients, setPatients] = useState([])
 
@@ -474,6 +506,7 @@ export default function PrescriptionsPage() {
   const completedCount = rows.filter((item) => String(statusAfterEndDate(item)).toLowerCase().includes('hoàn')).length
   const patientCount = new Set(rows.map((item) => prescriptionPatient(item).patient_id).filter(Boolean)).size
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     const routeToast = location.state?.toast
     if (!routeToast) return
@@ -483,10 +516,12 @@ export default function PrescriptionsPage() {
     })
   }, [location.pathname, location.state, navigate])
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
-    window.queueMicrotask(() => setViewingId(location.state?.viewPrescriptionId || null))
-  }, [location.state?.viewPrescriptionId])
+    window.queueMicrotask(() => setViewingId(routePrescriptionId || location.state?.viewPrescriptionId || null))
+  }, [location.state?.viewPrescriptionId, routePrescriptionId])
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     let active = true
     getList('/patients', { per_page: 50, scope: 'all' })
@@ -528,7 +563,7 @@ export default function PrescriptionsPage() {
   function openDetail(prescription) {
     const id = prescription.prescription_id
     setViewingId(id)
-    navigate('/prescriptions', { replace: true, state: { viewPrescriptionId: id } })
+    navigate(`/prescriptions/${id}`, { replace: true, state: { viewPrescriptionId: id } })
   }
 
   function closeDetail() {
@@ -555,12 +590,12 @@ export default function PrescriptionsPage() {
       treatmentDays={treatmentDays}
       statusAfterEndDate={statusAfterEndDate}
       onExportExcel={exportExcel}
-      onCreate={() => navigate('/prescriptions', { state: { mode: 'create' } })}
+      onCreate={() => navigate('/prescriptions/create', { state: { mode: 'create' } })}
       onSetParams={setParams}
       onRefetch={refetch}
       onOpenDetail={openDetail}
       onEdit={(prescription) =>
-        navigate('/prescriptions', {
+        navigate(`/prescriptions/${prescription.prescription_id}/edit`, {
           state: { mode: 'edit', prescriptionId: prescription.prescription_id },
         })
       }

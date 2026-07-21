@@ -1,25 +1,35 @@
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   createPatient,
   getPatients,
   updatePatient,
-} from '../api/patientApi'
-import PatientForm from '../components/patients/PatientForm'
-import PatientsListView from '../components/patients/PatientsListView'
+} from '../../api/patientApi'
+import PatientForm from '../../components/patients/PatientForm'
+import PatientsListView from '../../components/patients/PatientsListView'
 
+/**
+ * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh Patients.
+ */
 export default function PatientsPage() {
   const navigate = useNavigate()
 
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [patients, setPatients] = useState([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editingPatient, setEditingPatient] = useState(null)
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     loadPatients()
   }, [])
 
+  // Hàm loadPatients nạp dữ liệu từ API hoặc nguồn dữ liệu hiện có để cập nhật giao diện.
   async function loadPatients() {
     setLoading(true)
 
@@ -34,6 +44,7 @@ export default function PatientsPage() {
     }
   }
 
+  // Hàm savePatient gửi dữ liệu mới lên API hoặc component cha.
   async function savePatient(payload) {
     try {
       if (editingPatient) {

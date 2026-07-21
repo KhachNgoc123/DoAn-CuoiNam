@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { FileSpreadsheet, Plus } from 'lucide-react'
 import PageHeader from '../ui/PageHeader'
 import Toolbar from '../ui/Toolbar'
@@ -38,15 +42,15 @@ export default function MedicinesView({
   return (
     <main className="page medicines-page">
       <PageHeader
-        title="Quáº£n lÃ½ thuá»‘c"
-        subtitle="Quáº£n lÃ½ danh má»¥c thuá»‘c phá»¥c vá»¥ kÃª toa, theo dÃµi háº¡n dÃ¹ng vÃ  tÃ¬nh tráº¡ng sá»­ dá»¥ng."
+        title="Quản lý thuốc"
+        subtitle="Quản lý danh mục thuốc phục vụ kê toa, theo dõi hạn dùng và tình trạng sử dụng."
         actions={
           <>
             <button type="button" className="primary-button" onClick={() => onOpenForm()}>
-              <Plus size={17} /> ThÃªm thuá»‘c
+              <Plus size={17} /> Thêm thuốc
             </button>
             <button type="button" className="secondary-button" onClick={onExportExcel}>
-              <FileSpreadsheet size={17} /> Xuáº¥t Excel
+              <FileSpreadsheet size={17} /> Xuất Excel
             </button>
           </>
         }
@@ -56,13 +60,13 @@ export default function MedicinesView({
         <Toolbar
           search={params.search || ''}
           onSearch={onSearch}
-          placeholder="TÃ¬m tÃªn thuá»‘c"
+          placeholder="Tìm tên thuốc"
           filters={
             <div className="medicine-filter-grid">
               <label className="filter-field">
-                <span>NhÃ³m thuá»‘c</span>
+                <span>Nhóm thuốc</span>
                 <select value={categoryFilter} onChange={(event) => onCategoryFilterChange(event.target.value)}>
-                  <option value="">Táº¥t cáº£ nhÃ³m</option>
+                  <option value="">Tất cả nhóm</option>
                   {categories.map((category) => (
                     <option key={category.category_id} value={category.category_id}>
                       {category.category_name}
@@ -71,19 +75,19 @@ export default function MedicinesView({
                 </select>
               </label>
               <label className="filter-field">
-                <span>TÃ¬nh tráº¡ng</span>
+                <span>Tình trạng</span>
                 <select value={statusFilter} onChange={(event) => onStatusFilterChange(event.target.value)}>
-                  <option value="">Táº¥t cáº£</option>
-                  <option value="Hoáº¡t Ä‘á»™ng">Hoáº¡t Ä‘á»™ng</option>
-                  <option value="Sáº¯p háº¿t">Sáº¯p háº¿t</option>
-                  <option value="Háº¿t háº¡n">Háº¿t háº¡n</option>
+                  <option value="">Tất cả</option>
+                  <option value="Hoạt động">Hoạt động</option>
+                  <option value="Sắp hết">Sắp hết</option>
+                  <option value="Hết hạn">Hết hạn</option>
                 </select>
               </label>
             </div>
           }
           actions={
             <button type="button" className="secondary-button" onClick={onResetFilters}>
-              XÃ³a lá»c
+              Xóa lọc
             </button>
           }
         />
@@ -91,19 +95,19 @@ export default function MedicinesView({
 
       <section className="medicine-stat-grid">
         <article>
-          <span>Tá»•ng thuá»‘c</span>
+          <span>Tổng thuốc</span>
           <strong>{stats.total}</strong>
         </article>
         <article>
-          <span>NhÃ³m thuá»‘c</span>
+          <span>Nhóm thuốc</span>
           <strong>{stats.categories}</strong>
         </article>
         <article>
-          <span>Sáº¯p háº¿t</span>
+          <span>Sắp hết</span>
           <strong>{stats.lowStock}</strong>
         </article>
         <article>
-          <span>Háº¿t háº¡n</span>
+          <span>Hết hạn</span>
           <strong>{stats.expired}</strong>
         </article>
       </section>
@@ -111,20 +115,20 @@ export default function MedicinesView({
       {editing !== null && (
         <section className="panel medicine-form-panel">
           <div className="panel-heading">
-            <h2>{medicineId(editing) ? 'Cáº­p nháº­t thuá»‘c' : 'ThÃªm thuá»‘c má»›i'}</h2>
+            <h2>{medicineId(editing) ? 'Cập nhật thuốc' : 'Thêm thuốc mới'}</h2>
           </div>
           <form className="stack-form" onSubmit={onSubmit}>
             <div className="form-grid">
-              <Field label="TÃªn thuá»‘c" required>
+              <Field label="Tên thuốc" required>
                 <input
                   value={form.medicine_name}
                   onChange={(event) => onFormChange({ medicine_name: event.target.value })}
                   required
                 />
               </Field>
-              <Field label="NhÃ³m thuá»‘c">
+              <Field label="Nhóm thuốc">
                 <select value={form.category_id} onChange={(event) => onFormChange({ category_id: event.target.value })}>
-                  <option value="">ChÆ°a chá»n</option>
+                  <option value="">Chưa chọn</option>
                   {categories.map((category) => (
                     <option key={category.category_id} value={category.category_id}>
                       {category.category_name}
@@ -132,14 +136,14 @@ export default function MedicinesView({
                   ))}
                 </select>
               </Field>
-              <Field label="ÄÆ¡n vá»‹">
+              <Field label="Đơn vị">
                 <input
                   value={form.unit}
-                  placeholder="ViÃªn, á»‘ng, gÃ³i..."
+                  placeholder="Viên, ống, gói..."
                   onChange={(event) => onFormChange({ unit: event.target.value })}
                 />
               </Field>
-              <Field label="Tá»“n kho">
+              <Field label="Tồn kho">
                 <input
                   type="number"
                   min="0"
@@ -147,23 +151,23 @@ export default function MedicinesView({
                   onChange={(event) => onFormChange({ quantity: event.target.value })}
                 />
               </Field>
-              <Field label="Háº¡n dÃ¹ng">
+              <Field label="Hạn dùng">
                 <input
                   type="date"
                   value={form.expiry_date}
                   onChange={(event) => onFormChange({ expiry_date: event.target.value })}
                 />
               </Field>
-              <Field label="MÃ´ táº£" span={2}>
+              <Field label="Mô tả" span={2}>
                 <textarea value={form.description} onChange={(event) => onFormChange({ description: event.target.value })} />
               </Field>
             </div>
             <div className="form-actions">
               <button type="button" className="secondary-button" onClick={onCloseForm}>
-                Há»§y
+                Hủy
               </button>
               <button className="primary-button" disabled={saving}>
-                {saving ? 'Äang lÆ°u...' : 'LÆ°u thuá»‘c'}
+                {saving ? 'Đang lưu...' : 'Lưu thuốc'}
               </button>
             </div>
           </form>
@@ -172,8 +176,8 @@ export default function MedicinesView({
 
       <section className="panel medicine-list-panel">
         <div className="panel-heading">
-          <h2>Danh sÃ¡ch thuá»‘c</h2>
-          <span>{visibleItems.length} thuá»‘c</span>
+          <h2>Danh sách thuốc</h2>
+          <span>{visibleItems.length} thuốc</span>
         </div>
         <DataTable
           columns={columns}
@@ -181,14 +185,14 @@ export default function MedicinesView({
           loading={loading}
           onEdit={onOpenForm}
           onDelete={onDelete}
-          emptyTitle="ChÆ°a cÃ³ thuá»‘c"
+          emptyTitle="Chưa có thuốc"
         />
       </section>
 
       <ConfirmDialog
         open={Boolean(deleting)}
-        title="XÃ³a thuá»‘c?"
-        description="Chá»‰ xÃ³a Ä‘Æ°á»£c thuá»‘c chÆ°a tá»«ng sá»­ dá»¥ng trong toa thuá»‘c."
+        title="Xóa thuốc?"
+        description="Chỉ xóa được thuốc chưa từng sử dụng trong toa thuốc."
         onCancel={onCancelDelete}
         onConfirm={onConfirmDelete}
       />

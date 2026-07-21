@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { CirclePause, Eye, FileSpreadsheet, Pencil, Plus, Search, Send } from 'lucide-react'
 import ConfirmDialog from '../ui/ConfirmDialog'
 import Toast from '../ui/Toast'
@@ -28,14 +32,14 @@ function TodayScheduleTable({
         <thead>
           <tr>
             <th>STT</th>
-            <th>MÃ£ lá»‹ch</th>
-            <th>Bá»‡nh nhÃ¢n</th>
-            <th>Thuá»‘c</th>
-            <th>Giá» uá»‘ng</th>
-            <th>Buá»•i</th>
-            <th>Tráº¡ng thÃ¡i</th>
-            <th>Nháº¯c thuá»‘c</th>
-            <th>Thao tÃ¡c</th>
+            <th>Mã lịch</th>
+            <th>Bệnh nhân</th>
+            <th>Thuốc</th>
+            <th>Giờ uống</th>
+            <th>Buổi</th>
+            <th>Trạng thái</th>
+            <th>Nhắc thuốc</th>
+            <th>Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -60,13 +64,13 @@ function TodayScheduleTable({
                   </td>
                   <td>
                     <div className="table-actions schedule-table-actions">
-                      <button type="button" className="icon-button" title="Xem chi tiáº¿t" onClick={() => onViewSchedule(id, patient)}>
+                      <button type="button" className="icon-button" title="Xem chi tiết" onClick={() => onViewSchedule(id, patient)}>
                         <Eye size={16} />
                       </button>
                       <button
                         type="button"
                         className="icon-button"
-                        title="Cáº­p nháº­t lá»‹ch"
+                        title="Cập nhật lịch"
                         onClick={() => onEditSchedule(schedulePrescription(schedule), scheduleDetail(schedule))}
                       >
                         <Pencil size={16} />
@@ -79,7 +83,7 @@ function TodayScheduleTable({
           ) : (
             <tr>
               <td className="schedule-table-empty" colSpan={9}>
-                HÃ´m nay chÆ°a cÃ³ lá»‹ch uá»‘ng thuá»‘c
+                Hôm nay chưa có lịch uống thuốc
               </td>
             </tr>
           )}
@@ -138,7 +142,7 @@ export default function MedicationSchedulesView({
     <main className="page mc-schedules-page">
       <section className="mc-list-hero">
         <div>
-          <h1>Lá»‹ch uá»‘ng & nháº¯c thuá»‘c</h1>
+          <h1>Lịch uống & nhắc thuốc</h1>
           <p>Giám sát lịch dùng thuốc và mức độ tuân thủ</p>
         </div>
         <div className="rx-list-actions">
@@ -146,37 +150,37 @@ export default function MedicationSchedulesView({
             <FileSpreadsheet size={17} /> Excel
           </button>
           <button type="button" className="primary-button" onClick={onCreateSchedule}>
-            <Plus size={18} /> Táº¡o lá»‹ch
+            <Plus size={18} /> Tạo lịch
           </button>
         </div>
       </section>
 
       <section className="schedule-filter-card">
         <label>
-          <span>TÃ¬m bá»‡nh nhÃ¢n</span>
+          <span>Tìm bệnh nhân</span>
           <input
             value={params.search || ''}
             onChange={(event) => onSetParams({ search: event.target.value, page: 1, per_page: 20 })}
-            placeholder="MÃ£ hoáº·c há» tÃªn"
+            placeholder="Mã hoặc họ tên"
           />
         </label>
         <label>
-          <span>Tráº¡ng thÃ¡i</span>
+          <span>Trạng thái</span>
           <select value={statusFilter} onChange={(event) => onStatusFilterChange(event.target.value)}>
-            <option value="">Táº¥t cáº£</option>
-            <option value="Chá» uá»‘ng">Chá» uá»‘ng</option>
-            <option value="ÄÃ£ uá»‘ng">ÄÃ£ uá»‘ng</option>
-            <option value="Bá» lá»¡">Bá» lá»¡</option>
+            <option value="">Tất cả</option>
+            <option value="Chờ uống">Chờ uống</option>
+            <option value="Đã uống">Đã uống</option>
+            <option value="Bỏ lỡ">Bỏ lỡ</option>
           </select>
         </label>
         <label>
-          <span>Buá»•i</span>
+          <span>Buổi</span>
           <select value={sessionFilter} onChange={(event) => onSessionFilterChange(event.target.value)}>
-            <option value="">Táº¥t cáº£</option>
-            <option value="SÃ¡ng">SÃ¡ng</option>
-            <option value="TrÆ°a">TrÆ°a</option>
-            <option value="Chiá»u">Chiá»u</option>
-            <option value="Tá»‘i">Tá»‘i</option>
+            <option value="">Tất cả</option>
+            <option value="Sáng">Sáng</option>
+            <option value="Trưa">Trưa</option>
+            <option value="Chiều">Chiều</option>
+            <option value="Tối">Tối</option>
           </select>
         </label>
         <label>
@@ -196,31 +200,31 @@ export default function MedicationSchedulesView({
           />
         </label>
         <button type="button" className="mc-search-button" onClick={onRefetch}>
-          <Search size={17} /> Ãp dá»¥ng
+          <Search size={17} /> Áp dụng
         </button>
       </section>
 
       <section className="schedule-stat-row">
         <article>
-          <span>Tá»•ng lá»‹ch</span>
+          <span>Tổng lịch</span>
           <strong>{rows.length}</strong>
         </article>
         <article>
-          <span>Äang hoáº¡t Ä‘á»™ng</span>
+          <span>Đang hoạt động</span>
           <strong>{activeCount}</strong>
         </article>
         <article>
-          <span>ÄÃ£ uá»‘ng</span>
+          <span>Đã uống</span>
           <strong>{takenCount}</strong>
         </article>
         <article>
-          <span>Bá» lá»¡</span>
+          <span>Bỏ lỡ</span>
           <strong>{missedCount}</strong>
         </article>
       </section>
 
       {error ? (
-        <EmptyState title="KhÃ´ng truy xuáº¥t Ä‘Æ°á»£c lá»‹ch uá»‘ng thuá»‘c" description={error} />
+        <EmptyState title="Không truy xuất được lịch uống thuốc" description={error} />
       ) : (
         <section className="schedule-today-panel">
           <div className="schedule-today-head">
@@ -231,7 +235,7 @@ export default function MedicationSchedulesView({
           </div>
 
           {loading ? (
-            <p className="schedule-empty-line">Äang táº£i lá»‹ch uá»‘ng thuá»‘c...</p>
+            <p className="schedule-empty-line">Đang tải lịch uống thuốc...</p>
           ) : groupedTodayRows.length ? (
             <div className="schedule-reminder-list">
               {groupedTodayRows.map((group) => {
@@ -245,7 +249,7 @@ export default function MedicationSchedulesView({
                     const times = scheduleTimeEntries(schedule).map((entry) => entry.time).join(', ')
                     return `${scheduleMedicine(schedule)} (${scheduleDosage(schedule)} - ${times || firstScheduleTime(schedule)})`
                   })
-                  .join(' â€¢ ')
+                  .join(' • ')
                 return (
                   <article className="schedule-reminder-row" key={id}>
                     <div className="schedule-time-pill">
@@ -253,25 +257,25 @@ export default function MedicationSchedulesView({
                       <span>{sessionFromTime(time)}</span>
                     </div>
                     <div className="schedule-reminder-main">
-                      <strong>{formatPatientCode(patient)} â€¢ {patient.full_name || '-'}</strong>
+                      <strong>{formatPatientCode(patient)} • {patient.full_name || '-'}</strong>
                       <p>
-                        {medicines} â€¢ {scheduleMeal(primarySchedule)} â€¢{' '}
+                        {medicines} • {scheduleMeal(primarySchedule)} •{' '}
                         <StatusBadge value={reminderDisplayStatus(primarySchedule, selectedDate)} />
                       </p>
                     </div>
                     <div className="schedule-row-actions">
                       <button type="button" className="secondary-button" onClick={() => onViewSchedule(id, patient)}>
-                        Chi tiáº¿t
+                        Chi tiết
                       </button>
                       <button
                         type="button"
                         className="secondary-button"
                         onClick={() => onEditSchedule(schedulePrescription(primarySchedule), scheduleDetail(primarySchedule))}
                       >
-                        <Pencil size={16} /> Cáº­p nháº­t
+                        <Pencil size={16} /> Cập nhật
                       </button>
                       <button type="button" className="rx-warning-button" onClick={() => onCancelSchedule(primarySchedule)}>
-                        <CirclePause size={16} /> Táº¡m ngÆ°ng
+                        <CirclePause size={16} /> Tạm ngưng
                       </button>
                       <button
                         type="button"
@@ -279,7 +283,7 @@ export default function MedicationSchedulesView({
                         disabled={!reminder.allowed || sendingReminder === id}
                         onClick={() => onSendReminder(primarySchedule)}
                       >
-                        <Send size={16} /> {sendingReminder === id ? 'Äang gá»­i...' : 'Gá»­i nháº¯c'}
+                        <Send size={16} /> {sendingReminder === id ? 'Đang gửi...' : 'Gửi nhắc'}
                       </button>
                     </div>
                   </article>
@@ -293,7 +297,7 @@ export default function MedicationSchedulesView({
       {!error ? (
         <section className="mc-table-panel rx-table-panel schedule-today-table-panel">
           {loading ? (
-            <p className="schedule-empty-line">Äang táº£i danh sÃ¡ch lá»‹ch uá»‘ng thuá»‘c...</p>
+            <p className="schedule-empty-line">Đang tải danh sách lịch uống thuốc...</p>
           ) : (
             <TodayScheduleTable
               rows={todayTableRows}
@@ -318,8 +322,8 @@ export default function MedicationSchedulesView({
 
       <ConfirmDialog
         open={Boolean(canceling)}
-        title="Táº¡m ngÆ°ng lá»‹ch uá»‘ng thuá»‘c?"
-        description="Lá»‹ch sáº½ chuyá»ƒn sang tráº¡ng thÃ¡i Táº¡m ngÆ°ng vÃ  váº«n cÃ²n lÆ°u trong há»‡ thá»‘ng."
+        title="Tạm ngưng lịch uống thuốc?"
+        description="Lịch sẽ chuyển sang trạng thái Tạm ngưng và vẫn còn lưu trong hệ thống."
         onCancel={onCloseCancel}
         onConfirm={onConfirmCancel}
       />

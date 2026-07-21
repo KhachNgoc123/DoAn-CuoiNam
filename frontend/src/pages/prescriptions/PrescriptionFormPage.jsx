@@ -1,20 +1,34 @@
-﻿import { useEffect, useState } from 'react'
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
-import { createOne, getList, getOne, updateOne } from '../api/resources'
-import { getErrorMessage } from '../api/client'
-import PageHeader from '../components/ui/PageHeader'
-import LoadingState from '../components/ui/LoadingState'
-import PrescriptionForm from '../components/prescriptions/PrescriptionForm'
-import Toast from '../components/ui/Toast'
-import EmptyState from '../components/ui/EmptyState'
+import { createOne, getList, getOne, updateOne } from '../../api/resources'
+import { getErrorMessage } from '../../api/client'
+import PageHeader from '../../components/ui/PageHeader'
+import LoadingState from '../../components/ui/LoadingState'
+import PrescriptionForm from '../../components/prescriptions/PrescriptionForm'
+import Toast from '../../components/ui/Toast'
+import EmptyState from '../../components/ui/EmptyState'
 
+/**
+ * Điều phối dữ liệu và hiển thị màn hình PrescriptionForm.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.mode Giá trị mode được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.prescriptionId Giá trị prescriptionId được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.recordId Giá trị recordId được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.record Giá trị record được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.workflow Giá trị workflow được dùng để render hoặc xử lý tương tác.
+ */
 export default function PrescriptionFormPage({ mode, prescriptionId, recordId, record, workflow }) {
   const { id: routeId } = useParams()
   const id = prescriptionId || routeId
   const isEdit = mode === 'edit' || Boolean(id)
   const location = useLocation()
   const navigate = useNavigate()
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [initialValue, setInitialValue] = useState(null)
   const [records, setRecords] = useState([])
   const [medicines, setMedicines] = useState([])
@@ -25,6 +39,7 @@ export default function PrescriptionFormPage({ mode, prescriptionId, recordId, r
   const [recordAccessDenied, setRecordAccessDenied] = useState(false)
   const [toast, setToast] = useState(() => location.state?.toast || null)
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     const routeToast = location.state?.toast
     if (!routeToast) return
@@ -34,6 +49,7 @@ export default function PrescriptionFormPage({ mode, prescriptionId, recordId, r
     })
   }, [location.pathname, location.state, navigate])
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     Promise.all([
       getList('/medical-records', { per_page: 50, prescribable: 1 }),
@@ -78,20 +94,20 @@ export default function PrescriptionFormPage({ mode, prescriptionId, recordId, r
         ? await updateOne('/prescriptions', id, payload)
         : await createOne('/prescriptions', payload)
       if (isEdit) {
-        navigate('/prescriptions', {
+        navigate(`/prescriptions/${saved.prescription_id || id}`, {
           state: {
-            toast: { type: 'success', message: 'ÄÃ£ cáº­p nháº­t toa thuá»‘c.' },
+            toast: { type: 'success', message: 'Đã cập nhật toa thuốc.' },
             viewPrescriptionId: saved.prescription_id || id,
           },
         })
         return
       }
       const savedId = saved.prescription_id || saved.id
-      navigate('/prescriptions', {
+      navigate(`/prescriptions/${savedId}`, {
         state: {
           toast: {
             type: 'success',
-            message: 'Toa thuá»‘c Ä‘Ã£ Ä‘Æ°á»£c lÆ°u thÃ nh cÃ´ng. Lá»‹ch uá»‘ng thuá»‘c Ä‘Ã£ Ä‘Æ°á»£c Ä‘á»“ng bá»™ tá»« Ä‘Æ¡n thuá»‘c.',
+            message: 'Toa thuốc đã được lưu thành công. Lịch uống thuốc đã được đồng bộ từ đơn thuốc.',
           },
           viewPrescriptionId: savedId,
         },
@@ -119,18 +135,18 @@ export default function PrescriptionFormPage({ mode, prescriptionId, recordId, r
   ) {
     return (
       <main className="page">
-        <PageHeader title={isEdit ? 'Sá»­a toa thuá»‘c' : 'KÃª toa thuá»‘c'} />
+        <PageHeader title={isEdit ? 'Sửa toa thuốc' : 'Kê toa thuốc'} />
         <EmptyState
           title={
             isEdit
-          ? 'Toa thuá»‘c thuá»™c há»“ sÆ¡ Ä‘Ã£ hoÃ n thÃ nh, khÃ´ng thá»ƒ chá»‰nh sá»­a.'
+          ? 'Toa thuốc thuộc hồ sơ đã hoàn thành, không thể chỉnh sửa.'
               : recordAccessDenied
-          ? 'Há»“ sÆ¡ bá»‡nh Ã¡n Ä‘Ã£ hoÃ n thÃ nh, khÃ´ng thá»ƒ kÃª toa thuá»‘c má»›i.'
-                : 'KhÃ´ng cÃ³ há»“ sÆ¡ Ä‘ang Ä‘iá»u trá»‹ Ä‘á»ƒ kÃª toa'
+          ? 'Hồ sơ bệnh án đã hoàn thành, không thể kê toa thuốc mới.'
+                : 'Không có hồ sơ đang điều trị để kê toa'
           }
           description={
             isEdit || recordAccessDenied
-          ? 'Vui lÃ²ng táº¡o há»“ sÆ¡ bá»‡nh Ã¡n má»›i cho láº§n Ä‘iá»u trá»‹ nÃ y.'
+          ? 'Vui lòng tạo hồ sơ bệnh án mới cho lần điều trị này.'
               : ''
           }
         />
@@ -141,11 +157,11 @@ export default function PrescriptionFormPage({ mode, prescriptionId, recordId, r
   return (
     <main className="page">
       <PageHeader
-        title={isEdit ? 'Sá»­a toa thuá»‘c' : 'KÃª toa thuá»‘c'}
-        subtitle="Dá»¯ liá»‡u lÆ°u vÃ o prescriptions vÃ  prescription_details."
+        title={isEdit ? 'Sửa toa thuốc' : 'Kê toa thuốc'}
+        subtitle="Dữ liệu lưu vào prescriptions và prescription_details."
         actions={
           <button className="secondary-button" onClick={() => navigate('/prescriptions')}>
-            <ArrowLeft size={18} /> Quay láº¡i
+            <ArrowLeft size={18} /> Quay lại
           </button>
         }
       />

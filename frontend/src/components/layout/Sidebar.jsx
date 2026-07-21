@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { NavLink, useNavigate } from 'react-router-dom'
 import {
   Activity,
@@ -15,7 +19,9 @@ import { logout } from '../../api/authApi'
 const groups = [
   {
     title: 'Hệ thống',
-    items: [{ to: '/', label: 'Tổng quan', icon: ClipboardList }],
+    items: [
+      { to: '/', label: 'Tổng quan', icon: ClipboardList },
+    ],
   },
   {
     title: 'Điều trị',
@@ -36,6 +42,11 @@ const groups = [
   },
 ]
 
+/**
+ * Hiển thị component Sidebar trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.onUserChange Giá trị onUserChange được dùng để render hoặc xử lý tương tác.
+ */
 export default function Sidebar({ onUserChange }) {
   const navigate = useNavigate()
 

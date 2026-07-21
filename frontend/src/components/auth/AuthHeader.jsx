@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 export default function AuthHeader({ forgotMode }) {
   return (
     <div className="login-brand-block auth-card-header">

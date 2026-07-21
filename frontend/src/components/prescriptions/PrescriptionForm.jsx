@@ -1,4 +1,8 @@
-﻿import { useRef, useState } from 'react'
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
+import { useRef, useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import FormSection from '../ui/FormSection'
 import Field from '../ui/Field'
@@ -220,6 +224,16 @@ function selectedMealText(detail, mealTimes) {
   )
 }
 
+/**
+ * Hiển thị component CheckboxOptionGroup trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.options Giá trị options được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.value Giá trị value được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.getValue Giá trị getValue được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.getLabel Giá trị getLabel được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onChange Giá trị onChange được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.emptyText Giá trị emptyText được dùng để render hoặc xử lý tương tác.
+ */
 function CheckboxOptionGroup({ options, value, getValue, getLabel, onChange, emptyText }) {
   if (!options.length) {
     return <div className="muted-text">{emptyText}</div>
@@ -255,6 +269,7 @@ function SuggestionInput({
   onChange,
   onSelect,
 }) {
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [focused, setFocused] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
   const inputRef = useRef(null)
@@ -283,6 +298,7 @@ function SuggestionInput({
     window.requestAnimationFrame(() => optionRefs.current[nextIndex]?.focus())
   }
 
+  // Hàm handleSuggestionKeyDown xử lý sự kiện người dùng trên giao diện.
   function handleSuggestionKeyDown(event, index) {
     if (event.key === 'ArrowDown') {
       event.preventDefault()
@@ -430,11 +446,13 @@ export default function PrescriptionForm({
       draftDetail: { ...(current.draftDetail || {}), [key]: '' },
     }))
 
+  // Hàm updateDraftDetail gửi dữ liệu chỉnh sửa lên API hoặc component cha.
   const updateDraftDetail = (key, value) => {
     setDraftDetail((current) => ({ ...current, [key]: value }))
     clearDraftDetailError(key)
   }
 
+  // Hàm updateDraftDetailFields gửi dữ liệu chỉnh sửa lên API hoặc component cha.
   const updateDraftDetailFields = (values) => {
     setDraftDetail((current) => ({ ...current, ...values }))
     Object.keys(values).forEach((key) => clearDraftDetailError(key))

@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { useState } from 'react'
 import AvatarPicker from './AvatarPicker'
 import Field from '../ui/Field'
@@ -5,6 +9,12 @@ import { toApiDateValue, toDateInputValue } from '../../utils/formatters'
 
 const specialties = ['Nội tổng quát', 'Tim mạch', 'Tiêu hóa', 'Nội tiết', 'Da liễu']
 
+/**
+ * Hiển thị component Section trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.title Giá trị title được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.children Giá trị children được dùng để render hoặc xử lý tương tác.
+ */
 function Section({ title, children }) {
   return (
     <section className="doctor-edit-section">
@@ -14,6 +24,12 @@ function Section({ title, children }) {
   )
 }
 
+/**
+ * Hiển thị component InfoRow trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.label Giá trị label được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.children Giá trị children được dùng để render hoặc xử lý tương tác.
+ */
 function InfoRow({ label, children }) {
   return (
     <div className="doctor-edit-info-row">
@@ -23,7 +39,17 @@ function InfoRow({ label, children }) {
   )
 }
 
+/**
+ * Hiển thị form Account và nhận các hàm xử lý từ component cha.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.initialValue Giá trị initialValue được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.loading Giá trị loading được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onSubmit Giá trị onSubmit được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onCancel Giá trị onCancel được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onChangePassword Giá trị onChangePassword được dùng để render hoặc xử lý tương tác.
+ */
 export default function AccountForm({ initialValue, loading, onSubmit, onCancel, onChangePassword }) {
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [form, setForm] = useState({
     full_name: initialValue?.full_name || '',
     email: initialValue?.email || '',

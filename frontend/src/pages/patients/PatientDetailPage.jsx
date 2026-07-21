@@ -1,4 +1,8 @@
-﻿import { getPatient } from "../api/patientApi";
+/**
+ * File thuộc nhóm pages, điều phối dữ liệu của từng màn hình trước khi truyền xuống component hiển thị.
+ */
+
+import { getPatient } from "../../api/patientApi";
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
@@ -7,13 +11,13 @@ import {
   Plus,
   TriangleAlert,
 } from 'lucide-react'
-import { getList, getOne } from '../api/resources'
-import { getErrorMessage } from '../api/client'
-import LoadingState from '../components/ui/LoadingState'
-import EmptyState from '../components/ui/EmptyState'
-import StatusBadge from '../components/ui/StatusBadge'
-import Toast from '../components/ui/Toast'
-import PatientMedicalRecordsView from '../components/medical-records/PatientMedicalRecordsView'
+import { getList } from '../../api/resources'
+import { getErrorMessage } from '../../api/client'
+import LoadingState from '../../components/ui/LoadingState'
+import EmptyState from '../../components/ui/EmptyState'
+import StatusBadge from '../../components/ui/StatusBadge'
+import Toast from '../../components/ui/Toast'
+import PatientMedicalRecordsView from '../../components/medical-records/PatientMedicalRecordsView'
 import {
   EMPTY_TEXT,
   formatDate,
@@ -22,33 +26,41 @@ import {
   formatPatientCode,
   isMedicalRecordInTreatmentStatus,
   statusAfterEndDate,
-} from '../utils/formatters'
+} from '../../utils/formatters'
 import {
   getPrescriptionStartDate,
   getScheduleSessionsFromTimes,
-} from '../utils/prescriptions'
+} from '../../utils/prescriptions'
 import {
   groupReminderLogsBySchedule,
   reminderStatusForSchedule,
   todayApiDate,
-} from '../utils/medicationReminders'
+} from '../../utils/medicationReminders'
 
 const ACTIVE_RECORD_MESSAGE =
-  
+  'Bệnh nhân đang có một hồ sơ điều trị. Vui lòng hoàn thành điều trị trước khi tạo hồ sơ bệnh án mới.'
 
+/**
+ * Hiển thị component InfoItem trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.label Giá trị label được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.value Giá trị value được dùng để render hoặc xử lý tương tác.
+ */
 function InfoItem({ label, value }) {
-    return (
-        <div className="info-item">
-            <span className="info-label">
-                {label}
-            </span>
-
-            <strong className="info-value">
-                {value || EMPTY_TEXT}
-            </strong>
-        </div>
-    )
+  return (
+    <div className="patient-profile-item">
+      <span>{label}</span>
+      <strong>{value || EMPTY_TEXT}</strong>
+    </div>
+  )
 }
+/**
+ * Hiển thị component Section trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.title Giá trị title được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.children Giá trị children được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.actions Giá trị actions được dùng để render hoặc xử lý tương tác.
+ */
 function Section({ title, children, actions }) {
   return (
     <section className="mc-patient-tab-panel">
@@ -84,10 +96,6 @@ function initials(name = '') {
   return `${parts[parts.length - 2][0] || ''}${parts[parts.length - 1][0] || ''}`.toUpperCase()
 }
 
-function formatRecordCode(record) {
-  return record?.record_code || `HS-${String(record?.record_id || '').padStart(3, '0')}`
-}
-
 function formatPrescriptionCode(prescription) {
   return prescription?.prescription_code || `DT${String(prescription?.prescription_id || '').padStart(3, '0')}`
 }
@@ -113,22 +121,6 @@ function collectSchedules(prescriptions) {
   )
 }
 
-function recordDiagnosis(record) {
-  return record?.diagnosis_info?.diagnosis_name || record?.diagnosis || EMPTY_TEXT
-}
-
-function recordSymptoms(record) {
-  const relationSymptoms = (record?.symptom_details || [])
-    .map((symptom) => symptom?.description)
-    .filter(Boolean)
-
-  if (relationSymptoms.length) {
-    return [...new Set(relationSymptoms)].join(', ')
-  }
-
-  return record?.symptoms || EMPTY_TEXT
-}
-
 function normalizeMetricText(value) {
   return String(value || '')
     .normalize('NFD')
@@ -138,7 +130,7 @@ function normalizeMetricText(value) {
 }
 
 function metricTypeName(metric) {
-  return metric?.health_type?.health_type_name || 'Chá»‰ sá»‘ sá»©c khá»e'
+  return metric?.health_type?.health_type_name || 'Chỉ số sức khỏe'
 }
 
 function metricUnit(metric) {
@@ -187,39 +179,45 @@ function evaluateHealthMetric(metric) {
   const hasMin = Number.isFinite(min)
   const hasMax = Number.isFinite(max)
 
-  if (metricHasOpenAlert(metric)) return { status: 'warning', message: 'CÃ³ cáº£nh bÃ¡o sá»©c khá»e Ä‘ang má»Ÿ' }
+  if (metricHasOpenAlert(metric)) return { status: 'warning', message: 'Có cảnh báo sức khỏe đang mở' }
 
   if (name.includes('huyet ap') || name.includes('blood pressure')) {
     const systolic = numbers[0]
     const diastolic = numbers[1]
     if (Number.isFinite(systolic) && Number.isFinite(diastolic)) {
-      if (systolic >= 140 || diastolic >= 90) return { status: 'warning', message: 'Cao hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
-      if (systolic < 90 || diastolic < 60) return { status: 'warning', message: 'Tháº¥p hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
+      if (systolic >= 140 || diastolic >= 90) return { status: 'warning', message: 'Cao hơn ngưỡng bình thường' }
+      if (systolic < 90 || diastolic < 60) return { status: 'warning', message: 'Thấp hơn ngưỡng bình thường' }
     }
   }
 
   if ((name.includes('nhip tim') || name.includes('heart')) && Number.isFinite(firstValue)) {
-    if (firstValue > 100) return { status: 'warning', message: 'Cao hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
-    if (firstValue < 60) return { status: 'warning', message: 'Tháº¥p hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
+    if (firstValue > 100) return { status: 'warning', message: 'Cao hơn ngưỡng bình thường' }
+    if (firstValue < 60) return { status: 'warning', message: 'Thấp hơn ngưỡng bình thường' }
   }
 
   if ((name.includes('nhiet do') || name.includes('temperature')) && Number.isFinite(firstValue)) {
-    if (firstValue >= 39) return { status: 'warning', message: 'Sá»‘t cao' }
-    if (firstValue >= 37.5) return { status: 'warning', message: 'Cao hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
+    if (firstValue >= 39) return { status: 'warning', message: 'Sốt cao' }
+    if (firstValue >= 37.5) return { status: 'warning', message: 'Cao hơn ngưỡng bình thường' }
   }
 
   if ((name.includes('spo2') || name.includes('oxy')) && Number.isFinite(firstValue) && firstValue < 95) {
-    return { status: 'warning', message: 'Tháº¥p hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
+    return { status: 'warning', message: 'Thấp hơn ngưỡng bình thường' }
   }
 
   if (Number.isFinite(firstValue)) {
-    if (hasMin && firstValue < min) return { status: 'warning', message: 'Tháº¥p hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
-    if (hasMax && firstValue > max) return { status: 'warning', message: 'Cao hÆ¡n ngÆ°á»¡ng bÃ¬nh thÆ°á»ng' }
+    if (hasMin && firstValue < min) return { status: 'warning', message: 'Thấp hơn ngưỡng bình thường' }
+    if (hasMax && firstValue > max) return { status: 'warning', message: 'Cao hơn ngưỡng bình thường' }
   }
 
-  return { status: 'normal', message: 'BÃ¬nh thÆ°á»ng' }
+  return { status: 'normal', message: 'Bình thường' }
 }
 
+/**
+ * Hiển thị hộp thoại HealthMetric theo state truyền vào.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.metric Giá trị metric được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onClose Giá trị onClose được dùng để render hoặc xử lý tương tác.
+ */
 function HealthMetricDialog({ metric, onClose }) {
   if (!metric) return null
 
@@ -228,28 +226,32 @@ function HealthMetricDialog({ metric, onClose }) {
       <section className="dialog patient-info-dialog" role="dialog" aria-modal="true">
         <div className="dialog-header">
           <div>
-            <span>Chi tiáº¿t chá»‰ sá»‘ sá»©c khá»e</span>
-            <h2>{metric.health_type?.health_type_name || 'Chá»‰ sá»‘ sá»©c khá»e'}</h2>
+            <span>Chi tiết chỉ số sức khỏe</span>
+            <h2>{metric.health_type?.health_type_name || 'Chỉ số sức khỏe'}</h2>
           </div>
-          <button className="icon-button" title="ÄÃ³ng" onClick={onClose}>
-            Ã—
+          <button className="icon-button" title="Đóng" onClick={onClose}>
+            ×
           </button>
         </div>
         <div className="patient-info-detail-grid">
-          <InfoItem label="Loáº¡i chá»‰ sá»‘" value={metric.health_type?.health_type_name} />
-          <InfoItem label="GiÃ¡ trá»‹" value={metric.value} />
-          <InfoItem label="ÄÆ¡n vá»‹" value={metric.health_type?.unit} />
-          <InfoItem label="Thá»i gian Ä‘o" value={formatDateTime(metric.measure_time)} />
-          <InfoItem label="Ghi chÃº" value={metric.note} />
+          <InfoItem label="Loại chỉ số" value={metric.health_type?.health_type_name} />
+          <InfoItem label="Giá trị" value={metric.value} />
+          <InfoItem label="Đơn vị" value={metric.health_type?.unit} />
+          <InfoItem label="Thời gian đo" value={formatDateTime(metric.measure_time)} />
+          <InfoItem label="Ghi chú" value={metric.note} />
         </div>
       </section>
     </div>
   )
 }
 
+/**
+ * ?i?u ph?i d? li?u v? hi?n th? m?n h?nh PatientDetail.
+ */
 export default function PatientDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [patient, setPatient] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -262,6 +264,7 @@ export default function PatientDetailPage() {
   useEffect(() => {
     let active = true;
 
+    // Hàm fetchPatient nạp dữ liệu từ API hoặc nguồn dữ liệu hiện có để cập nhật giao diện.
     async function fetchPatient() {
         try {
             setLoading(true);
@@ -291,6 +294,7 @@ export default function PatientDetailPage() {
 }, [id]);
 
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     let active = true
     const date = todayApiDate()
@@ -311,7 +315,7 @@ export default function PatientDetailPage() {
   const records = useMemo(() => patient?.medical_records || [], [patient])
   const prescriptions = useMemo(() => collectPrescriptions(records), [records])
   const schedules = useMemo(() => collectSchedules(prescriptions), [prescriptions])
-  const healthMetrics = patient?.health_metrics || []
+  const healthMetrics = useMemo(() => patient?.health_metrics || [], [patient])
   const latestHealthMetrics = useMemo(() => latestMetricsByType(healthMetrics), [healthMetrics])
   const activeTreatmentRecord = useMemo(
     () => records.find((record) => isMedicalRecordInTreatmentStatus(record.status)),
@@ -321,21 +325,22 @@ export default function PatientDetailPage() {
     () => records.find((record) => record.can_prescribe),
     [records],
   )
-  const currentStatus = activeTreatmentRecord ? 'Äang Ä‘iá»u trá»‹' : records.length ? 'HoÃ n thÃ nh Ä‘iá»u trá»‹' : 'Theo dÃµi Ä‘á»‹nh ká»³'
+  const currentStatus = activeTreatmentRecord ? 'Đang điều trị' : records.length ? 'Hoàn thành điều trị' : 'Theo dõi định kỳ'
 
   const detailTabs = [
-    { key: 'personal', label: 'ThÃ´ng tin cÃ¡ nhÃ¢n' },
-    { key: 'prescriptions', label: 'Toa thuá»‘c' },
-    { key: 'schedules', label: 'Lá»‹ch uá»‘ng thuá»‘c' },
-    { key: 'health', label: 'ThÃ´ng tin sá»©c khá»e' },
-    { key: 'records', label: 'Há»“ sÆ¡ bá»‡nh Ã¡n' },
+    { key: 'personal', label: 'Thông tin cá nhân' },
+    { key: 'prescriptions', label: 'Toa thuốc' },
+    { key: 'schedules', label: 'Lịch uống thuốc' },
+    { key: 'health', label: 'Thông tin sức khỏe' },
+    { key: 'records', label: 'Hồ sơ bệnh án' },
     
   ]
 
-  if (loading) return <LoadingState label="Äang táº£i chi tiáº¿t bá»‡nh nhÃ¢n..." />
-  if (error) return <EmptyState title="KhÃ´ng táº£i Ä‘Æ°á»£c bá»‡nh nhÃ¢n" description={error} />
-  if (!patient) return <EmptyState title="KhÃ´ng tÃ¬m tháº¥y bá»‡nh nhÃ¢n" />
+  if (loading) return <LoadingState label="Đang tải chi tiết bệnh nhân..." />
+  if (error) return <EmptyState title="Không tải được bệnh nhân" description={error} />
+  if (!patient) return <EmptyState title="Không tìm thấy bệnh nhân" />
 
+  // Hàm createMedicalRecord gửi dữ liệu mới lên API hoặc component cha.
   function createMedicalRecord() {
     if (activeTreatmentRecord) {
       setToast({ type: 'error', message: ACTIVE_RECORD_MESSAGE })
@@ -354,15 +359,15 @@ export default function PatientDetailPage() {
     if (!prescribableRecord && records.length) {
       setToast({
         type: 'error',
-        message: 'Bá»‡nh nhÃ¢n Ä‘Ã£ hoÃ n thÃ nh Ä‘iá»u trá»‹. Vui lÃ²ng táº¡o há»“ sÆ¡ bá»‡nh Ã¡n má»›i trÆ°á»›c khi kÃª toa.',
+        message: 'Bệnh nhân đã hoàn thành điều trị. Vui lòng tạo hồ sơ bệnh án mới trước khi kê toa.',
       })
       return
     }
     if (!prescribableRecord) {
-      setToast({ type: 'error', message: 'Bá»‡nh nhÃ¢n cáº§n cÃ³ há»“ sÆ¡ bá»‡nh Ã¡n trÆ°á»›c khi kÃª toa.' })
+      setToast({ type: 'error', message: 'Bệnh nhân cần có hồ sơ bệnh án trước khi kê toa.' })
       return
     }
-    navigate('/prescriptions', {
+    navigate('/prescriptions/create', {
       state: {
         mode: 'create',
         recordId: prescribableRecord.record_id,
@@ -375,15 +380,15 @@ export default function PatientDetailPage() {
     <main className="page mc-patient-detail-page">
       <section className="mc-detail-hero">
         <div>
-          <h1>Chi tiáº¿t bá»‡nh nhÃ¢n</h1>
-          <p>{formatPatientCode(patient)} â€¢ Cáº­p nháº­t {formatDate(patient.updated_at || patient.created_at)}</p>
+          <h1>Chi tiết bệnh nhân</h1>
+          <p>{formatPatientCode(patient)} • Cập nhật {formatDate(patient.updated_at || patient.created_at)}</p>
         </div>
         <div className="mc-detail-actions">
           <button className="mc-dark-button" onClick={createMedicalRecord}>
-            <Plus size={16} /> Táº¡o há»“ sÆ¡ má»›i
+            <Plus size={16} /> Tạo hồ sơ mới
           </button>
           <button className="primary-button" onClick={prescribe}>
-            <Pill size={16} /> KÃª toa thuá»‘c
+            <Pill size={16} /> Kê toa thuốc
           </button>
         </div>
       </section>
@@ -394,13 +399,13 @@ export default function PatientDetailPage() {
           <h2>{patient.full_name}</h2>
           <StatusBadge value={currentStatus} />
           <div className="mc-patient-side-info">
-            <InfoItem label="MÃ£ bá»‡nh nhÃ¢n" value={formatPatientCode(patient)} />
-            <InfoItem label="Sá»‘ Ä‘iá»‡n thoáº¡i" value={patient.phone} />
+            <InfoItem label="Mã bệnh nhân" value={formatPatientCode(patient)} />
+            <InfoItem label="Số điện thoại" value={patient.phone} />
           </div>
         </aside>
 
         <div className="mc-patient-detail-main">
-          <nav className="patient-detail-nav mc-patient-tabs" aria-label="ThÃ´ng tin bá»‡nh nhÃ¢n">
+          <nav className="patient-detail-nav mc-patient-tabs" aria-label="Thông tin bệnh nhân">
             {detailTabs.map((tab) => (
               <button
                 key={tab.key}
@@ -414,32 +419,32 @@ export default function PatientDetailPage() {
           </nav>
 
           {activeSection === 'personal' && (
-            <Section title="ThÃ´ng tin cÃ¡ nhÃ¢n">
+            <Section title="Thông tin cá nhân">
               <div className="patient-profile-grid">
-                <InfoItem label="Há» tÃªn" value={patient.full_name} />
-                <InfoItem label="Giá»›i tÃ­nh" value={formatGender(patient.gender)} />
-                <InfoItem label="NgÃ y sinh" value={formatDate(patient.date_of_birth)} />
-                <InfoItem label="Sá»‘ Ä‘iá»‡n thoáº¡i" value={patient.phone} />
-                <InfoItem label="Äá»‹a chá»‰" value={patient.address} />
-                <InfoItem label="Tráº¡ng thÃ¡i Ä‘iá»u trá»‹" value={currentStatus} />
-                <InfoItem label="Bá»‡nh ná»n" value={patientChronicDiseaseText(patient)} />
-                <InfoItem label="Dá»‹ á»©ng thuá»‘c" value={patientAllergyText(patient)} />
+                <InfoItem label="Họ tên" value={patient.full_name} />
+                <InfoItem label="Giới tính" value={formatGender(patient.gender)} />
+                <InfoItem label="Ngày sinh" value={formatDate(patient.date_of_birth)} />
+                <InfoItem label="Số điện thoại" value={patient.phone} />
+                <InfoItem label="Địa chỉ" value={patient.address} />
+                <InfoItem label="Trạng thái điều trị" value={currentStatus} />
+                <InfoItem label="Bệnh nền" value={patientChronicDiseaseText(patient)} />
+                <InfoItem label="Dị ứng thuốc" value={patientAllergyText(patient)} />
               </div>
             </Section>
           )}
 
           {activeSection === 'prescriptions' && (
-            <Section title="Toa thuá»‘c">
+            <Section title="Toa thuốc">
               {prescriptions.length ? (
                 <div className="patient-detail-table-wrap">
                   <table>
                     <thead>
                       <tr>
-                        <th>MÃ£ Ä‘Æ¡n</th>
-                        <th>NgÃ y kÃª</th>
-                        <th>Tráº¡ng thÃ¡i</th>
-                        <th>Sá»‘ thuá»‘c</th>
-                        <th>Thao tÃ¡c</th>
+                        <th>Mã đơn</th>
+                        <th>Ngày kê</th>
+                        <th>Trạng thái</th>
+                        <th>Số thuốc</th>
+                        <th>Thao tác</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -454,7 +459,7 @@ export default function PatientDetailPage() {
                               type="button"
                               className="mc-small-text-button"
                               onClick={() =>
-                                navigate('/prescriptions', {
+                                navigate(`/prescriptions/${prescription.prescription_id}`, {
                                   state: { viewPrescriptionId: prescription.prescription_id },
                                 })
                               }
@@ -468,25 +473,25 @@ export default function PatientDetailPage() {
                   </table>
                 </div>
               ) : (
-                <EmptyState title="ChÆ°a cÃ³ toa thuá»‘c" />
+                <EmptyState title="Chưa có toa thuốc" />
               )}
             </Section>
           )}
 
           {activeSection === 'schedules' && (
-            <Section title="Lá»‹ch uá»‘ng thuá»‘c">
+            <Section title="Lịch uống thuốc">
               {schedules.length ? (
                 <div className="patient-detail-table-wrap">
                   <table>
                     <thead>
                       <tr>
-                        <th>Thuá»‘c</th>
-                        <th>Buá»•i uá»‘ng</th>
-                        <th>Táº§n suáº¥t</th>
-                        <th>Bá»¯a Äƒn</th>
-                        <th>Thá»i gian</th>
-                        <th>Tráº¡ng thÃ¡i nháº¯c</th>
-                        <th>Thao tÃ¡c</th>
+                        <th>Thuốc</th>
+                        <th>Buổi uống</th>
+                        <th>Tần suất</th>
+                        <th>Bữa ăn</th>
+                        <th>Thời gian</th>
+                        <th>Trạng thái nhắc</th>
+                        <th>Thao tác</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -517,19 +522,19 @@ export default function PatientDetailPage() {
                   </table>
                 </div>
               ) : (
-                <EmptyState title="ChÆ°a cÃ³ lá»‹ch uá»‘ng thuá»‘c" />
+                <EmptyState title="Chưa có lịch uống thuốc" />
               )}
             </Section>
           )}
 
           {activeSection === 'health' && (
-            <Section title="ThÃ´ng tin sá»©c khá»e">
+            <Section title="Thông tin sức khỏe">
               <div className="patient-health-alert-card">
                 <div className="patient-health-alert-heading">
-                  <h3>Cáº£nh bÃ¡o sá»©c khá»e</h3>
+                  <h3>Cảnh báo sức khỏe</h3>
                 </div>
                 <div className="patient-health-alert-patient">
-                  <span>Bá»‡nh nhÃ¢n:</span>
+                  <span>Bệnh nhân:</span>
                   <strong>{patient.full_name || EMPTY_TEXT}</strong>
                 </div>
                 {latestHealthMetrics.length ? (
@@ -547,14 +552,14 @@ export default function PatientDetailPage() {
                           <div>
                             <strong>{metricTypeName(metric)}</strong>
                             <span>{metricValueText(metric)}</span>
-                            <small>{isWarning ? `âš  ${evaluation.message}` : `âœ“ ${evaluation.message}`}</small>
+                            <small>{isWarning ? `⚠ ${evaluation.message}` : `✓ ${evaluation.message}`}</small>
                           </div>
                         </article>
                       )
                     })}
                   </div>
                 ) : (
-                  <EmptyState title="ChÆ°a cÃ³ dá»¯ liá»‡u cáº£nh bÃ¡o sá»©c khá»e" />
+                  <EmptyState title="Chưa có dữ liệu cảnh báo sức khỏe" />
                 )}
               </div>
 
@@ -563,11 +568,11 @@ export default function PatientDetailPage() {
                   <table>
                     <thead>
                       <tr>
-                        <th>Loáº¡i chá»‰ sá»‘</th>
-                        <th>GiÃ¡ trá»‹</th>
-                        <th>Thá»i gian Ä‘o</th>
-                        <th>Ghi chÃº</th>
-                        <th>Thao tÃ¡c</th>
+                        <th>Loại chỉ số</th>
+                        <th>Giá trị</th>
+                        <th>Thời gian đo</th>
+                        <th>Ghi chú</th>
+                        <th>Thao tác</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -592,7 +597,7 @@ export default function PatientDetailPage() {
           )}
 
           {activeSection === 'records' && (
-            <Section title="Há»“ sÆ¡ bá»‡nh Ã¡n">
+            <Section title="Hồ sơ bệnh án">
               <PatientMedicalRecordsView
                 records={records}
                 loading={false}

@@ -1,11 +1,23 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { useEffect, useRef, useState } from 'react'
 import { Camera, X } from 'lucide-react'
 
+/**
+ * Hiển thị hộp thoại CameraCapture theo state truyền vào.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.onCapture Giá trị onCapture được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onClose Giá trị onClose được dùng để render hoặc xử lý tương tác.
+ */
 export default function CameraCaptureDialog({ onCapture, onClose }) {
   const videoRef = useRef(null)
   const streamRef = useRef(null)
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [error, setError] = useState('')
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     let active = true
     navigator.mediaDevices

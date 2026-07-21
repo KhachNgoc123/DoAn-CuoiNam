@@ -1,5 +1,17 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import PasswordInput from './PasswordInput'
 
+/**
+ * Hiển thị form Login và nhận các hàm xử lý từ component cha.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.form Giá trị form được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.fieldErrors Giá trị fieldErrors được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.loading Giá trị loading được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onChange Giá trị onChange được dùng để render hoặc xử lý tương tác.
+ */
 export default function LoginForm({ form, fieldErrors, loading, onChange }) {
   return (
     <>

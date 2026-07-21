@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { useLocation } from 'react-router-dom'
 import DoctorAvatar from '../accounts/DoctorAvatar'
 import { menuItems } from './menuItems'
@@ -18,10 +22,16 @@ function findCurrentMenuItem(pathname) {
   )
 }
 
+/**
+ * Hiển thị component Topbar trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.user Giá trị user được dùng để render hoặc xử lý tương tác.
+ */
 export default function Topbar({ user }) {
   const location = useLocation()
   const currentMenuItem =
-    location.pathname === '/prescriptions' && location.state?.viewPrescriptionId
+    (location.pathname === '/prescriptions' && location.state?.viewPrescriptionId) ||
+    /^\/prescriptions\/(?!create$)[^/]+$/.test(location.pathname)
       ? { label: 'Chi tiết đơn thuốc' }
       : location.pathname === '/health-metrics' && location.state?.healthView === 'detail'
         ? { label: 'Chi tiết theo dõi' }

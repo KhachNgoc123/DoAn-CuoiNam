@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { useRef, useState } from 'react'
 
 function normalize(value) {
@@ -15,6 +19,7 @@ export default function SuggestedTextarea({
   multiple = false,
   onChange,
 }) {
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [open, setOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(-1)
   const textareaRef = useRef(null)
@@ -58,6 +63,7 @@ export default function SuggestedTextarea({
     window.requestAnimationFrame(() => optionRefs.current[nextIndex]?.focus())
   }
 
+  // Hàm handleSuggestionKeyDown xử lý sự kiện người dùng trên giao diện.
   function handleSuggestionKeyDown(event, index) {
     if (event.key === 'ArrowDown') {
       event.preventDefault()

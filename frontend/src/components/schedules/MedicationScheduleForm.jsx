@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { useMemo, useState } from 'react'
 import Field from '../ui/Field'
 
@@ -14,6 +18,7 @@ export default function MedicationScheduleForm({
   onSubmit,
   onCancel,
 }) {
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [form, setForm] = useState({
     prescription_detail_id:
       initialValue?.prescription_detail_id ||

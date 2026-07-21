@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import {
   Activity,
   BellRing,
@@ -10,6 +14,7 @@ import {
   Users,
 } from 'lucide-react'
 
+// Sidebar dùng chung danh sách này để giữ label và đường dẫn thống nhất với AppRoutes.
 export const menuItems = [
   { to: '/', label: 'Tổng quan', icon: LayoutDashboard },
   { to: '/patients', label: 'Bệnh nhân', icon: Users },
