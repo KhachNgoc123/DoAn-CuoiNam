@@ -1,29 +1,10 @@
 # Clinic Doctor Web
 
-Hệ thống quản trị dành cho bác sĩ, gồm Laravel REST API và React + Vite.
+Hệ thống quản trị dành cho bác sĩ, gồm:
 
-## Database
-
-Ứng dụng chỉ sử dụng database MySQL có sẵn: `clinic_db`.
-
-Các bảng đang được ánh xạ:
-
-- `doctor`
-- `patient`
-- `medical_records`
-- `medical_document`
-- `prescriptions`
-- `prescription_details`
-- `medicines`
-- `medicine_schedules`
-- `schedule_times`
-- `schedule_days`
-- `frequency_type`
-- `meal_times`
-- `health_types`
-- `health_metrics`
-
-Không chạy migration hoặc seeder để thay đổi dữ liệu `clinic_db`. Backend sử dụng trực tiếp tên bảng, cột, khóa chính và khóa ngoại hiện hữu.
+- `frontend/`: React + Vite.
+- `backend/`: Laravel REST API.
+- `healthcare_managament.sql`: file database MySQL tham chiếu.
 
 ## Chạy ứng dụng
 
@@ -42,13 +23,48 @@ npm install
 npm run dev
 ```
 
+## Đường dẫn quan trọng
+
+- Frontend entry: `frontend/src/main.jsx`
+- Frontend router: `frontend/src/routes/AppRoutes.jsx`
+- Frontend layout: `frontend/src/components/layout/AdminLayout.jsx`
+- Frontend API client: `frontend/src/api/client.js`
+- Backend API routes: `backend/routes/api.php`
+- Backend scheduler/middleware: `backend/bootstrap/app.php`
+- Tài liệu bản đồ project: `docs/PROJECT_MAP.md`
+
 ## Module hiện có
 
-- Danh sách và hồ sơ bệnh nhân theo bác sĩ điều trị
-- Hồ sơ bệnh án và tài liệu đính kèm
-- Toa thuốc và chi tiết thuốc
-- Lịch uống thuốc theo tần suất, bữa ăn, ngày trong tuần và giờ uống
-- Chỉ số sức khỏe
-- Tài khoản bác sĩ
+- Đăng nhập, đăng xuất, quên mật khẩu và OTP.
+- Dashboard tổng quan.
+- Quản lý bệnh nhân.
+- Hồ sơ bệnh án và tài liệu đính kèm.
+- Thuốc và đơn thuốc.
+- Lịch uống thuốc và nhắc thuốc.
+- Theo dõi sức khỏe.
+- Phản hồi bệnh nhân.
+- Hồ sơ/tài khoản bác sĩ.
+- Báo cáo, xuất Excel/PDF theo phần đang hỗ trợ.
 
-Không có module tủ thuốc bệnh nhân hoặc phân công ca riêng vì `clinic_db` không có các bảng tương ứng. Tồn kho thuốc được đọc từ `medicines.quantity`.
+## Database
+
+Ứng dụng dùng database MySQL `clinic_db`. Backend đang ánh xạ trực tiếp theo các bảng/cột hiện có, vì vậy cần kiểm tra migration và model trước khi đổi cấu trúc dữ liệu.
+
+Các bảng nghiệp vụ chính:
+
+- `doctor`
+- `patient`
+- `medical_records`
+- `medical_document`
+- `prescriptions`
+- `prescription_details`
+- `medicines`
+- `medicine_schedules`
+- `schedule_times`
+- `schedule_days`
+- `frequency_type`
+- `meal_times`
+- `health_types`
+- `health_metrics`
+
+Không tự ý chạy migration/seeder trên database thật nếu chưa sao lưu dữ liệu.

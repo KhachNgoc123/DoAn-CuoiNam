@@ -14,7 +14,7 @@ class AuthenticateDoctorToken
     {
         $doctorId = DoctorToken::doctorId($request->bearerToken() ?? '');
         $doctor = $doctorId
-            ? User::query()
+            ? Doctor::query()
                 ->select(['doctor_id', 'full_name', 'email', 'avatar', 'phone', 'specialty', 'status'])
                 ->find($doctorId)
             : null;

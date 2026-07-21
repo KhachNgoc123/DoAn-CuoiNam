@@ -1,44 +1,43 @@
+/**
+ * Các API đăng nhập, lấy thông tin bác sĩ và luồng quên mật khẩu OTP.
+ */
+
 import apiClient from './client'
+
+// Auth API: login/quên mật khẩu/hồ sơ bác sĩ. Token dùng key doctor_health_token.
 export async function login(credentials) {
   const response = await apiClient.post('/auth/login', credentials)
-
   const data = response.data
-//ảnh hưởng từ bên backend chỗ tạo token
+
   if (data.token) {
-    localStorage.setItem(
-      'token',
-      data.token
-    )
+    localStorage.setItem('doctor_health_token', data.token)
   }
 
   if (data.doctor) {
-    localStorage.setItem(
-      'doctor_health_user',
-      JSON.stringify(data.doctor)
-    )
+    localStorage.setItem('doctor_health_user', JSON.stringify(data.doctor))
   }
 
   return data
 }
-//quen mk
+
 export async function forgotPassword(payload) {
   const response = await apiClient.post('/auth/forgot-password', payload)
   return response.data
 }
-//dổi mâtk khẩu sau khi xac thuc
+
 export async function resetPassword(payload) {
-  const response = await apiClient.post('auth/change-password', payload) // thay chỗ này
+  const response = await apiClient.post('auth/change-password', payload)
   return response.data
 }
-//Otp
+
 export async function verifyResetOtp(payload) {
-  const response = await apiClient.post('auth/verify-reset-otp', payload) // khop vs route
+  const response = await apiClient.post('auth/verify-reset-otp', payload)
   return response.data
 }
-//logout
+
 export async function logout() {
-localStorage.removeItem('token') //lưu ý chỗ này nữa phải khớp "token" đã tạo tên backend
-localStorage.removeItem('doctor_health_user')
+  localStorage.removeItem('doctor_health_token')
+  localStorage.removeItem('doctor_health_user')
 }
 
 export async function getMe() {
@@ -65,7 +64,7 @@ export async function updateMe(payload) {
   const response = await apiClient.post('/auth/me', profilePayload)
   return response.data
 }
-///dổi mk (b8) trong hoof sow 
+
 export async function changePassword(payload) {
   const response = await apiClient.post('/auth/reset-password', payload)
   return response.data

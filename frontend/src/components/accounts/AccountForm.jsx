@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { useState } from 'react'
 import AvatarPicker from './AvatarPicker'
 import Field from '../ui/Field'
@@ -5,6 +9,12 @@ import { toApiDateValue, toDateInputValue } from '../../utils/formatters'
 
 const specialties = ['Nội tổng quát', 'Tim mạch', 'Tiêu hóa', 'Nội tiết', 'Da liễu']
 
+/**
+ * Hiển thị component Section trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.title Giá trị title được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.children Giá trị children được dùng để render hoặc xử lý tương tác.
+ */
 function Section({ title, children }) {
   return (
     <section className="doctor-edit-section">
@@ -14,6 +24,12 @@ function Section({ title, children }) {
   )
 }
 
+/**
+ * Hiển thị component InfoRow trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.label Giá trị label được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.children Giá trị children được dùng để render hoặc xử lý tương tác.
+ */
 function InfoRow({ label, children }) {
   return (
     <div className="doctor-edit-info-row">
@@ -23,7 +39,17 @@ function InfoRow({ label, children }) {
   )
 }
 
+/**
+ * Hiển thị form Account và nhận các hàm xử lý từ component cha.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.initialValue Giá trị initialValue được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.loading Giá trị loading được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onSubmit Giá trị onSubmit được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onCancel Giá trị onCancel được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onChangePassword Giá trị onChangePassword được dùng để render hoặc xử lý tương tác.
+ */
 export default function AccountForm({ initialValue, loading, onSubmit, onCancel, onChangePassword }) {
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [form, setForm] = useState({
     full_name: initialValue?.full_name || '',
     email: initialValue?.email || '',
@@ -61,22 +87,16 @@ export default function AccountForm({ initialValue, loading, onSubmit, onCancel,
       <div className="doctor-edit-main">
         <aside className="doctor-edit-avatar-panel">
           <div className="doctor-edit-avatar-label">Ảnh đại diện</div>
-          <AvatarPicker
-            avatar={form.avatar}
-            name={form.full_name}
-            onChange={(avatar) => set('avatar', avatar)}
-          />
+          <AvatarPicker avatar={form.avatar} name={form.full_name} onChange={(avatar) => set('avatar', avatar)} />
         </aside>
 
         <Section title="Thông tin cá nhân">
           <div className="doctor-edit-grid">
-          <InfoRow label="Mã bác sĩ">{initialValue?.doctor_id ? `BS${String(initialValue.doctor_id).padStart(3, '0')}` : '-'}</InfoRow>
+            <InfoRow label="Mã bác sĩ">
+              {initialValue?.doctor_id ? `BS${String(initialValue.doctor_id).padStart(3, '0')}` : '-'}
+            </InfoRow>
             <Field label="Họ và tên" required>
-              <input
-                value={form.full_name}
-                onChange={(event) => set('full_name', event.target.value)}
-                required
-              />
+              <input value={form.full_name} onChange={(event) => set('full_name', event.target.value)} required />
             </Field>
             <Field label="Giới tính">
               <div className="doctor-edit-radio-group">
@@ -110,19 +130,10 @@ export default function AccountForm({ initialValue, loading, onSubmit, onCancel,
               </select>
             </Field>
             <Field label="Số điện thoại" required>
-              <input
-                value={form.phone}
-                onChange={(event) => set('phone', event.target.value)}
-                required
-              />
+              <input value={form.phone} onChange={(event) => set('phone', event.target.value)} required />
             </Field>
             <Field label="Email" required>
-              <input
-                type="email"
-                value={form.email}
-                onChange={(event) => set('email', event.target.value)}
-                required
-              />
+              <input type="email" value={form.email} onChange={(event) => set('email', event.target.value)} required />
             </Field>
             <Field label="Địa chỉ" span={2}>
               <textarea value={form.address} onChange={(event) => set('address', event.target.value)} />

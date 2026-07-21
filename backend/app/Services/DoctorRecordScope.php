@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class DoctorRecordScope
 {
-    public function visiblePatients(User $doctor): Builder
+    public function visiblePatients(Doctor $doctor): Builder
     {
         return Patient::query()->where(function (Builder $query) use ($doctor) {
             $query->whereHas('medicalRecords', fn (Builder $record) => $record
@@ -18,23 +18,23 @@ class DoctorRecordScope
         });
     }
 
-    public function treatedPatients(User $doctor): Builder
+    public function treatedPatients(Doctor $doctor): Builder
     {
         return Patient::query()->whereHas('medicalRecords', fn (Builder $record) => $record
             ->where('doctor_id', $doctor->doctor_id));
     }
 
-    public function canAccessPatient(User $doctor, Patient $patient): bool
+    public function canAccessPatient(Doctor $doctor, Patient $patient): bool
     {
         return $patient->exists;
     }
 
-    public function assertPatient(User $doctor, Patient $patient): void
+    public function assertPatient(Doctor $doctor, Patient $patient): void
     {
         abort_unless($this->canAccessPatient($doctor, $patient), 403, 'Bệnh nhân không thuộc phạm vi điều trị của bác sĩ.');
     }
 
-    public function assertRecord(User $doctor, MedicalRecord $record): void
+    public function assertRecord(Doctor $doctor, MedicalRecord $record): void
     {
         abort_unless(
             (int) $record->doctor_id === (int) $doctor->doctor_id,

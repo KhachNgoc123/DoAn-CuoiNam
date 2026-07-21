@@ -1,3 +1,7 @@
+/**
+ * G?i API ??a gi?i h?nh ch?nh ?? ch?n t?nh, huy?n, x? trong form.
+ */
+
 const BASE_URL = 'https://provinces.open-api.vn/api/v2'
 const cache = new Map()
 

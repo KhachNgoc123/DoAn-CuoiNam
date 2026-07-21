@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { Eye } from 'lucide-react'
 import { formatDate, formatPatientCode } from '../../utils/formatters'
 import EmptyState from '../ui/EmptyState'
@@ -8,6 +12,13 @@ function formatRecordCode(record) {
   return record?.record_code || `BA-${String(record?.record_id || '').padStart(3, '0')}`
 }
 
+/**
+ * Hiển thị component Detail trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.label Giá trị label được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.value Giá trị value được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.emphasis Giá trị emphasis được dùng để render hoặc xử lý tương tác.
+ */
 function Detail({ label, value, emphasis = false }) {
   return (
     <div className={`patient-record-detail${emphasis ? ' emphasis' : ''}`}>

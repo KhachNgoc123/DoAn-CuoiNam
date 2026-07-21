@@ -1,3 +1,7 @@
+/**
+ * Các hàm kiểm tra dữ liệu trước khi gửi form bệnh nhân.
+ */
+
 import { isValidPhone, normalizePhoneInput } from './phone'
 import { toApiDateValue } from './formatters'
 
@@ -14,6 +18,9 @@ export function normalizeFullName(value) {
         .join(' ')
 }
 
+/**
+ * Hàm tiện ích normalizeGender dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function normalizeGender(value) {
     const key = String(value || '').toLowerCase()
 
@@ -23,6 +30,9 @@ export function normalizeGender(value) {
     return ''
 }
 
+/**
+ * Hàm tiện ích normalizeAddressValue dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function normalizeAddressValue(value) {
     return String(value || '')
         .split(',')
@@ -31,6 +41,9 @@ export function normalizeAddressValue(value) {
         .join(', ')
 }
 
+/**
+ * Hàm tiện ích formatBirthDateInput dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function formatBirthDateInput(value) {
     const digits = String(value || '')
         .replace(/\D/g, '')
@@ -43,6 +56,9 @@ export function formatBirthDateInput(value) {
     return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`
 }
 
+/**
+ * Hàm tiện ích isFutureApiDate dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function isFutureApiDate(value) {
     if (!value) return false
 
@@ -54,6 +70,9 @@ export function isFutureApiDate(value) {
     return date.getTime() > today.getTime()
 }
 
+/**
+ * Hàm tiện ích validatePatient dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function validatePatient(form) {
     const fullName = normalizeFullName(form.full_name)
     const phone = normalizePhoneInput(form.phone)

@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useMemo, useState } from 'react'
 import { Search, X } from 'lucide-react'
@@ -24,14 +28,17 @@ export default function PatientSearchBox({
   placeholder = 'Tìm bệnh nhân trong hồ sơ bệnh án theo tên, số điện thoại hoặc mã',
 }) {
   const selectedPatient = patients.find((patient) => String(patient.patient_id) === String(value))
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     if (queryValue !== undefined) return
     setQuery(patientLabel(selectedPatient))
   }, [queryValue, selectedPatient])
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     if (queryValue === undefined) return
     setQuery(queryValue || '')

@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { useEffect, useState } from 'react'
 import Field from '../ui/Field'
 import FormSection from '../ui/FormSection'
@@ -55,6 +59,12 @@ function valueOrEmpty(value) {
   return value || EMPTY_TEXT
 }
 
+/**
+ * Hiển thị component PatientInfoItem trong giao diện frontend.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.label Giá trị label được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.value Giá trị value được dùng để render hoặc xử lý tương tác.
+ */
 function PatientInfoItem({ label, value }) {
   return (
     <div>
@@ -145,6 +155,7 @@ export default function MedicalRecordForm({
   const patient =
     initialValue?.patient ||
     patients.find((item) => String(item.patient_id) === String(initialValue?.patient_id))
+  // Nhóm state trong file này quản lý dữ liệu hiển thị, loading, lỗi và trạng thái form/modal liên quan.
   const [form, setForm] = useState(() => ({
     patient_id: '',
     symptoms: '',
@@ -168,6 +179,7 @@ export default function MedicalRecordForm({
     setFieldErrors((current) => ({ ...current, [key]: '' }))
   }
 
+  // useEffect chạy khi màn hình mount hoặc dependency thay đổi để đồng bộ dữ liệu cần hiển thị.
   useEffect(() => {
     if (!isEdit) {
       onDraftChange?.(form)

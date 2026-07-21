@@ -1,3 +1,7 @@
+/**
+ * Service tài nguyên dùng chung cho các màn hình CRUD và dashboard.
+ */
+
 import apiClient, { extractList, extractPagination } from './client'
 
 const cachedListEndpoints = new Set([
@@ -18,6 +22,7 @@ const cachedListEndpoints = new Set([
 const listCache = new Map()
 const dashboardCache = new Map()
 
+// Cache tách theo bác sĩ/token để tránh lẫn dữ liệu sau khi đổi tài khoản.
 function currentSessionKey() {
   try {
     const rawUser = localStorage.getItem('doctor_health_user')
@@ -41,6 +46,9 @@ export function clearListCache() {
   dashboardCache.clear()
 }
 
+/**
+ * Hàm tiện ích hasCachedList dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function hasCachedList(endpoint, params = {}) {
   return cachedListEndpoints.has(endpoint) && listCache.has(cacheKey(endpoint, params))
 }
@@ -70,6 +78,7 @@ export async function getList(endpoint, params = {}) {
   return request
 }
 
+// Các hàm CRUD dùng chung cho resource Laravel dạng /resource và /resource/{id}.
 export async function getOne(endpoint, id) {
   const response = await apiClient.get(`${endpoint}/${id}`)
   return response.data

@@ -1,3 +1,7 @@
+/**
+ * Tiện ích xử lý ngày, buổi uống và dữ liệu liên quan đơn thuốc.
+ */
+
 import { formatTime } from './formatters'
 import { downloadStyledExcel } from './excelExport'
 
@@ -7,6 +11,9 @@ export const DOSE_SESSIONS = [
   { key: 'afternoon', label: 'Chi?u', time: '17:00' },
 ]
 
+/**
+ * Hàm tiện ích sessionForTime dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function sessionForTime(value) {
   const formatted = formatTime(value)
   const hour = Number(String(formatted).slice(0, 2))
@@ -16,6 +23,9 @@ export function sessionForTime(value) {
   return DOSE_SESSIONS[2]
 }
 
+/**
+ * Hàm tiện ích getScheduleSessionsFromTimes dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function getScheduleSessionsFromTimes(times = []) {
   const keys = new Set()
   return times
@@ -34,6 +44,9 @@ export function getScheduleSessionsFromTimes(times = []) {
     .map((session) => session.label)
 }
 
+/**
+ * Hàm tiện ích getDoseTimes dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function getDoseTimes(detail) {
   return [
     ...new Set(
@@ -45,6 +58,9 @@ export function getDoseTimes(detail) {
   ]
 }
 
+/**
+ * Hàm tiện ích getDoseSessions dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function getDoseSessions(detail) {
   if (Array.isArray(detail.dose_sessions) && detail.dose_sessions.length) {
     return detail.dose_sessions
@@ -59,6 +75,9 @@ export function getDoseSessions(detail) {
   ]
 }
 
+/**
+ * Hàm tiện ích getDoseCount dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function getDoseCount(detail) {
   const sessions = getDoseSessions(detail)
   return (
@@ -71,6 +90,9 @@ export function getDoseCount(detail) {
   )
 }
 
+/**
+ * Hàm tiện ích getPrescriptionStartDate dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function getPrescriptionStartDate(prescription) {
   return (
     prescription.start_date ||
@@ -80,6 +102,9 @@ export function getPrescriptionStartDate(prescription) {
   )
 }
 
+/**
+ * Hàm tiện ích getPrescriptionEndDate dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function getPrescriptionEndDate(prescription) {
   if (prescription.end_date) return prescription.end_date
   return ''
@@ -129,6 +154,9 @@ function usageText(detail) {
     .join(', ')
 }
 
+/**
+ * Hàm tiện ích exportPrescriptionExcel dùng để xử lý dữ liệu trước khi hiển thị, kiểm tra hoặc xuất dữ liệu.
+ */
 export function exportPrescriptionExcel(prescription) {
   const patient = prescription.medical_record?.patient || {}
   const medicalRecord = prescription.medical_record || {}

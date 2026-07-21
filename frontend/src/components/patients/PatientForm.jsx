@@ -1,129 +1,115 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import Field from '../ui/Field'
 import FormSection from '../ui/FormSection'
 
 import AddressField from './AddressField'
-import UnderlyingDiseaseField from "./UnderlyingDiseaseField"
-import AllergyField from "./AllergyField"
+import UnderlyingDiseaseField from './UnderlyingDiseaseField'
+import AllergyField from './AllergyField'
 
 import usePatientForm from '../../hooks/usePatientForm'
-import {
-    normalizeFullName
-} from '../../utils/patientValidation'
+import { normalizeFullName } from '../../utils/patientValidation'
 
-export default function PatientForm({
-    initialValue = {},
-    loading,
-    onSubmit,
-    onCancel
-}) {
+/**
+ * Hiển thị form Patient và nhận các hàm xử lý từ component cha.
+ * @param {Object} props Dữ liệu và hàm xử lý truyền từ component cha.
+ * @param {*} props.initialValue Giá trị initialValue được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.loading Giá trị loading được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onSubmit Giá trị onSubmit được dùng để render hoặc xử lý tương tác.
+ * @param {*} props.onCancel Giá trị onCancel được dùng để render hoặc xử lý tương tác.
+ */
+export default function PatientForm({ initialValue = {}, loading, onSubmit, onCancel }) {
+  const {
+    form,
+    fieldErrors,
 
+    provinceQuery,
+    wardQuery,
 
-const {
-form,
-fieldErrors,
+    provinceOpen,
+    wardOpen,
 
-provinces,
-wards,
+    addressDetail,
+    addressLoading,
 
-provinceQuery,
-wardQuery,
+    selectedProvince,
 
-provinceOpen,
-wardOpen,
+    underlyingDiseaseSuggestions,
+    allergySuggestions,
 
-addressDetail,
-addressLoading,
+    provinceInputRef,
+    wardInputRef,
 
-selectedProvince,
-selectedWard,
+    underlyingDiseaseInputRef,
+    allergyInputRef,
 
-patientSuggestions,
+    provinceSuggestionRefs,
+    wardSuggestionRefs,
 
-underlyingDiseaseSuggestions,
-allergySuggestions,
+    underlyingDiseaseSuggestionRefs,
+    allergySuggestionRefs,
 
-provinceInputRef,
-wardInputRef,
+    set,
 
-underlyingDiseaseInputRef,
-allergyInputRef,
+    changePhone,
+    changeBirthDate,
+    changeAddressDetail,
 
-provinceSuggestionRefs,
-wardSuggestionRefs,
+    changeProvinceQuery,
+    changeWardQuery,
 
-underlyingDiseaseSuggestionRefs,
-allergySuggestionRefs,
+    chooseProvince,
+    chooseWard,
 
+    chooseUnderlyingDiseaseSuggestion,
+    chooseAllergySuggestion,
 
-set,
+    handleSuggestionInputKeyDown,
+    handleSuggestionKeyDown,
 
-changePhone,
-changeBirthDate,
-changeAddressDetail,
+    keepSuggestionsOpenOnInternalFocus,
 
+    submit,
 
-changeProvinceQuery,
-changeWardQuery,
+    setProvinceOpen,
+    setWardOpen,
 
+    setUnderlyingDiseaseOpen,
+    setAllergyOpen,
 
-chooseProvince,
-chooseWard,
+    provinceSuggestions,
+    wardSuggestions,
 
-
-chooseUnderlyingDiseaseSuggestion,
-chooseAllergySuggestion,
-
-
-handleSuggestionInputKeyDown,
-handleSuggestionKeyDown,
-
-
-keepSuggestionsOpenOnInternalFocus,
-
-
-submit,
-
-
-setProvinceOpen,
-setWardOpen,
-
-
-setUnderlyingDiseaseOpen,
-setAllergyOpen,
-
-
-provinceSuggestions,
-wardSuggestions,
-
-
-underlyingDiseaseOpen,
-allergyOpen,
-
-} = usePatientForm({
+    underlyingDiseaseOpen,
+    allergyOpen,
+  } = usePatientForm({
     initialValue,
-    loading,
     onSubmit,
-    onCancel
-})
-const genderOptions = [
+  })
+  const genderOptions = [
     {
-        value: 'Nam',
-        label: 'Nam'
+      value: 'Nam',
+      label: 'Nam',
     },
     {
-        value: 'Nữ',
-        label: 'Nữ'
-    }
-]
-  
+      value: 'Nữ',
+      label: 'Nữ',
+    },
+  ]
+
   return (
-    
     <form className="stack-form" onSubmit={submit}>
       <FormSection
         title={initialValue.patient_id ? 'Chỉnh sửa thông tin bệnh nhân' : 'Thông tin bệnh nhân'}
       >
         <Field label="Họ và tên" required>
-          <div className={fieldErrors.full_name ? 'field-control-wrap has-error' : 'field-control-wrap'}>
+          <div
+            className={
+              fieldErrors.full_name ? 'field-control-wrap has-error' : 'field-control-wrap'
+            }
+          >
             <input
               autoFocus
               value={form.full_name}
@@ -167,7 +153,11 @@ const genderOptions = [
         </div>
 
         <Field label="Ngày sinh" required>
-          <div className={fieldErrors.date_of_birth ? 'field-control-wrap has-error' : 'field-control-wrap'}>
+          <div
+            className={
+              fieldErrors.date_of_birth ? 'field-control-wrap has-error' : 'field-control-wrap'
+            }
+          >
             <input
               inputMode="numeric"
               maxLength={10}
@@ -191,7 +181,9 @@ const genderOptions = [
               *
             </strong>
           </span>
-          <div className={fieldErrors.phone ? 'field-control-wrap has-error' : 'field-control-wrap'}>
+          <div
+            className={fieldErrors.phone ? 'field-control-wrap has-error' : 'field-control-wrap'}
+          >
             <input
               inputMode="numeric"
               maxLength={10}
@@ -208,79 +200,61 @@ const genderOptions = [
           </div>
         </div>
 
-      {/* chỉnh sửa khúc này */}
+        {/* chỉnh sửa khúc này */}
         <AddressField
-    fieldErrors={fieldErrors}
-
-    provinceInputRef={provinceInputRef}
-    wardInputRef={wardInputRef}
-
-    provinceQuery={provinceQuery}
-    wardQuery={wardQuery}
-
-    provinceOpen={provinceOpen}
-    wardOpen={wardOpen}
-
-    provinceSuggestions={provinceSuggestions}
-    wardSuggestions={wardSuggestions}
-
-    provinceSuggestionRefs={provinceSuggestionRefs}
-    wardSuggestionRefs={wardSuggestionRefs}
-
-    selectedProvince={selectedProvince}
-
-    addressLoading={addressLoading}
-
-    addressDetail={addressDetail}
-
-    keepSuggestionsOpenOnInternalFocus={keepSuggestionsOpenOnInternalFocus}
-
-    handleSuggestionInputKeyDown={handleSuggestionInputKeyDown}
-    handleSuggestionKeyDown={handleSuggestionKeyDown}
-
-    changeProvinceQuery={changeProvinceQuery}
-    changeWardQuery={changeWardQuery}
-    changeAddressDetail={changeAddressDetail}
-
-    chooseProvince={chooseProvince}
-    chooseWard={chooseWard}
-
-    setProvinceOpen={setProvinceOpen}
-    setWardOpen={setWardOpen}
-    />
+          fieldErrors={fieldErrors}
+          provinceInputRef={provinceInputRef}
+          wardInputRef={wardInputRef}
+          provinceQuery={provinceQuery}
+          wardQuery={wardQuery}
+          provinceOpen={provinceOpen}
+          wardOpen={wardOpen}
+          provinceSuggestions={provinceSuggestions}
+          wardSuggestions={wardSuggestions}
+          provinceSuggestionRefs={provinceSuggestionRefs}
+          wardSuggestionRefs={wardSuggestionRefs}
+          selectedProvince={selectedProvince}
+          addressLoading={addressLoading}
+          addressDetail={addressDetail}
+          keepSuggestionsOpenOnInternalFocus={keepSuggestionsOpenOnInternalFocus}
+          handleSuggestionInputKeyDown={handleSuggestionInputKeyDown}
+          handleSuggestionKeyDown={handleSuggestionKeyDown}
+          changeProvinceQuery={changeProvinceQuery}
+          changeWardQuery={changeWardQuery}
+          changeAddressDetail={changeAddressDetail}
+          chooseProvince={chooseProvince}
+          chooseWard={chooseWard}
+          setProvinceOpen={setProvinceOpen}
+          setWardOpen={setWardOpen}
+        />
         {/* //bệnh nền  */}
-      <UnderlyingDiseaseField
-    value={form.underlying_disease}
-    suggestions={underlyingDiseaseSuggestions}
-    open={underlyingDiseaseOpen}
-    inputRef={underlyingDiseaseInputRef}
-    suggestionRefs={underlyingDiseaseSuggestionRefs}
-    set={(value) => set("underlying_disease", value)}
-    setOpen={setUnderlyingDiseaseOpen}
-    handleSuggestionInputKeyDown={handleSuggestionInputKeyDown}
-    handleSuggestionKeyDown={handleSuggestionKeyDown}
-    keepSuggestionsOpenOnInternalFocus={
-        keepSuggestionsOpenOnInternalFocus
-    }
-    chooseSuggestion={chooseUnderlyingDiseaseSuggestion}
-/>
-{/* //dị ứng */}
-<AllergyField
-  value={form.allergy}
-  suggestions={allergySuggestions}
-  open={allergyOpen}
-  inputRef={allergyInputRef}
-  suggestionRefs={allergySuggestionRefs}
-  set={(value) => set("allergy", value)}
-  setOpen={setAllergyOpen}
-  handleSuggestionInputKeyDown={handleSuggestionInputKeyDown}
-  handleSuggestionKeyDown={handleSuggestionKeyDown}
-  keepSuggestionsOpenOnInternalFocus={
-    keepSuggestionsOpenOnInternalFocus
-  }
-  chooseSuggestion={chooseAllergySuggestion}
-/>
-       
+        <UnderlyingDiseaseField
+          value={form.underlying_disease}
+          suggestions={underlyingDiseaseSuggestions}
+          open={underlyingDiseaseOpen}
+          inputRef={underlyingDiseaseInputRef}
+          suggestionRefs={underlyingDiseaseSuggestionRefs}
+          set={(value) => set('underlying_disease', value)}
+          setOpen={setUnderlyingDiseaseOpen}
+          handleSuggestionInputKeyDown={handleSuggestionInputKeyDown}
+          handleSuggestionKeyDown={handleSuggestionKeyDown}
+          keepSuggestionsOpenOnInternalFocus={keepSuggestionsOpenOnInternalFocus}
+          chooseSuggestion={chooseUnderlyingDiseaseSuggestion}
+        />
+        {/* //dị ứng */}
+        <AllergyField
+          value={form.allergy}
+          suggestions={allergySuggestions}
+          open={allergyOpen}
+          inputRef={allergyInputRef}
+          suggestionRefs={allergySuggestionRefs}
+          set={(value) => set('allergy', value)}
+          setOpen={setAllergyOpen}
+          handleSuggestionInputKeyDown={handleSuggestionInputKeyDown}
+          handleSuggestionKeyDown={handleSuggestionKeyDown}
+          keepSuggestionsOpenOnInternalFocus={keepSuggestionsOpenOnInternalFocus}
+          chooseSuggestion={chooseAllergySuggestion}
+        />
       </FormSection>
 
       <div className="form-actions">

@@ -1,3 +1,7 @@
+/**
+ * File thuộc nhóm components, chứa các khối giao diện tái sử dụng hoặc giao diện theo từng chức năng.
+ */
+
 import { Eye, Pencil, Trash2 } from 'lucide-react'
 import { formatDisplayValue } from '../../utils/formatters'
 import EmptyState from './EmptyState'
@@ -20,6 +24,7 @@ export default function DataTable({
   if (!rows.length) return <EmptyState title={emptyTitle} />
 
   const hasActions = onView || onEdit || onDelete || extraActions
+  // Hàm getRowKey nạp dữ liệu từ API hoặc nguồn dữ liệu hiện có để cập nhật giao diện.
   const getRowKey = (row, rowIndex) =>
     row.id ??
     row.patient_id ??
